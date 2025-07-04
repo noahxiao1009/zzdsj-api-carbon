@@ -1,0 +1,52 @@
+# 核心框架
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# Agno框架 - 核心依赖
+agno==1.7.0
+
+# Agno工具扩展
+duckduckgo-search==5.0.0
+yfinance==0.2.28
+googlesearch-python==1.2.3
+
+# AI模型提供商
+openai==1.35.0
+anthropic==0.30.1
+
+# 数据库
+sqlalchemy==2.0.23
+alembic==1.13.1
+asyncpg==0.29.0
+psycopg2-binary==2.9.9
+
+# 缓存和消息队列
+redis==5.0.1
+celery==5.3.4
+
+# 工具和实用程序
+requests==2.31.0
+aiohttp==3.9.1
+httpx==0.25.2
+jinja2==3.1.2
+python-multipart==0.0.6
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+
+# 日志和监控
+structlog==23.2.0
+prometheus-client==0.19.0
+
+# 开发工具
+python-dotenv==1.0.0
+PyYAML==6.0.1
+
+# 测试
+pytest==7.4.3
+pytest-asyncio==0.21.1
+httpx==0.25.2
+
+# 生产环境
+gunicorn==21.2.0

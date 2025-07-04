@@ -1,0 +1,90 @@
+# Base Service Dependencies
+# 基础权限控制和用户管理服务
+
+# 核心框架
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# 数据库相关
+sqlalchemy==2.0.23
+alembic==1.13.1
+asyncpg==0.29.0
+psycopg2-binary==2.9.9
+
+# 缓存和会话
+redis==5.0.1
+aioredis==2.0.1
+
+# 认证和权限
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+cryptography==41.0.8
+pyjwt==2.8.0
+
+# ACL权限控制
+casbin==1.17.6
+casbin-sqlalchemy-adapter==0.5.0
+
+# HTTP客户端
+httpx==0.25.2
+aiohttp==3.9.1
+requests==2.31.0
+
+# 用户管理相关
+email-validator==2.1.0
+python-multipart==0.0.6
+
+# 文件处理
+aiofiles==23.2.1
+
+# 工具库
+click==8.1.7
+python-dateutil==2.8.2
+pytz==2023.3
+
+# 验证码和安全
+pillow==10.1.0
+qrcode==7.4.2
+
+# 短信和邮件
+aliyunsdkcore==1.0.3
+aliyunsdkdysmsapi==3.0.0
+yagmail==0.15.293
+
+# 消息队列
+celery==5.3.4
+kombu==5.3.4
+aio-pika==9.3.1
+
+# 服务发现
+nacos-sdk-python==0.1.5
+
+# 日志和监控
+structlog==23.2.0
+loguru==0.7.2
+prometheus-client==0.19.0
+
+# 配置管理
+python-dotenv==1.0.0
+pyyaml==6.0.1
+
+# 数据验证
+marshmallow==3.20.1
+cerberus==1.3.5
+
+# 开发工具
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+black==23.11.0
+isort==5.12.0
+flake8==6.1.0
+mypy==1.7.1
+
+# 类型注解
+typing-extensions==4.8.0
+
+# JSON处理
+orjson==3.9.10 

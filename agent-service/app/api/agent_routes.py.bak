@@ -1,0 +1,298 @@
+"""
+智能体管理API路由
+基于Agno官方API接口规范
+"""
+
+import asyncio
+import logging
+from typing import Dict, Any, List, Optional
+from datetime import datetime
+import uuid
+
+from fastapi import APIRouter, HTTPException, Depends, Query, Path, BackgroundTasks
+from fastapi.responses import StreamingResponse
+from fastapi.security import HTTPBearer
+
+from app.core.agno_manager import get_agno_manager, AgnoManager
+from app.core.template_manager import get_template_manager, TemplateManager
+from app.schemas.agent_schemas import (
+    AgentCreateRequest, AgentResponse, AgentListResponse,
+    ChatRequest, ChatResponse, BaseResponse, ErrorResponse,
+    AgentMetrics, TemplateType
+)
+
+router = APIRouter()
+security = HTTPBearer()
+logger = logging.getLogger(__name__)
+
+# 依赖注入
+async def get_current_user_id(token: str = Depends(security)) -> str:
+    """获取当前用户ID (简化版本，实际应该验证JWT)"""
+    # TODO: 实现真正的JWT验证
+    return "default_user"
+
+@router.post("/create", response_model=AgentResponse)
+async def create_agent(
+    request: AgentCreateRequest,
+    user_id: str = Depends(get_current_user_id),
+    agno_manager: AgnoManager = Depends(get_agno_manager),
+    template_manager: TemplateManager = Depends(get_template_manager)
+):
+    """
+    创建智能体
+    
+    基于Agno官方API设计，支持5个级别的智能体创建：
+    - Level 1: 具有工具和指令的智能体
+    - Level 2: 具有知识和存储的智能体
+    - Level 3: 具有记忆和推理的智能体
+    - Level 4: 可推理和协作的智能体团队
+    - Level 5: 具有状态和确定性的智能体工作流
+    """
+    try:
+        # 验证模板配置
+        is_valid, error_msg = template_manager.validate_template_config(
+            request.template_id, request.dict()
+        )
+        if not is_valid:
+            raise HTTPException(status_code=400, detail=error_msg)
+        
+        # 创建智能体
+        agent_response = await agno_manager.create_agent_from_template(
+            template_type=request.template_id,
+            config=request,
+            user_id=user_id
+        )
+        
+        logger.info(f"用户 {user_id} 成功创建智能体 {agent_response.agent_id}")
+        return agent_response
+        
+    except Exception as e:
+        logger.error(f"创建智能体失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"创建智能体失败: {str(e)}")
+
+@router.get("/list", response_model=AgentListResponse)
+async def list_agents(
+    page: int = Query(1, ge=1, description="页码"),
+    size: int = Query(10, ge=1, le=100, description="每页大小"),
+    user_id: str = Depends(get_current_user_id),
+    agno_manager: AgnoManager = Depends(get_agno_manager)
+):
+    """获取智能体列表"""
+    try:
+        agents = await agno_manager.list_agents(user_id)
+        
+        # 简单分页
+        start = (page - 1) * size
+        end = start + size
+        paginated_agents = agents[start:end]
+        
+        # 转换为响应格式
+        agent_responses = [
+            AgentResponse(
+                agent_id=agent["agent_id"],
+                name=agent["name"],
+                description=agent["description"],
+                template_type=TemplateType.BASIC_CONVERSATION,  # TODO: 从实际数据获取
+                status=agent["status"],
+                created_at=datetime.now(),  # TODO: 从实际数据获取
+                capabilities=[]  # TODO: 从实际数据获取
+            )
+            for agent in paginated_agents
+        ]
+        
+        return AgentListResponse(
+            agents=agent_responses,
+            total=len(agents),
+            page=page,
+            size=size
+        )
+        
+    except Exception as e:
+        logger.error(f"获取智能体列表失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"获取智能体列表失败: {str(e)}")
+
+@router.get("/{agent_id}", response_model=AgentResponse)
+async def get_agent(
+    agent_id: str = Path(..., description="智能体ID"),
+    user_id: str = Depends(get_current_user_id),
+    agno_manager: AgnoManager = Depends(get_agno_manager)
+):
+    """获取智能体详情"""
+    try:
+        agent_info = await agno_manager.get_agent_info(agent_id)
+        
+        return AgentResponse(
+            agent_id=agent_id,
+            name=agent_info["name"],
+            description=agent_info["description"],
+            template_type=TemplateType.BASIC_CONVERSATION,  # TODO: 从实际数据获取
+            status=agent_info["status"],
+            created_at=datetime.now(),  # TODO: 从实际数据获取
+            capabilities=agent_info.get("tools", [])
+        )
+        
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        logger.error(f"获取智能体详情失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"获取智能体详情失败: {str(e)}")
+
+@router.post("/{agent_id}/chat", response_model=ChatResponse)
+async def chat_with_agent(
+    request: ChatRequest,
+    agent_id: str = Path(..., description="智能体ID"),
+    user_id: str = Depends(get_current_user_id),
+    agno_manager: AgnoManager = Depends(get_agno_manager)
+):
+    """
+    与智能体对话
+    
+    支持普通对话和流式对话两种模式
+    """
+    try:
+        start_time = datetime.now()
+        
+        if request.stream:
+            # 流式响应
+            async def generate_response():
+                async for chunk in agno_manager.chat_with_agent(
+                    agent_id=agent_id,
+                    message=request.message,
+                    session_id=request.session_id,
+                    stream=True
+                ):
+                    yield f"data: {chunk}\n\n"
+                yield "data: [DONE]\n\n"
+                
+            return StreamingResponse(
+                generate_response(),
+                media_type="text/plain",
+                headers={"Cache-Control": "no-cache"}
+            )
+        else:
+            # 普通响应
+            response = await agno_manager.chat_with_agent(
+                agent_id=agent_id,
+                message=request.message,
+                session_id=request.session_id,
+                stream=False
+            )
+            
+            execution_time = (datetime.now() - start_time).total_seconds()
+            
+            return ChatResponse(
+                response=response,
+                session_id=request.session_id,
+                tool_calls=None,  # TODO: 实现工具调用记录
+                execution_time=execution_time
+            )
+        
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        logger.error(f"智能体对话失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"智能体对话失败: {str(e)}")
+
+@router.delete("/{agent_id}", response_model=BaseResponse)
+async def delete_agent(
+    agent_id: str = Path(..., description="智能体ID"),
+    user_id: str = Depends(get_current_user_id),
+    agno_manager: AgnoManager = Depends(get_agno_manager)
+):
+    """删除智能体"""
+    try:
+        await agno_manager.delete_agent(agent_id, user_id)
+        
+        return BaseResponse(
+            success=True,
+            message=f"智能体 {agent_id} 已删除"
+        )
+        
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        logger.error(f"删除智能体失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"删除智能体失败: {str(e)}")
+
+@router.get("/{agent_id}/metrics", response_model=AgentMetrics)
+async def get_agent_metrics(
+    agent_id: str = Path(..., description="智能体ID"),
+    user_id: str = Depends(get_current_user_id),
+    agno_manager: AgnoManager = Depends(get_agno_manager)
+):
+    """获取智能体指标"""
+    try:
+        # TODO: 实现真正的指标收集
+        return AgentMetrics(
+            agent_id=agent_id,
+            total_conversations=0,
+            avg_response_time=0.0,
+            success_rate=1.0,
+            tool_usage={},
+            last_active=datetime.now()
+        )
+        
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        logger.error(f"获取智能体指标失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"获取智能体指标失败: {str(e)}")
+
+@router.post("/{agent_id}/clone", response_model=AgentResponse)
+async def clone_agent(
+    agent_id: str = Path(..., description="源智能体ID"),
+    new_name: str = Query(..., description="新智能体名称"),
+    user_id: str = Depends(get_current_user_id),
+    agno_manager: AgnoManager = Depends(get_agno_manager)
+):
+    """克隆智能体"""
+    try:
+        # TODO: 实现智能体克隆功能
+        raise HTTPException(status_code=501, detail="功能尚未实现")
+        
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        logger.error(f"克隆智能体失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"克隆智能体失败: {str(e)}")
+
+# 工具管理相关接口
+@router.get("/{agent_id}/tools")
+async def get_agent_tools(
+    agent_id: str = Path(..., description="智能体ID"),
+    user_id: str = Depends(get_current_user_id),
+    agno_manager: AgnoManager = Depends(get_agno_manager)
+):
+    """获取智能体的工具列表"""
+    try:
+        agent_info = await agno_manager.get_agent_info(agent_id)
+        return {
+            "agent_id": agent_id,
+            "tools": agent_info.get("tools", [])
+        }
+        
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        logger.error(f"获取智能体工具失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"获取智能体工具失败: {str(e)}")
+
+@router.post("/{agent_id}/tools/{tool_name}/enable")
+async def enable_agent_tool(
+    agent_id: str = Path(..., description="智能体ID"),
+    tool_name: str = Path(..., description="工具名称"),
+    user_id: str = Depends(get_current_user_id)
+):
+    """启用智能体工具"""
+    # TODO: 实现工具启用功能
+    raise HTTPException(status_code=501, detail="功能尚未实现")
+
+@router.post("/{agent_id}/tools/{tool_name}/disable")
+async def disable_agent_tool(
+    agent_id: str = Path(..., description="智能体ID"),
+    tool_name: str = Path(..., description="工具名称"),
+    user_id: str = Depends(get_current_user_id)
+):
+    """禁用智能体工具"""
+    # TODO: 实现工具禁用功能
+    raise HTTPException(status_code=501, detail="功能尚未实现")

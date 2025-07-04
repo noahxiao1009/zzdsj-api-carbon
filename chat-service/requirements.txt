@@ -1,0 +1,93 @@
+# Chat Service Dependencies
+
+# FastAPI和Web服务
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# 数据库相关
+sqlalchemy==2.0.23
+psycopg2-binary==2.9.9
+alembic==1.13.0
+
+# Redis
+redis==5.0.1
+hiredis==2.2.3
+
+# Pydantic和数据验证
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# Agno框架 (如果有PyPI包的话，目前使用本地集成)
+# agno==1.0.0
+
+# HTTP客户端
+httpx==0.25.2
+aiohttp==3.9.1
+
+# 语音处理相关
+# speech-recognition==3.10.0
+# pydub==0.25.1
+# librosa==0.10.1
+
+# 工具库
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-dotenv==1.0.0
+click==8.1.7
+
+# 日志和监控
+structlog==23.2.0
+rich==13.7.0
+
+# 测试相关
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-mock==3.12.0
+httpx==0.25.2
+
+# 类型检查
+mypy==1.7.1
+types-redis==4.6.0.11
+
+# 开发工具
+black==23.11.0
+isort==5.12.0
+flake8==6.1.0
+
+# 异步支持
+asyncio-mqtt==0.16.1
+aiofiles==23.2.1
+
+# JSON和序列化
+orjson==3.9.10
+
+# 时间处理
+python-dateutil==2.8.2
+
+# 加密和安全
+cryptography==41.0.8
+
+# 环境和配置
+environs==10.3.0
+
+# 并发和异步
+asyncio==3.4.3
+
+# WebSocket支持（如果需要）
+websockets==12.0
+
+# 文件处理
+aiofiles==23.2.1
+
+# 性能监控
+prometheus-client==0.19.0
+
+# 消息队列（如果需要与RabbitMQ集成）
+aio-pika==9.3.1
+
+# 网络和HTTP工具
+yarl==1.9.3
+
+# 缓存
+aiocache==0.12.2 

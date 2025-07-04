@@ -1,0 +1,140 @@
+# MCP Service 配置文件示例
+# 复制此文件为 config.yaml 并修改相应配置
+
+# 服务基础配置
+service:
+  name: "mcp-service"
+  version: "1.0.0"
+  environment: "development"  # development, testing, production
+  debug: true
+  host: "0.0.0.0"
+  port: 8008
+
+# 数据库配置
+database:
+  url: "postgresql://username:password@localhost:5432/mcp_service_db"
+  echo: false
+  pool_size: 10
+  max_overflow: 20
+  pool_timeout: 30
+  pool_recycle: 3600
+
+# Redis配置
+redis:
+  url: "redis://localhost:6379/5"
+  password: null
+  max_connections: 100
+  socket_timeout: 5
+  health_check_interval: 30
+
+# FastMCP配置
+fastmcp:
+  name: "Carbon MCP Server"
+  version: "2.0.0"
+  description: "Carbon系统MCP服务器"
+  max_tools: 100
+  max_resources: 50
+  max_prompts: 20
+
+# Docker配置
+docker:
+  network_name: "mcp-network"
+  network_subnet: "172.20.0.0/16"
+  base_image: "python:3.11-slim"
+  volume_mount: "/app/data"
+  default_cpu_limit: "1.0"
+  default_memory_limit: "512Mi"
+  default_disk_limit: "1Gi"
+
+# 网关配置
+gateway:
+  url: "http://localhost:8000"
+  register_endpoint: "/api/v1/services/register"
+  heartbeat_endpoint: "/api/v1/services/heartbeat"
+  auth_token: "your-auth-token"
+  heartbeat_interval: 30
+  timeout: 10
+
+# 安全配置
+security:
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://localhost:8000"
+    - "https://your-domain.com"
+  allowed_hosts:
+    - "localhost"
+    - "127.0.0.1"
+    - "your-domain.com"
+  max_concurrent_requests: 100
+  request_rate_limit: 1000
+
+# 功能开关
+features:
+  enable_docs: true
+  enable_websocket: true
+  enable_metrics: true
+  enable_tracing: false
+
+# 缓存配置
+cache:
+  ttl_seconds: 1800
+  max_size: 1000
+  cleanup_interval: 300
+
+# 日志配置
+logging:
+  level: "INFO"
+  format: "json"
+  file_enabled: true
+  file_path: "/app/logs/mcp-service.log"
+  file_max_size: "10MB"
+  file_backup_count: 5
+  console_enabled: true
+
+# 监控配置
+monitoring:
+  health_check_interval: 30
+  metrics_collection_interval: 60
+  alert_thresholds:
+    cpu_percent: 80
+    memory_percent: 85
+    disk_percent: 90
+    error_rate: 5
+
+# 部署配置
+deployment:
+  registry_url: "your-registry.com"
+  namespace: "mcp-services"
+  replicas: 1
+  auto_restart: true
+  rolling_update_strategy: "RollingUpdate"
+  resource_limits:
+    cpu: "1000m"
+    memory: "1Gi"
+    storage: "2Gi"
+
+# 第三方服务配置
+external_services:
+  nacos:
+    server_addr: "localhost:8848"
+    namespace: "mcp-services"
+    group: "DEFAULT_GROUP"
+    username: "nacos"
+    password: "nacos"
+  
+  elasticsearch:
+    hosts:
+      - "localhost:9200"
+    index_prefix: "mcp-service"
+    
+  milvus:
+    host: "localhost"
+    port: 19530
+    collection_name: "mcp_embeddings"
+
+# 开发配置
+development:
+  hot_reload: true
+  debug_sql: false
+  mock_external_services: false
+  test_mode: false

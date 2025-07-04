@@ -1,0 +1,49 @@
+# Scheduler Service Dependencies
+# 基础框架
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# 任务调度
+croniter==2.0.1
+cron-descriptor==1.4.0
+apscheduler==3.10.4
+
+# 数据库和缓存
+redis==5.0.1
+asyncpg==0.29.0
+sqlalchemy[asyncio]==2.0.23
+
+# HTTP客户端
+aiohttp==3.9.1
+httpx==0.25.2
+
+# 消息队列
+aio-pika==9.3.1
+kombu==5.3.4
+
+# 认证和安全
+pyjwt[crypto]==2.8.0
+cryptography==41.0.8
+bcrypt==4.1.2
+
+# 工具库
+python-multipart==0.0.6
+python-dotenv==1.0.0
+typing-extensions==4.8.0
+
+# 并发处理
+concurrent-futures==3.1.1
+asyncio-pool==0.6.0
+
+# 日志和监控
+structlog==23.2.0
+prometheus-client==0.19.0
+
+# 开发工具
+pytest==7.4.3
+pytest-asyncio==0.21.1
+black==23.11.0
+isort==5.12.0
+mypy==1.7.1 

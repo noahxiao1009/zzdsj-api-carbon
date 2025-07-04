@@ -1,0 +1,28 @@
+# 核心框架
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+
+# 数据库驱动
+asyncpg==0.29.0              # PostgreSQL异步驱动
+elasticsearch[async]==8.11.0  # Elasticsearch异步客户端
+pymilvus==2.3.4              # Milvus向量数据库
+redis[hiredis]==5.0.1         # Redis异步客户端
+aio-pika==9.3.1              # RabbitMQ异步客户端
+nacos-sdk-python==0.1.5      # Nacos服务发现客户端
+python-arango==7.6.0         # ArangoDB多模型数据库驱动
+
+# HTTP客户端
+httpx==0.25.2                # 异步HTTP客户端
+
+# 配置管理
+python-dotenv==1.0.0         # 环境变量管理
+pyyaml==6.0.1                # YAML配置文件支持
+
+# 日志和监控
+structlog==23.2.0            # 结构化日志
+
+# 工具库
+python-multipart==0.0.6     # 文件上传支持
+python-jose[cryptography]==3.3.0  # JWT支持
+passlib[bcrypt]==1.7.4       # 密码哈希 

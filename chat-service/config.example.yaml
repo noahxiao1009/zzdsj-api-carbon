@@ -1,0 +1,107 @@
+# Chat Service 配置示例
+# 复制此文件为 config.yaml 并根据实际环境修改配置
+
+# 服务基础配置
+service:
+  name: chat-service
+  version: 1.0.0
+  environment: development
+  debug: true
+  host: "0.0.0.0"
+  port: 8001
+
+# 数据库配置
+database:
+  url: "postgresql://username:password@localhost:5432/chat_service_db"
+  echo: false
+  pool_size: 10
+  max_overflow: 20
+
+# Redis配置
+redis:
+  url: "redis://localhost:6379/0"
+  password: ""
+  max_connections: 10
+
+# Agno框架配置
+agno:
+  api_url: "http://localhost:8080"
+  api_key: "your_agno_api_key_here"
+  timeout: 30
+  max_retries: 3
+
+# 语音服务配置
+voice:
+  enabled: false
+  api_url: "http://localhost:8090"
+  api_key: "your_voice_api_key_here"
+
+# 网关服务配置
+gateway:
+  url: "http://localhost:8000"
+  api_key: "your_gateway_api_key_here"
+  service_id: "chat-service"
+  health_check_interval: 30
+
+# 安全配置
+security:
+  secret_key: "your_super_secret_key_here_change_in_production"
+  access_token_expire_minutes: 30
+  allowed_hosts:
+    - "localhost"
+    - "127.0.0.1"
+    - "*.your-domain.com"
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://localhost:3001"
+
+# 日志配置
+logging:
+  level: "INFO"
+  format: "json"
+  file_path: "/app/logs/chat-service.log"
+  max_size: "100MB"
+  backup_count: 5
+
+# WebSocket配置
+websocket:
+  enabled: false
+  path: "/chat/ws"
+
+# 监控和指标
+monitoring:
+  metrics_enabled: true
+  metrics_path: "/metrics"
+  health_check_timeout: 10
+
+# 消息队列配置
+message_queue:
+  celery_broker_url: "redis://localhost:6379/1"
+  celery_result_backend: "redis://localhost:6379/2"
+  rabbitmq_url: "amqp://guest:guest@localhost:5672/"
+  exchange_name: "chat_service_exchange"
+
+# 文件存储配置
+storage:
+  upload_max_size: "10MB"
+  audio_upload_path: "/app/uploads/audio"
+  temp_file_cleanup_interval: 3600
+
+# 性能配置
+performance:
+  max_concurrent_sessions: 1000
+  message_rate_limit: 100
+  session_timeout_seconds: 86400
+  cache_ttl_seconds: 3600
+
+# 外部服务配置
+external_services:
+  api_timeout: 30
+  api_retries: 3
+  api_backoff_factor: 2
+
+# 开发工具配置
+development:
+  enable_docs: true
+  enable_redoc: true
+  enable_openapi: true 
