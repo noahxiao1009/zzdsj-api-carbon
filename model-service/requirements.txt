@@ -24,7 +24,7 @@ qianfan==0.3.0  # 百度千帆
 dashscope==1.17.0  # 阿里通义
 openai==1.6.1  # 通用OpenAI兼容接口
 
-# 异步任务
+# 异步任务和缓存
 celery==5.3.4
 redis==5.0.1
 
@@ -32,10 +32,21 @@ redis==5.0.1
 python-dotenv==1.0.0
 PyYAML==6.0.1
 
+# 数据库（如果需要持久化存储）
+sqlalchemy==2.0.23
+alembic==1.13.1
+asyncpg==0.29.0  # PostgreSQL异步驱动
+
+# 时间处理
+python-dateutil==2.8.2
+
+# 数据分析和统计
+pandas==2.1.4
+numpy==1.25.2
+
 # 测试
 pytest==7.4.3
 pytest-asyncio==0.21.1
-httpx==0.25.2
 
 # 开发工具
 black==23.11.0

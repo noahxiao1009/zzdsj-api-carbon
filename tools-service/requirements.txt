@@ -1,0 +1,38 @@
+# 基础依赖
+fastapi==0.104.1
+uvicorn==0.24.0
+pydantic==2.5.0
+httpx==0.25.2
+python-multipart==0.0.6
+python-dotenv==1.0.0
+
+# WebSailor依赖
+qwen-agent[gui,rag,code_interpreter,mcp]
+sglang[all]
+openai
+tiktoken
+transformers
+requests
+aiofiles
+
+# Scraperr依赖
+apscheduler
+pymongo
+sqlite3
+selenium
+beautifulsoup4
+lxml
+pillow
+
+# 其他依赖
+loguru
+asyncio-mqtt
+redis
+celery
+
+# 开发依赖
+pytest==7.4.3
+pytest-asyncio==0.21.1
+black==23.11.0
+isort==5.12.0
+flake8==6.1.0

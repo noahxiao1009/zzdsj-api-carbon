@@ -1,0 +1,70 @@
+{
+  "source_db_url": "postgresql://username:password@localhost:5432/source_database",
+  "target_db_url": "postgresql://username:password@localhost:5432/target_database",
+  "tables_to_migrate": [
+    "users",
+    "roles",
+    "permissions",
+    "user_role",
+    "role_permissions",
+    "user_settings",
+    "api_keys",
+    "user_sessions",
+    "assistants",
+    "assistant_knowledge_base",
+    "conversations",
+    "messages",
+    "knowledge_bases",
+    "documents",
+    "document_chunks",
+    "agent_definitions",
+    "agent_templates",
+    "agent_runs",
+    "tools",
+    "tool_configurations",
+    "tool_executions",
+    "system_configs",
+    "model_providers",
+    "framework_configs",
+    "service_registry",
+    "resource_permissions"
+  ],
+  "batch_size": 1000,
+  "max_retries": 3,
+  "retry_delay": 1.0,
+  "validate_after_migration": true,
+  "validate_data_integrity": true,
+  "create_backup": true,
+  "backup_path": "./backups",
+  "log_level": "INFO",
+  "log_file": "./logs/migration.log",
+  "max_concurrent_tables": 1,
+  "max_concurrent_batches": 5,
+  "stop_on_error": false,
+  "skip_existing_records": true,
+  "custom_transformations": {
+    "users": {
+      "password_field_mapping": {
+        "source": "password",
+        "target": "password_hash"
+      }
+    },
+    "assistants": {
+      "json_fields": ["config", "model_config"]
+    },
+    "knowledge_bases": {
+      "json_fields": ["settings"]
+    },
+    "documents": {
+      "json_fields": ["metadata"]
+    },
+    "messages": {
+      "json_fields": ["content", "metadata"]
+    }
+  },
+  "field_mappings": {
+    "users": {
+      "password": "password_hash"
+    }
+  }
+}

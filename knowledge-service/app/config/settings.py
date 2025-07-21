@@ -133,6 +133,21 @@ class ExternalServiceSettings(BaseSettings):
     base_service_timeout: int = Field(default=30, description="基础服务超时时间")
 
 
+class StorageSettings(BaseSettings):
+    """存储配置"""
+    
+    # MinIO配置
+    minio_endpoint: str = Field(default="167.71.85.231:9000", description="MinIO服务地址")
+    minio_access_key: str = Field(default="HwEJOE3pYo92PZyx", description="MinIO访问密钥")
+    minio_secret_key: str = Field(default="I8p29jlLm9LJ7rDBvpXTvdeA58zNEvJs", description="MinIO私钥")
+    minio_secure: bool = Field(default=False, description="是否使用HTTPS")
+    minio_bucket_name: str = Field(default="knowledge-files", description="MinIO存储桶名称")
+    
+    # 存储策略配置
+    storage_backend: str = Field(default="minio", description="存储后端类型 (local/minio)")
+    local_storage_path: str = Field(default="./uploads", description="本地存储路径")
+    
+
 class ProcessingSettings(BaseSettings):
     """文档处理配置"""
     
@@ -165,6 +180,21 @@ class KnowledgeServiceSettings(BaseSettings):
     port: int = Field(default=8082, description="服务端口")
     debug: bool = Field(default=False, description="调试模式")
     
+    # 环境配置
+    environment: str = Field(default="development", description="运行环境")
+    
+    # 数据库配置快捷属性
+    DATABASE_URL: str = Field(default="", description="数据库连接URL")
+    REDIS_URL: str = Field(default="", description="Redis连接URL")
+    
+    # 文件处理配置快捷属性  
+    UPLOAD_DIR: str = Field(default="uploads", description="上传目录")
+    MAX_FILE_SIZE: int = Field(default=100 * 1024 * 1024, description="最大文件大小")
+    
+    # 调试配置
+    DEBUG: bool = Field(default=False, description="调试模式")
+    TESTING: bool = Field(default=False, description="测试模式")
+    
     # 日志配置
     log_level: str = Field(default="INFO", description="日志级别")
     log_format: str = Field(
@@ -195,15 +225,19 @@ class KnowledgeServiceSettings(BaseSettings):
     llamaindex: LlamaIndexSettings = Field(default_factory=LlamaIndexSettings)
     agno: AgnoSettings = Field(default_factory=AgnoSettings)
     external_services: ExternalServiceSettings = Field(default_factory=ExternalServiceSettings)
+    storage: StorageSettings = Field(default_factory=StorageSettings)
     processing: ProcessingSettings = Field(default_factory=ProcessingSettings)
     
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
         case_sensitive = False
+        extra = "allow"  # 允许额外的环境变量
         
     def get_database_url(self) -> str:
         """获取数据库连接URL"""
+        if self.DATABASE_URL:
+            return self.DATABASE_URL
         return (
             f"postgresql://{self.database.postgres_user}:"
             f"{self.database.postgres_password}@"
@@ -213,6 +247,8 @@ class KnowledgeServiceSettings(BaseSettings):
     
     def get_redis_url(self) -> str:
         """获取Redis连接URL"""
+        if self.REDIS_URL:
+            return self.REDIS_URL
         if self.database.redis_password:
             return (
                 f"redis://:{self.database.redis_password}@"
@@ -224,6 +260,16 @@ class KnowledgeServiceSettings(BaseSettings):
                 f"redis://{self.database.redis_host}:"
                 f"{self.database.redis_port}/{self.database.redis_db}"
             )
+    
+    @property 
+    def upload_directory(self) -> str:
+        """获取上传目录"""
+        return self.UPLOAD_DIR or self.processing.upload_dir
+    
+    @property
+    def max_upload_size(self) -> int:
+        """获取最大上传大小"""
+        return self.MAX_FILE_SIZE or self.processing.max_file_size
 
 
 # 全局配置实例

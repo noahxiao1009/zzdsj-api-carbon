@@ -1,0 +1,34 @@
+name: siliconflow_associate_llm
+type: llm_config
+description_for_human: "硅基流动 Associate Agent LLM配置 - 执行专家智能体"
+
+# Associate Agent专用配置 - 快速响应模型
+config:
+  api_key:
+    _type: "from_env"
+    var: "DEFAULT_API_KEY"
+    required: true
+  api_base:
+    _type: "from_env"
+    var: "DEFAULT_BASE_URL" 
+    required: true
+  model: "openai/moonshotai/Kimi-K2-Instruct"
+  max_tokens: 4096
+  temperature: 0.8
+  top_p: 0.9
+  stream: true
+  max_retries: 2
+  wait_seconds_on_retry: 1
+  
+# Associate特殊配置
+associate_specific:
+  # Associate需要快速执行能力
+  execution_mode: "fast_response"
+  # 较小的上下文窗口，专注具体任务
+  context_window: 4096
+  # 启用工具调用
+  enable_function_calling: true
+  # 并行执行支持
+  parallel_execution: true
+  # 较高的创造性，适合具体任务执行
+  creativity_level: "high"

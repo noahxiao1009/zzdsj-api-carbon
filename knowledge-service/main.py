@@ -34,7 +34,8 @@ sys.path.insert(0, str(project_root))
 
 from app.config.settings import settings
 from app.api.knowledge_routes import router as knowledge_router
-from app.core.knowledge_manager import get_unified_knowledge_manager
+from app.api.splitter_routes import router as splitter_router
+from app.core.enhanced_knowledge_manager import get_unified_knowledge_manager
 
 # 配置日志
 logging.basicConfig(
@@ -61,7 +62,7 @@ async def lifespan(app: FastAPI):
         logger.info("✅ Knowledge Manager initialized")
         
         # 获取管理器统计信息
-        stats = knowledge_manager.get_stats()
+        stats = await knowledge_manager.get_statistics()
         logger.info(f"📊 Knowledge Service Stats: {stats}")
         
     except Exception as e:
@@ -216,7 +217,7 @@ async def health_check():
     try:
         # 检查知识库管理器状态
         knowledge_manager = get_unified_knowledge_manager()
-        stats = knowledge_manager.get_stats()
+        stats = await knowledge_manager.get_statistics()
         
         return {
             "status": "healthy",
@@ -260,6 +261,7 @@ async def root():
 
 # 注册路由
 app.include_router(knowledge_router, prefix="/api/v1")
+app.include_router(splitter_router, prefix="/api/v1")
 
 
 # 开发环境调试信息
@@ -283,10 +285,15 @@ async def debug_info():
                 "redis_host": settings.database.redis_host,
                 "redis_port": settings.database.redis_port
             },
-            "knowledge_bases": list(knowledge_manager.knowledge_bases.keys()),
+            "knowledge_service": {
+                "manager_type": "enhanced",
+                "database_integrated": True,
+                "document_processing": True,
+                "embedding_service": True
+            },
             "frameworks": {
-                "llamaindex": knowledge_manager.llamaindex_manager.get_stats(),
-                "agno": knowledge_manager.agno_manager.get_stats()
+                "llamaindex": "integrated",
+                "agno": "integrated"
             }
         }
     except Exception as e:

@@ -77,6 +77,33 @@ class Settings(BaseSettings):
         env="UPLOAD_ALLOWED_TYPES"
     )
     
+    # 消息渲染配置
+    message_rendering_enabled: bool = Field(default=True, env="MESSAGE_RENDERING_ENABLED")
+    render_cache_ttl: int = Field(default=3600, env="RENDER_CACHE_TTL")  # 1小时
+    max_render_size: int = Field(default=100000, env="MAX_RENDER_SIZE")  # 100KB
+    supported_code_languages: List[str] = Field(
+        default=[
+            "python", "javascript", "java", "cpp", "sql",
+            "html", "css", "json", "yaml", "bash"
+        ],
+        env="SUPPORTED_CODE_LANGUAGES"
+    )
+    
+    # LaTeX渲染配置
+    latex_dpi: int = Field(default=150, env="LATEX_DPI")
+    latex_font_size: int = Field(default=14, env="LATEX_FONT_SIZE")
+    latex_figure_width: int = Field(default=10, env="LATEX_FIGURE_WIDTH")
+    latex_figure_height: int = Field(default=2, env="LATEX_FIGURE_HEIGHT")
+    
+    # 渲染性能配置
+    render_timeout: int = Field(default=30, env="RENDER_TIMEOUT")  # 30秒
+    concurrent_renders: int = Field(default=10, env="CONCURRENT_RENDERS")
+    enable_render_cache: bool = Field(default=True, env="ENABLE_RENDER_CACHE")
+    
+    # 服务版本信息
+    service_version: str = Field(default="1.1.0", env="SERVICE_VERSION")
+    environment: str = Field(default="development", env="ENVIRONMENT")
+    
     class Config:
         env_file = ".env"
         case_sensitive = False

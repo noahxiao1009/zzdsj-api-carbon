@@ -18,6 +18,7 @@ class EmbeddingProviderType(str, Enum):
     LOCAL = "local"
     ANTHROPIC = "anthropic"
     COHERE = "cohere"
+    SILICONFLOW = "siliconflow"
 
 
 class VectorStoreType(str, Enum):
@@ -27,6 +28,15 @@ class VectorStoreType(str, Enum):
     ELASTICSEARCH = "elasticsearch"
     LANCEDB = "lancedb"
     SIMPLE = "simple"
+
+
+class VectorIndexType(str, Enum):
+    """向量索引类型"""
+    HNSW = "hnsw"           # 分层导航小世界图
+    FLAT = "flat"           # 暴力搜索
+    IVF_FLAT = "ivf_flat"   # 倒排文件 + 暴力搜索
+    IVF_PQ = "ivf_pq"       # 倒排文件 + 乘积量化
+    IVF_HNSW = "ivf_hnsw"   # 倒排文件 + HNSW
 
 
 class DocumentType(str, Enum):
@@ -56,6 +66,13 @@ class SearchMode(str, Enum):
     LLAMAINDEX = "llamaindex"  # 精细化检索，使用LlamaIndex
     AGNO = "agno"             # 快速检索，使用Agno框架
     HYBRID = "hybrid"         # 混合模式
+
+
+class SearchType(str, Enum):
+    """检索类型"""
+    HYBRID = "hybrid"         # 混合检索（语义+关键词）
+    SEMANTIC = "semantic"     # 纯语义检索
+    KEYWORD = "keyword"       # 纯关键词检索
 
 
 # ===== 嵌入模型相关 =====
@@ -89,6 +106,7 @@ class KnowledgeBaseCreate(BaseModel):
     """创建知识库请求"""
     name: str = Field(..., min_length=1, max_length=100, description="知识库名称")
     description: Optional[str] = Field(None, max_length=500, description="知识库描述")
+    user_id: Optional[str] = Field(None, description="用户ID，如果为空则使用默认系统用户")
     
     # 嵌入配置
     embedding_provider: EmbeddingProviderType = Field(
@@ -106,6 +124,20 @@ class KnowledgeBaseCreate(BaseModel):
         default=VectorStoreType.PGVECTOR, 
         description="向量存储类型"
     )
+    vector_store_config: Optional[Dict[str, Any]] = Field(
+        default_factory=dict, 
+        description="向量存储配置"
+    )
+    
+    # 向量索引配置
+    vector_index_type: VectorIndexType = Field(
+        default=VectorIndexType.HNSW, 
+        description="向量索引类型"
+    )
+    index_parameters: Optional[Dict[str, Any]] = Field(
+        default_factory=dict, 
+        description="索引参数配置"
+    )
     
     # 处理配置
     chunk_size: int = Field(default=1000, ge=100, le=4000, description="文档分块大小")
@@ -118,6 +150,14 @@ class KnowledgeBaseCreate(BaseModel):
     # Agno配置
     enable_agno_integration: bool = Field(default=True, description="启用Agno集成")
     agno_search_type: str = Field(default="hybrid", description="Agno搜索类型")
+    
+    # 检索控制配置
+    recall_threshold: float = Field(default=0.8, ge=0.0, le=1.0, description="召回率阈值")
+    default_search_type: SearchType = Field(default=SearchType.HYBRID, description="默认检索类型")
+    semantic_weight: float = Field(default=0.7, ge=0.0, le=1.0, description="语义检索权重")
+    keyword_weight: float = Field(default=0.3, ge=0.0, le=1.0, description="关键词检索权重")
+    enable_reranking: bool = Field(default=True, description="启用重排序")
+    max_candidates: int = Field(default=100, ge=10, le=500, description="最大候选数量")
     
     # 其他配置
     settings: Optional[Dict[str, Any]] = Field(default_factory=dict, description="其他配置")
@@ -270,11 +310,18 @@ class SearchRequest(BaseModel):
     
     # 搜索参数
     search_mode: SearchMode = Field(default=SearchMode.HYBRID, description="搜索模式")
+    search_type: SearchType = Field(default=SearchType.HYBRID, description="检索类型")
     top_k: int = Field(default=5, ge=1, le=50, description="返回结果数量")
     similarity_threshold: float = Field(default=0.7, ge=0.0, le=1.0, description="相似度阈值")
     
-    # LlamaIndex参数
+    # 高精度检索控制参数
+    recall_threshold: float = Field(default=0.8, ge=0.0, le=1.0, description="召回率阈值")
+    semantic_weight: float = Field(default=0.7, ge=0.0, le=1.0, description="语义检索权重")
+    keyword_weight: float = Field(default=0.3, ge=0.0, le=1.0, description="关键词检索权重")
     enable_reranking: bool = Field(default=True, description="启用重排序")
+    max_candidates: int = Field(default=100, ge=10, le=500, description="最大候选数量")
+    
+    # LlamaIndex参数
     vector_weight: float = Field(default=0.7, ge=0.0, le=1.0, description="向量搜索权重")
     text_weight: float = Field(default=0.3, ge=0.0, le=1.0, description="文本搜索权重")
     
@@ -288,8 +335,15 @@ class SearchRequest(BaseModel):
     class Config:
         use_enum_values = True
     
+    @validator('semantic_weight', 'keyword_weight')
+    def validate_search_weights(cls, v, values):
+        if 'semantic_weight' in values and 'keyword_weight' in values:
+            if abs(values['semantic_weight'] + values['keyword_weight'] - 1.0) > 0.01:
+                raise ValueError("语义权重和关键词权重之和必须等于1.0")
+        return v
+    
     @validator('vector_weight', 'text_weight')
-    def validate_weights(cls, v, values):
+    def validate_vector_weights(cls, v, values):
         if 'vector_weight' in values and 'text_weight' in values:
             if abs(values['vector_weight'] + values['text_weight'] - 1.0) > 0.01:
                 raise ValueError("向量权重和文本权重之和必须等于1.0")
@@ -323,6 +377,135 @@ class SearchResponse(BaseModel):
     # 额外信息
     reranked: bool = Field(default=False, description="是否进行了重排序")
     cached: bool = Field(default=False, description="结果是否来自缓存")
+
+
+# ===== 文档元数据相关 =====
+
+class DocumentMetadata(BaseModel):
+    """文档元数据"""
+    title: Optional[str] = Field(None, description="文档标题")
+    author: Optional[str] = Field(None, description="作者")
+    source: Optional[str] = Field(None, description="来源")
+    language: Optional[str] = Field(None, description="语言")
+    tags: List[str] = Field(default_factory=list, description="标签")
+    custom_fields: Dict[str, Any] = Field(default_factory=dict, description="自定义字段")
+    created_at: Optional[datetime] = Field(None, description="创建时间")
+    updated_at: Optional[datetime] = Field(None, description="更新时间")
+
+
+# ===== 检索测试相关 =====
+
+class SearchTestRequest(BaseModel):
+    """检索测试请求"""
+    test_queries: List[str] = Field(..., min_items=1, description="测试查询列表")
+    search_configs: List[SearchRequest] = Field(..., min_items=1, description="搜索配置列表")
+    include_performance_metrics: bool = Field(default=True, description="包含性能指标")
+    
+    class Config:
+        use_enum_values = True
+
+
+class SearchTestResult(BaseModel):
+    """单次检索测试结果"""
+    query: str = Field(..., description="测试查询")
+    config_index: int = Field(..., description="配置索引")
+    search_config: Dict[str, Any] = Field(..., description="搜索配置")
+    results: List[SearchResult] = Field(..., description="搜索结果")
+    
+    # 性能指标
+    response_time_ms: float = Field(..., description="响应时间(毫秒)")
+    total_candidates: int = Field(..., description="总候选数量")
+    returned_results: int = Field(..., description="返回结果数量")
+    precision_score: Optional[float] = Field(None, description="精确率评分")
+    recall_score: Optional[float] = Field(None, description="召回率评分")
+    
+    # 框架统计
+    llamaindex_time_ms: Optional[float] = Field(None, description="LlamaIndex耗时")
+    agno_time_ms: Optional[float] = Field(None, description="Agno耗时")
+    reranking_time_ms: Optional[float] = Field(None, description="重排序耗时")
+
+
+class SearchTestResponse(BaseModel):
+    """检索测试响应"""
+    test_id: str = Field(..., description="测试ID")
+    knowledge_base_id: str = Field(..., description="知识库ID")
+    knowledge_base_name: str = Field(..., description="知识库名称")
+    test_results: List[SearchTestResult] = Field(..., description="测试结果列表")
+    
+    # 汇总统计
+    total_tests: int = Field(..., description="总测试数量")
+    avg_response_time_ms: float = Field(..., description="平均响应时间")
+    min_response_time_ms: float = Field(..., description="最小响应时间")
+    max_response_time_ms: float = Field(..., description="最大响应时间")
+    
+    # 最佳配置
+    best_config_index: Optional[int] = Field(None, description="最佳配置索引")
+    best_config_score: Optional[float] = Field(None, description="最佳配置评分")
+    
+    created_at: datetime = Field(default_factory=datetime.now, description="测试时间")
+
+
+class GlobalSearchTestRequest(BaseModel):
+    """全局检索测试请求"""
+    test_queries: List[str] = Field(..., min_items=1, description="测试查询列表")
+    knowledge_base_ids: Optional[List[str]] = Field(None, description="指定知识库ID列表")
+    search_config: SearchRequest = Field(..., description="统一搜索配置")
+    cross_kb_comparison: bool = Field(default=True, description="跨知识库对比")
+
+
+class GlobalSearchTestResponse(BaseModel):
+    """全局检索测试响应"""
+    test_id: str = Field(..., description="测试ID")
+    kb_test_results: List[SearchTestResponse] = Field(..., description="各知识库测试结果")
+    
+    # 全局统计
+    total_knowledge_bases: int = Field(..., description="测试知识库数量")
+    total_queries: int = Field(..., description="总查询数量")
+    avg_response_time_ms: float = Field(..., description="全局平均响应时间")
+    
+    # 知识库排名
+    kb_performance_ranking: List[Dict[str, Any]] = Field(..., description="知识库性能排名")
+    
+    created_at: datetime = Field(default_factory=datetime.now, description="测试时间")
+
+
+# ===== 索引管理相关 =====
+
+class IndexRebuildRequest(BaseModel):
+    """索引重建请求"""
+    new_index_type: VectorIndexType = Field(..., description="新索引类型")
+    index_parameters: Optional[Dict[str, Any]] = Field(default_factory=dict, description="索引参数")
+    backup_existing: bool = Field(default=True, description="备份现有索引")
+    rebuild_async: bool = Field(default=True, description="异步重建")
+    
+    class Config:
+        use_enum_values = True
+
+
+class IndexStatus(BaseModel):
+    """索引状态"""
+    knowledge_base_id: str = Field(..., description="知识库ID")
+    current_index_type: str = Field(..., description="当前索引类型")
+    index_parameters: Dict[str, Any] = Field(..., description="索引参数")
+    total_vectors: int = Field(..., description="总向量数量")
+    index_size_mb: float = Field(..., description="索引大小(MB)")
+    
+    # 性能统计
+    avg_search_time_ms: float = Field(..., description="平均搜索时间")
+    last_rebuild_time: Optional[datetime] = Field(None, description="上次重建时间")
+    
+    # 重建状态
+    is_rebuilding: bool = Field(default=False, description="是否正在重建")
+    rebuild_progress: float = Field(default=0.0, description="重建进度(0-1)")
+    rebuild_error: Optional[str] = Field(None, description="重建错误信息")
+
+
+class IndexPerformanceComparison(BaseModel):
+    """索引性能对比"""
+    index_types: List[str] = Field(..., description="索引类型列表")
+    performance_metrics: Dict[str, Dict[str, float]] = Field(..., description="性能指标")
+    recommendations: List[str] = Field(..., description="推荐配置")
+    test_conditions: Dict[str, Any] = Field(..., description="测试条件")
 
 
 # ===== 批量操作 =====

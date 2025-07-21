@@ -194,6 +194,46 @@ app.include_router(health.router)  # 健康检查路由
 app.include_router(chat.router)    # 聊天路由
 app.include_router(sessions.router)  # 会话管理路由
 
+# 注册增强的聊天路由
+try:
+    from app.api.routers.enhanced_chat_router import router as enhanced_chat_router
+    app.include_router(enhanced_chat_router)  # 增强聊天路由
+    logger.info("增强聊天路由注册成功")
+except ImportError as e:
+    logger.warning(f"增强聊天路由导入失败: {e}")
+except Exception as e:
+    logger.error(f"增强聊天路由注册失败: {e}")
+
+# 注册WebSocket路由
+try:
+    from app.api.routers.websocket_router import router as websocket_router
+    app.include_router(websocket_router)  # WebSocket路由
+    logger.info("WebSocket路由注册成功")
+except ImportError as e:
+    logger.warning(f"WebSocket路由导入失败: {e}")
+except Exception as e:
+    logger.error(f"WebSocket路由注册失败: {e}")
+
+# 注册流式优化路由
+try:
+    from app.api.routers.stream_optimization_router import router as stream_optimization_router
+    app.include_router(stream_optimization_router)  # 流式优化路由
+    logger.info("流式优化路由注册成功")
+except ImportError as e:
+    logger.warning(f"流式优化路由导入失败: {e}")
+except Exception as e:
+    logger.error(f"流式优化路由注册失败: {e}")
+
+# 注册智能体管理路由
+try:
+    from app.api.routers.agent_management_router import router as agent_management_router
+    app.include_router(agent_management_router)  # 智能体管理路由
+    logger.info("智能体管理路由注册成功")
+except ImportError as e:
+    logger.warning(f"智能体管理路由导入失败: {e}")
+except Exception as e:
+    logger.error(f"智能体管理路由注册失败: {e}")
+
 
 # 根路径
 @app.get("/")

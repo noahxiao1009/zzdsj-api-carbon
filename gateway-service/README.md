@@ -124,6 +124,3 @@ docker run -p 8080:8080 gateway-service
 
 在 `app/discovery/` 目录下配置服务注册和发现逻辑。
 
-## 许可证
-
-版权所有 © 2024 智政科技

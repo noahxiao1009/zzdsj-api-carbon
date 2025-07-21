@@ -1,0 +1,290 @@
+"""
+Google搜索工具实现 - 使用DuckDuckGo作为后端
+基于BaseToolNode的正确实现方式
+"""
+
+import logging
+import asyncio
+import aiohttp
+from typing import Dict, Any, List
+from ...framework.tool_registry import tool_registry
+from ..base_tool_node import BaseToolNode
+
+logger = logging.getLogger(__name__)
+
+try:
+    from duckduckgo_search import DDGS
+    DUCKDUCKGO_AVAILABLE = True
+except ImportError:
+    DUCKDUCKGO_AVAILABLE = False
+    logger.warning("DuckDuckGo搜索不可用，请安装duckduckgo-search包")
+
+
+@tool_registry(
+    toolset_name="G",
+    name="google_web_search",
+    description="搜索网络信息，获取最新的搜索结果。适用于查找一般信息、最新发展或不同观点。",
+    parameters={
+        "type": "object",
+        "properties": {
+            "query": {
+                "type": "string",
+                "description": "搜索查询词，应该具体而精确"
+            },
+            "max_results": {
+                "type": "integer",
+                "description": "最大结果数量，默认为5",
+                "default": 5
+            }
+        },
+        "required": ["query"]
+    },
+    default_knowledge_item_type="SEARCH_RESULTS_LIST",
+)
+class GoogleSearchNode(BaseToolNode):
+    """
+    Google搜索工具节点，使用DuckDuckGo作为后端实现
+    """
+    
+    def _is_english_query(self, query: str) -> bool:
+        """判断是否为英文查询"""
+        # 如果查询中的英文字符比例超过70%，认为是英文查询
+        english_chars = sum(1 for c in query if c.isascii() and c.isalpha())
+        total_chars = sum(1 for c in query if c.isalpha())
+        return total_chars > 0 and english_chars / total_chars > 0.7
+    
+    def _optimize_search_query(self, query: str) -> str:
+        """优化搜索查询，提高搜索结果的相关性"""
+        # 对于英文查询，保持原样或轻微优化
+        if self._is_english_query(query):
+            return self._optimize_english_query(query)
+        
+        # 对于中文查询，添加英文关键词
+        return self._optimize_chinese_query(query)
+    
+    def _optimize_english_query(self, query: str) -> str:
+        """优化英文查询"""
+        # 对于英文查询，基本保持原样，只做轻微优化
+        optimized = query.strip()
+        
+        # 针对特定的技术主题添加相关术语
+        if "llm" in query.lower() and "framework" in query.lower():
+            # 为LLM框架查询添加具体的框架名称以提高相关性
+            framework_terms = ["PyTorch", "TensorFlow", "Transformers", "Hugging Face", "LangChain", "OpenAI"]
+            if not any(term.lower() in query.lower() for term in framework_terms):
+                optimized += " PyTorch TensorFlow Transformers"
+        
+        return optimized
+    
+    def _optimize_chinese_query(self, query: str) -> str:
+        """优化中文查询"""
+        # 中文关键词到英文关键词的映射
+        keyword_mapping = {
+            "LLM": "LLM large language model",
+            "开发框架": "development framework",
+            "框架": "framework",
+            "最新": "latest 2024 2025",
+            "发展": "development",
+            "人工智能": "artificial intelligence AI",
+            "机器学习": "machine learning ML",
+            "深度学习": "deep learning",
+            "自然语言处理": "natural language processing NLP",
+            "大模型": "large language model LLM",
+            "训练": "training",
+            "微调": "fine-tuning",
+            "部署": "deployment",
+            "推理": "inference"
+        }
+        
+        optimized_query = query
+        
+        # 如果查询包含中文，添加对应的英文关键词
+        for chinese_term, english_term in keyword_mapping.items():
+            if chinese_term in query:
+                if english_term not in optimized_query:
+                    optimized_query += f" {english_term}"
+        
+        # 清理多余空格
+        optimized_query = " ".join(optimized_query.split())
+        
+        return optimized_query
+    
+    async def _fetch_search_results(self, query: str, max_results: int = 5) -> Dict[str, Any]:
+        """执行单次搜索查询"""
+        logger.debug("executing_search", extra={"query": query, "max_results": max_results})
+        
+        search_results = []
+        success_flag = False
+        error_message = None
+        
+        if not DUCKDUCKGO_AVAILABLE:
+            error_message = "DuckDuckGo搜索库未安装"
+            return {
+                "query": query,
+                "success": success_flag,
+                "results_summary": f"[搜索失败: {error_message}]",
+                "results": search_results,
+                "error_message": error_message
+            }
+        
+        try:
+            logger.info("starting_search", extra={"query": query, "max_results": max_results})
+            
+            # 优化搜索查询
+            optimized_query = self._optimize_search_query(query)
+            logger.info("optimized_query", extra={"original": query, "optimized": optimized_query})
+            
+            # 使用DuckDuckGo进行搜索
+            with DDGS() as ddgs:
+                # 使用optimized_query进行搜索，不指定地区以获得更广泛的结果
+                results = list(ddgs.text(optimized_query, max_results=max_results))
+                
+                # 转换结果格式以匹配期望的结构
+                for result in results:
+                    search_results.append({
+                        "title": result.get("title", ""),
+                        "url": result.get("href", ""),
+                        "snippet": result.get("body", ""),
+                        "content": result.get("body", "")
+                    })
+                
+                success_flag = True
+                logger.info("search_completed", extra={
+                    "query": optimized_query, 
+                    "results_count": len(search_results)
+                })
+                
+        except Exception as e:
+            error_message = f"搜索失败: {str(e)}"
+            logger.error("search_error", extra={
+                "query": query, 
+                "error": error_message
+            }, exc_info=True)
+        
+        return {
+            "query": query,
+            "success": success_flag,
+            "results_summary": f"找到 {len(search_results)} 个结果: '{query}'" if success_flag else f"[搜索失败: {error_message}]",
+            "results": search_results,
+            "error_message": error_message if not success_flag else None
+        }
+    
+    async def exec_async(self, prep_res: dict) -> dict:
+        """
+        核心执行逻辑：
+        1. 从prep_res获取参数
+        2. 检查知识库中是否有缓存结果
+        3. 执行搜索查询
+        4. 构造返回结果
+        """
+        try:
+            tool_params = prep_res.get("tool_params", {})
+            shared_context = prep_res.get("shared_context", {})
+            
+            query = tool_params.get("query", "")
+            max_results = tool_params.get("max_results", 5)
+            
+            if not query:
+                return {
+                    "status": "error",
+                    "error_message": "搜索查询不能为空",
+                    "payload": {"error": "搜索查询不能为空"}
+                }
+            
+            logger.info("google_search_tool_exec_start", extra={
+                "query": query, 
+                "max_results": max_results,
+                "duckduckgo_available": DUCKDUCKGO_AVAILABLE
+            })
+            
+            # 检查知识库缓存
+            kb = shared_context.get('refs', {}).get('run', {}).get('runtime', {}).get("knowledge_base")
+            cached_result = None
+            
+            if kb:
+                synthetic_uri = f"google_search_query://{query}"
+                existing_item = await kb.get_item_by_uri(synthetic_uri)
+                if existing_item:
+                    logger.info("search_query_found_in_kb", extra={"query": query})
+                    cached_results = existing_item.get("content", [])
+                    cached_result = {
+                        "query": query,
+                        "success": True,
+                        "results_summary": f"找到 {len(cached_results)} 个结果: '{query}' (来自知识库)",
+                        "results": cached_results,
+                        "source": "knowledge_base"
+                    }
+            
+            # 如果有缓存，直接返回缓存结果
+            if cached_result:
+                return {
+                    "status": "success",
+                    "payload": {"main_content_for_llm": cached_result}
+                }
+            
+            # 执行实际搜索
+            search_result = await self._fetch_search_results(query, max_results)
+            
+            # 准备知识库项目
+            knowledge_items_to_add = []
+            if search_result["success"] and search_result["results"]:
+                knowledge_items_to_add.append({
+                    "item_type": "SEARCH_RESULTS_LIST",
+                    "content": search_result["results"],
+                    "source_uri": f"google_search_query://{query}",
+                    "metadata": {"query_string": query, "search_engine": "DuckDuckGo"}
+                })
+            
+            # 构造最终返回结果
+            final_payload = {
+                "main_content_for_llm": search_result
+            }
+        
+            return {
+                "status": "success" if search_result["success"] else "error",
+                "payload": final_payload,
+                "error_message": search_result.get("error_message"),
+                "_knowledge_items_to_add": knowledge_items_to_add
+            }
+        
+        except Exception as e:
+            error_msg = f"Google搜索工具执行失败: {str(e)}"
+            logger.error("google_search_tool_fatal_error", extra={
+                "error": error_msg,
+                "query": query if 'query' in locals() else "未知查询"
+            }, exc_info=True)
+            
+            return {
+                "status": "error",
+                "error_message": error_msg,
+                "payload": {
+                    "error": error_msg,
+                    "query": query if 'query' in locals() else "未知查询"
+                }
+            }
+
+
+if __name__ == "__main__":
+    # 测试代码
+    async def test_search():
+        node = GoogleSearchNode()
+        
+        test_prep_res = {
+            "tool_params": {
+                "query": "latest LLM development frameworks 2025",
+                "max_results": 3
+            },
+            "shared_context": {}
+        }
+        
+        result = await node.exec_async(test_prep_res)
+        print(f"搜索结果: {result}")
+    
+    # 配置日志
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
+    
+    # 运行测试
+    asyncio.run(test_search())

@@ -1,0 +1,21 @@
+name: base_default_llm
+type: llm_config
+description_for_human: "硅基流动基础LLM配置 - 默认使用Qwen模型"
+
+# 硅基流动配置
+config:
+  api_key:
+    _type: "from_env"
+    var: "DEFAULT_API_KEY"
+    required: true
+  api_base:
+    _type: "from_env"
+    var: "DEFAULT_BASE_URL"
+    required: true
+  model: "openai/Qwen/Qwen3-32B"
+  max_tokens: 8192
+  temperature: 0.7
+  top_p: 0.9
+  stream: true
+  max_retries: 3
+  wait_seconds_on_retry: 2

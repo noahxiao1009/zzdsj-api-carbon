@@ -25,7 +25,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'app'))
 from app.config.settings import settings, init_settings
 
 # 导入API路由
-from app.api import agent_routes, template_routes, team_routes, model_routes
+from app.api import agent_routes, template_routes, team_routes, model_routes, flow_builder_routes
+from app.api import orchestration_api, agent_management_api, tools_api
 
 # 导入中间件
 from app.middleware.logging_middleware import LoggingMiddleware
@@ -46,6 +47,11 @@ async def lifespan(app: FastAPI):
     try:
         # 初始化配置
         await init_settings()
+        
+        # 初始化DAG编排器和工具注入管理器
+        from app.core.dag_orchestrator import dag_orchestrator
+        await dag_orchestrator.initialize()
+        
         logger.info("智能体服务启动成功")
         
         yield
@@ -110,6 +116,31 @@ def create_app() -> FastAPI:
         model_routes.router,
         prefix="/api/v1/models",
         tags=["模型管理"]
+    )
+    
+    # 注册Flow Builder路由
+    app.include_router(
+        flow_builder_routes.router,
+        tags=["智能体编排"]
+    )
+    
+    # 注册画布编排API
+    app.include_router(
+        orchestration_api.router,
+        tags=["画布编排"]
+    )
+    
+    # 注册智能体管理API
+    app.include_router(
+        agent_management_api.router,
+        tags=["智能体管理"]
+    )
+    
+    # 注册工具管理API
+    app.include_router(
+        tools_api.router,
+        prefix="/api/v1",
+        tags=["工具管理"]
     )
 
     # 健康检查端点

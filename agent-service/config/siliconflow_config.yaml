@@ -1,0 +1,62 @@
+# Agent Service - 硅基流动模型配置
+# Agno框架智能体服务模型配置
+
+# 基础API配置
+api_config:
+  base_url: "https://api.siliconflow.cn/v1"
+  api_key: "sk-jipjycienusxsfdptoweqvagdillzrumjjtcblfjfsrdhqxk"
+  timeout: 60
+  max_retries: 3
+
+# 智能体模型配置
+agent_models:
+  # 基础对话智能体
+  basic_conversation:
+    model: "moonshotai/Kimi-K2-Instruct"
+    max_tokens: 4096
+    temperature: 0.7
+    stream: true
+    description: "快速响应的基础对话智能体"
+    
+  # 知识库增强智能体  
+  knowledge_enhanced:
+    model: "Qwen/Qwen3-32B"
+    max_tokens: 8192
+    temperature: 0.6
+    stream: true
+    description: "支持知识库检索的智能体"
+    
+  # 深度思考智能体
+  deep_thinking:
+    model: "Qwen/Qwen3-235B-A22B"
+    max_tokens: 8192
+    temperature: 0.5
+    stream: true
+    description: "用于复杂推理和深度分析的智能体"
+
+# 模板对应的模型映射
+template_model_mapping:
+  "basic_conversation": "basic_conversation"
+  "knowledge_base": "knowledge_enhanced" 
+  "deep_thinking": "deep_thinking"
+  "research_analyst": "deep_thinking"
+  "code_assistant": "knowledge_enhanced"
+
+# Agno框架配置
+agno_config:
+  provider: "openai"  # 使用OpenAI兼容接口
+  api_base: "https://api.siliconflow.cn/v1"
+  api_key: "sk-jipjycienusxsfdptoweqvagdillzrumjjtcblfjfsrdhqxk"
+  default_model: "Qwen/Qwen3-32B"
+  
+# 工具调用配置
+tool_config:
+  function_calling_model: "Qwen/Qwen3-32B"
+  enable_parallel_calling: true
+  max_tool_calls: 5
+
+# DAG执行配置
+dag_config:
+  orchestrator_model: "Qwen/Qwen3-32B"
+  node_execution_model: "moonshotai/Kimi-K2-Instruct"
+  enable_streaming: true

@@ -1,0 +1,31 @@
+name: siliconflow_embedding_model
+type: embedding_config
+description_for_human: "硅基流动嵌入模型配置 - 用于RAG检索"
+
+# 嵌入模型配置
+config:
+  api_key:
+    _type: "from_env"
+    var: "DEFAULT_API_KEY"
+    required: true
+  api_base:
+    _type: "from_env"
+    var: "DEFAULT_BASE_URL"
+    required: true
+  model: "openai/Qwen/Qwen3-Embedding-8B"
+  dimension: 8192
+  batch_size: 100
+  max_input_length: 2048
+  max_retries: 2
+  wait_seconds_on_retry: 1
+  
+# RAG特殊配置
+rag_specific:
+  # 高质量向量化
+  vector_quality: "high"
+  # 支持多语言
+  multilingual: true
+  # 批处理优化
+  batch_optimization: true
+  # 缓存支持
+  enable_caching: true

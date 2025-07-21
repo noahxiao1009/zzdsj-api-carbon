@@ -14,6 +14,10 @@ import asyncio
 
 # 应用相关导入
 from app.api.models import router as models_router
+from app.api.defaults import defaults_router
+from app.api.config_management import config_router
+from app.api.invoke import invoke_router
+from app.api.monitoring import monitoring_router
 
 # 配置日志
 logging.basicConfig(
@@ -67,6 +71,10 @@ def create_app() -> FastAPI:
     
     # 注册路由
     app.include_router(models_router)
+    app.include_router(defaults_router)
+    app.include_router(config_router)
+    app.include_router(invoke_router)
+    app.include_router(monitoring_router)
     
     # 根路径
     @app.get("/", tags=["根路径"])

@@ -1,0 +1,30 @@
+name: siliconflow_partner_llm
+type: llm_config
+description_for_human: "硅基流动 Partner Agent LLM配置 - 战略伙伴智能体"
+
+# Partner Agent专用配置
+config:
+  api_key:
+    _type: "from_env"
+    var: "DEFAULT_API_KEY"
+    required: true
+  api_base:
+    _type: "from_env" 
+    var: "DEFAULT_BASE_URL"
+    required: true
+  model: "openai/Qwen/Qwen3-32B"
+  max_tokens: 8192
+  temperature: 0.7
+  top_p: 0.9
+  stream: true
+  max_retries: 3
+  wait_seconds_on_retry: 2
+  
+# 特殊配置
+partner_specific:
+  # Partner需要更好的战略思维能力
+  reasoning_depth: "strategic"
+  # 支持长对话上下文
+  context_window: 8192
+  # 启用工具调用
+  enable_function_calling: true

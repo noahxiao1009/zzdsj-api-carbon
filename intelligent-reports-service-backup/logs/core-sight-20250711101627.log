@@ -1,0 +1,11 @@
+[2025-07-11 10:16:27.735][33099][140704667826688][INFO][llm.py:197] plan_model_config:{'api_key': 'your_api_key_here', 'base_url': 'https://api.openai.com/v1', 'model': 'gpt-4', 'max_tokens': 4000, 'temperature': 0.7, 'proxy': ''}
+
+[2025-07-11 10:16:27.736][33099][140704667826688][INFO][llm.py:201] act_model_config:{'api_key': 'your_api_key_here', 'base_url': 'https://api.openai.com/v1', 'model': 'gpt-4', 'max_tokens': 4000, 'temperature': 0.7, 'proxy': ''}
+
+[2025-07-11 10:16:27.737][33099][140704667826688][INFO][llm.py:205] tool_model_config:{'api_key': 'your_api_key_here', 'base_url': 'https://api.openai.com/v1', 'model': 'gpt-4', 'max_tokens': 4000, 'temperature': 0.7, 'proxy': ''}
+
+[2025-07-11 10:16:27.737][33099][140704667826688][INFO][llm.py:209] vision_model_config:{'api_key': 'your_api_key_here', 'base_url': 'https://api.openai.com/v1', 'model': 'gpt-4', 'max_tokens': 4000, 'temperature': 0.7, 'proxy': ''}
+
+[2025-07-11 10:16:28.058][33099][140704667826688][INFO][test_service.py:173] 测试信息日志
+[2025-07-11 10:16:28.058][33099][140704667826688][WARNING][test_service.py:174] 测试警告日志
+[2025-07-11 10:16:28.058][33099][140704667826688][ERROR][test_service.py:175] 测试错误日志

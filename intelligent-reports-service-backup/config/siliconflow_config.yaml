@@ -1,0 +1,121 @@
+# Intelligent Reports Service - 硅基流动模型配置
+# 基于Co-Sight的智能报告服务模型配置
+
+# 基础API配置
+api_config:
+  base_url: "https://api.siliconflow.cn/v1"
+  api_key: "sk-jipjycienusxsfdptoweqvagdillzrumjjtcblfjfsrdhqxk"
+  timeout: 180  # 报告生成需要更长时间
+  max_retries: 3
+
+# 报告生成模型配置
+report_generation:
+  # 数据分析模型
+  data_analysis:
+    model: "Qwen/Qwen3-235B-A22B"
+    max_tokens: 8192
+    temperature: 0.4
+    description: "用于深度数据分析"
+    
+  # 洞察提取模型
+  insight_extraction:
+    model: "Qwen/Qwen3-32B"
+    max_tokens: 4096
+    temperature: 0.5
+    description: "用于提取数据洞察"
+    
+  # 报告撰写模型
+  report_writing:
+    model: "Qwen/Qwen3-235B-A22B"
+    max_tokens: 8192
+    temperature: 0.6
+    description: "用于生成完整报告"
+
+# Co-Sight框架配置
+cosight_config:
+  # 深度研究配置
+  deep_research:
+    model: "Qwen/Qwen3-235B-A22B"
+    max_tokens: 8192
+    temperature: 0.3
+    enable_parallel: true
+    
+  # 实体分析配置
+  entity_analysis:
+    model: "Qwen/Qwen3-32B"
+    max_tokens: 4096
+    temperature: 0.4
+    
+  # 服务调度配置
+  service_dispatch:
+    model: "moonshotai/Kimi-K2-Instruct"
+    max_tokens: 2048
+    temperature: 0.5
+
+# 多Agent调度配置
+agent_dispatcher:
+  # 任务分配模型
+  task_allocation:
+    model: "Qwen/Qwen3-32B"
+    max_tokens: 2048
+    temperature: 0.3
+    
+  # 结果整合模型
+  result_integration:
+    model: "Qwen/Qwen3-235B-A22B"
+    max_tokens: 8192
+    temperature: 0.4
+
+# 报告类型配置
+report_types:
+  # 市场分析报告
+  market_analysis:
+    analysis_model: "Qwen/Qwen3-235B-A22B"
+    writing_model: "Qwen/Qwen3-32B"
+    chart_generation: true
+    
+  # 技术分析报告
+  technical_analysis:
+    analysis_model: "Qwen/Qwen3-235B-A22B"
+    writing_model: "Qwen/Qwen3-32B"
+    code_analysis: true
+    
+  # 业务报告
+  business_report:
+    analysis_model: "Qwen/Qwen3-32B"
+    writing_model: "Qwen/Qwen3-32B"
+    visualization: true
+    
+  # 学术报告
+  academic_report:
+    analysis_model: "Qwen/Qwen3-235B-A22B"
+    writing_model: "Qwen/Qwen3-235B-A22B"
+    citation_support: true
+
+# 可视化配置
+visualization_config:
+  # 图表生成
+  chart_generation:
+    model: "moonshotai/Kimi-K2-Instruct"
+    max_tokens: 2048
+    temperature: 0.4
+    
+  # 数据可视化建议
+  visualization_suggestions:
+    model: "Qwen/Qwen3-32B"
+    max_tokens: 1024
+    temperature: 0.5
+
+# 质量控制配置
+quality_control:
+  # 报告审核模型
+  report_review:
+    model: "Qwen/Qwen3-235B-A22B"
+    max_tokens: 4096
+    temperature: 0.2
+    
+  # 事实核查模型
+  fact_checking:
+    model: "Qwen/Qwen3-32B"
+    max_tokens: 2048
+    temperature: 0.1

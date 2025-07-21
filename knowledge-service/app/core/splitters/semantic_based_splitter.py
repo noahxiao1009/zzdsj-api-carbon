@@ -1,487 +1,491 @@
-import re
-import numpy as np
-from typing import List, Dict, Any, Optional, Tuple
-from .base_splitter import BaseSplitter
-from ...schemas.splitter_schemas import ChunkInfo, SplitterType
+"""
+语义切分器 - 基于语义边界的智能文档切分
+"""
 
-try:
-    from sentence_transformers import SentenceTransformer
-    SENTENCE_TRANSFORMERS_AVAILABLE = True
-except ImportError:
-    SENTENCE_TRANSFORMERS_AVAILABLE = False
+import asyncio
+import logging
+import time
+import uuid
+from typing import Dict, Any, Optional, List
+import re
+from datetime import datetime
+
+from app.schemas.splitter_schemas import ChunkInfo, SplitterType
+from .base_splitter import BaseSplitter
+
+logger = logging.getLogger(__name__)
 
 
 class SemanticBasedSplitter(BaseSplitter):
-    """基于语义的文档切分器"""
+    """语义切分器 - 基于语义边界进行智能切分"""
     
     def __init__(self, config: Dict[str, Any]):
-        """
-        初始化语义切分器
-        
-        Args:
-            config: SemanticBasedConfig配置字典
-        """
         super().__init__(config, SplitterType.SEMANTIC_BASED)
+        # self.splitter_type is already set in parent class
         
-        # 初始化嵌入模型
-        self.embedding_model = None
-        self.model_name = config.get('embedding_model', 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
+        # 语义切分配置
+        self.min_chunk_size = config.get('min_chunk_size', 200)
+        self.max_chunk_size = config.get('max_chunk_size', 1500)
+        self.overlap_sentences = config.get('overlap_sentences', 1)
+        self.coherence_threshold = config.get('coherence_threshold', 0.7)
+        self.use_sentence_embeddings = config.get('use_sentence_embeddings', False)
         
-        if SENTENCE_TRANSFORMERS_AVAILABLE:
-            try:
-                self.embedding_model = SentenceTransformer(self.model_name)
-                self.logger.info(f"Loaded semantic embedding model: {self.model_name}")
-            except Exception as e:
-                self.logger.warning(f"Failed to load embedding model {self.model_name}: {e}")
-        else:
-            self.logger.warning("sentence-transformers not available, using mock semantic analysis")
+        # 语义边界标识符
+        self.semantic_boundaries = [
+            # 段落边界
+            r'\n\s*\n',
+            # 标题边界
+            r'\n#+\s+',
+            r'\n\d+\.\s+',
+            r'\n[一二三四五六七八九十]+[、\.]\s*',
+            r'\n[（\(][一二三四五六七八九十]+[）\)]\s*',
+            # 列表边界
+            r'\n[-•·]\s+',
+            r'\n\d+\)\s+',
+            # 引用边界
+            r'\n>\s+',
+            # 代码块边界
+            r'\n```',
+            r'\n---+',
+        ]
         
-        # 语言配置
-        self.language = config.get('language', 'zh')
-        
-        # 初始化句子分割器
-        self._init_sentence_splitter()
-    
-    def _init_sentence_splitter(self):
-        """初始化句子分割器"""
-        if self.language == 'zh':
-            # 中文句子分割模式
-            self.sentence_pattern = re.compile(r'[。！？；]+')
-            self.clause_pattern = re.compile(r'[，、：；]+')
-        else:
-            # 英文句子分割模式
-            self.sentence_pattern = re.compile(r'[.!?]+\s+')
-            self.clause_pattern = re.compile(r'[,;:]+\s+')
+        logger.info(f"SemanticBasedSplitter initialized with config: {config}")
     
     async def split_text(self, text: str, document_metadata: Optional[Dict[str, Any]] = None) -> List[ChunkInfo]:
         """
-        基于语义切分文本
+        执行语义切分
         
         Args:
             text: 要切分的文本
             document_metadata: 文档元数据
             
         Returns:
-            切分后的文本块列表
+            分块列表
         """
-        # 预处理文本
-        text = self.preprocess_text(text)
-        
-        # 获取配置参数
-        min_chunk_size = self.config.get('min_chunk_size', 100)
-        max_chunk_size = self.config.get('max_chunk_size', 2000)
-        similarity_threshold = self.config.get('similarity_threshold', 0.7)
-        merge_threshold = self.config.get('merge_threshold', 0.8)
-        
-        # 步骤1: 将文本分割为句子
-        sentences = self._split_into_sentences(text)
-        if not sentences:
-            return []
-        
-        # 步骤2: 生成句子嵌入
-        sentence_embeddings = await self._generate_sentence_embeddings(sentences)
-        
-        # 步骤3: 基于语义相似度进行聚类分组
-        semantic_groups = await self._group_sentences_by_semantics(
-            sentences, sentence_embeddings, similarity_threshold
-        )
-        
-        # 步骤4: 合并短组和拆分长组
-        optimized_groups = await self._optimize_groups(
-            semantic_groups, min_chunk_size, max_chunk_size, merge_threshold
-        )
-        
-        # 步骤5: 创建最终的文本块
-        chunks = await self._create_chunks_from_groups(
-            optimized_groups, text, document_metadata
-        )
-        
-        # 后处理
-        chunks = self.postprocess_chunks(chunks)
-        
+        chunks, _ = await self.split_with_timing(text, document_metadata)
         return chunks
     
-    def _split_into_sentences(self, text: str) -> List[Tuple[str, int, int]]:
+    async def split_with_timing(self, text: str, document_metadata: Optional[Dict[str, Any]] = None) -> tuple[List[ChunkInfo], float]:
         """
-        将文本分割为句子
+        执行语义切分并计时
         
         Args:
-            text: 输入文本
-            
-        Returns:
-            句子列表，每个元素为(句子内容, 起始位置, 结束位置)
-        """
-        sentences = []
-        
-        # 使用正则表达式分割句子
-        if self.config.get('sentence_split_method', 'punctuation') == 'punctuation':
-            sentences = self._split_by_punctuation(text)
-        else:
-            sentences = self._split_by_simple_rules(text)
-        
-        # 过滤空句子和过短的句子
-        min_sentence_length = 10
-        filtered_sentences = []
-        
-        for sentence, start, end in sentences:
-            clean_sentence = sentence.strip()
-            if len(clean_sentence) >= min_sentence_length:
-                filtered_sentences.append((clean_sentence, start, end))
-        
-        return filtered_sentences
-    
-    def _split_by_punctuation(self, text: str) -> List[Tuple[str, int, int]]:
-        """基于标点符号分割句子"""
-        sentences = []
-        last_end = 0
-        
-        for match in self.sentence_pattern.finditer(text):
-            start = last_end
-            end = match.end()
-            sentence = text[start:end].strip()
-            
-            if sentence:
-                sentences.append((sentence, start, end))
-            
-            last_end = end
-        
-        # 处理最后一部分
-        if last_end < len(text):
-            sentence = text[last_end:].strip()
-            if sentence:
-                sentences.append((sentence, last_end, len(text)))
-        
-        return sentences
-    
-    def _split_by_simple_rules(self, text: str) -> List[Tuple[str, int, int]]:
-        """基于简单规则分割句子"""
-        # 按行分割，然后合并短行
-        lines = text.split('\n')
-        sentences = []
-        current_sentence = ""
-        start_pos = 0
-        current_start = 0
-        
-        for line in lines:
-            line = line.strip()
-            if not line:
-                if current_sentence:
-                    sentences.append((current_sentence, current_start, start_pos))
-                    current_sentence = ""
-                start_pos += 1
-                current_start = start_pos
-                continue
-            
-            if not current_sentence:
-                current_start = start_pos
-            
-            current_sentence += (" " if current_sentence else "") + line
-            start_pos += len(line) + 1
-            
-            # 如果句子足够长，结束当前句子
-            if len(current_sentence) >= 50 and (line.endswith(('。', '！', '？', '.', '!', '?'))):
-                sentences.append((current_sentence, current_start, start_pos))
-                current_sentence = ""
-        
-        # 处理最后的句子
-        if current_sentence:
-            sentences.append((current_sentence, current_start, start_pos))
-        
-        return sentences
-    
-    async def _generate_sentence_embeddings(self, sentences: List[Tuple[str, int, int]]) -> Optional[np.ndarray]:
-        """
-        生成句子嵌入
-        
-        Args:
-            sentences: 句子列表
-            
-        Returns:
-            句子嵌入矩阵
-        """
-        if not self.embedding_model:
-            # 使用模拟嵌入
-            return self._generate_mock_embeddings(sentences)
-        
-        try:
-            sentence_texts = [sentence[0] for sentence in sentences]
-            embeddings = self.embedding_model.encode(sentence_texts, convert_to_numpy=True)
-            self.logger.info(f"Generated embeddings for {len(sentences)} sentences")
-            return embeddings
-        except Exception as e:
-            self.logger.error(f"Failed to generate embeddings: {e}")
-            return self._generate_mock_embeddings(sentences)
-    
-    def _generate_mock_embeddings(self, sentences: List[Tuple[str, int, int]]) -> np.ndarray:
-        """
-        生成模拟嵌入（用于测试）
-        
-        Args:
-            sentences: 句子列表
-            
-        Returns:
-            模拟嵌入矩阵
-        """
-        import random
-        import hashlib
-        
-        embeddings = []
-        for sentence, _, _ in sentences:
-            # 基于句子内容生成一致的随机向量
-            seed = int(hashlib.md5(sentence.encode()).hexdigest()[:8], 16)
-            random.seed(seed)
-            
-            # 生成384维向量（模拟sentence-transformers）
-            embedding = [random.gauss(0, 1) for _ in range(384)]
-            # 归一化
-            norm = sum(x * x for x in embedding) ** 0.5
-            if norm > 0:
-                embedding = [x / norm for x in embedding]
-            
-            embeddings.append(embedding)
-        
-        return np.array(embeddings)
-    
-    async def _group_sentences_by_semantics(
-        self, 
-        sentences: List[Tuple[str, int, int]], 
-        embeddings: np.ndarray, 
-        similarity_threshold: float
-    ) -> List[List[int]]:
-        """
-        基于语义相似度对句子进行分组
-        
-        Args:
-            sentences: 句子列表
-            embeddings: 句子嵌入矩阵
-            similarity_threshold: 相似度阈值
-            
-        Returns:
-            句子分组，每组包含句子索引列表
-        """
-        if embeddings is None or len(embeddings) == 0:
-            # 回退到简单分组
-            return [[i] for i in range(len(sentences))]
-        
-        n_sentences = len(sentences)
-        groups = []
-        used = set()
-        
-        for i in range(n_sentences):
-            if i in used:
-                continue
-            
-            current_group = [i]
-            used.add(i)
-            
-            # 寻找与当前句子相似的后续句子
-            for j in range(i + 1, min(i + 10, n_sentences)):  # 限制搜索范围
-                if j in used:
-                    continue
-                
-                # 计算余弦相似度
-                similarity = self._cosine_similarity(embeddings[i], embeddings[j])
-                
-                if similarity >= similarity_threshold:
-                    current_group.append(j)
-                    used.add(j)
-            
-            groups.append(current_group)
-        
-        return groups
-    
-    def _cosine_similarity(self, vec1: np.ndarray, vec2: np.ndarray) -> float:
-        """计算余弦相似度"""
-        dot_product = np.dot(vec1, vec2)
-        norm1 = np.linalg.norm(vec1)
-        norm2 = np.linalg.norm(vec2)
-        
-        if norm1 == 0 or norm2 == 0:
-            return 0.0
-        
-        return dot_product / (norm1 * norm2)
-    
-    async def _optimize_groups(
-        self, 
-        groups: List[List[int]], 
-        min_chunk_size: int, 
-        max_chunk_size: int, 
-        merge_threshold: float
-    ) -> List[List[int]]:
-        """
-        优化分组：合并过短的组，拆分过长的组
-        
-        Args:
-            groups: 原始分组
-            min_chunk_size: 最小块大小
-            max_chunk_size: 最大块大小
-            merge_threshold: 合并阈值
-            
-        Returns:
-            优化后的分组
-        """
-        optimized_groups = []
-        
-        i = 0
-        while i < len(groups):
-            current_group = groups[i]
-            current_size = sum(len(self._get_sentence_by_index(j)[0]) for j in current_group)
-            
-            # 如果当前组太小，尝试与下一组合并
-            if current_size < min_chunk_size and i + 1 < len(groups):
-                next_group = groups[i + 1]
-                next_size = sum(len(self._get_sentence_by_index(j)[0]) for j in next_group)
-                
-                if current_size + next_size <= max_chunk_size:
-                    # 合并组
-                    merged_group = current_group + next_group
-                    optimized_groups.append(merged_group)
-                    i += 2  # 跳过下一组
-                    continue
-            
-            # 如果当前组太大，需要拆分
-            if current_size > max_chunk_size:
-                split_groups = self._split_large_group(current_group, max_chunk_size)
-                optimized_groups.extend(split_groups)
-            else:
-                optimized_groups.append(current_group)
-            
-            i += 1
-        
-        return optimized_groups
-    
-    def _split_large_group(self, group: List[int], max_chunk_size: int) -> List[List[int]]:
-        """拆分过大的组"""
-        split_groups = []
-        current_group = []
-        current_size = 0
-        
-        for sentence_idx in group:
-            sentence_text = self._get_sentence_by_index(sentence_idx)[0]
-            sentence_size = len(sentence_text)
-            
-            if current_size + sentence_size > max_chunk_size and current_group:
-                split_groups.append(current_group)
-                current_group = [sentence_idx]
-                current_size = sentence_size
-            else:
-                current_group.append(sentence_idx)
-                current_size += sentence_size
-        
-        if current_group:
-            split_groups.append(current_group)
-        
-        return split_groups
-    
-    def _get_sentence_by_index(self, index: int) -> Tuple[str, int, int]:
-        """
-        根据索引获取句子（需要在外部维护句子列表）
-        这是一个简化的实现，实际应该传递句子列表
-        """
-        # 这里是一个占位符实现
-        return ("", 0, 0)
-    
-    async def _create_chunks_from_groups(
-        self, 
-        groups: List[List[int]], 
-        original_text: str, 
-        document_metadata: Optional[Dict[str, Any]]
-    ) -> List[ChunkInfo]:
-        """
-        从句子分组创建文本块
-        
-        Args:
-            groups: 句子分组
-            original_text: 原始文本
+            text: 要切分的文本
             document_metadata: 文档元数据
             
         Returns:
-            文本块列表
+            (分块列表, 处理时间)
+        """
+        start_time = time.time()
+        
+        try:
+            # 预处理文本
+            processed_text = self._preprocess_text(text)
+            
+            # 检测语义边界
+            boundaries = await self._detect_semantic_boundaries(processed_text)
+            
+            # 基于边界创建分块
+            chunks = await self._create_chunks_from_boundaries(
+                processed_text, boundaries, document_metadata
+            )
+            
+            # 后处理优化
+            optimized_chunks = await self._optimize_chunks(chunks)
+            
+            processing_time = time.time() - start_time
+            
+            logger.info(
+                f"Semantic splitting completed: {len(optimized_chunks)} chunks, "
+                f"{processing_time:.3f}s"
+            )
+            
+            return optimized_chunks, processing_time
+            
+        except Exception as e:
+            processing_time = time.time() - start_time
+            logger.error(f"Semantic splitting failed: {e}")
+            raise
+    
+    def _preprocess_text(self, text: str) -> str:
+        """
+        预处理文本
+        
+        Args:
+            text: 原始文本
+            
+        Returns:
+            预处理后的文本
+        """
+        # 标准化换行符
+        text = re.sub(r'\r\n|\r', '\n', text)
+        
+        # 清理多余的空白字符
+        text = re.sub(r'[ \t]+', ' ', text)
+        
+        # 标准化段落分隔
+        text = re.sub(r'\n\s*\n\s*\n+', '\n\n', text)
+        
+        return text.strip()
+    
+    async def _detect_semantic_boundaries(self, text: str) -> List[int]:
+        """
+        检测语义边界
+        
+        Args:
+            text: 预处理后的文本
+            
+        Returns:
+            边界位置列表
+        """
+        boundaries = [0]  # 文档开始
+        
+        # 使用正则表达式检测各种语义边界
+        for pattern in self.semantic_boundaries:
+            matches = re.finditer(pattern, text, re.MULTILINE)
+            for match in matches:
+                pos = match.start()
+                if pos not in boundaries and pos > 0:
+                    boundaries.append(pos)
+        
+        # 检测句子边界
+        sentence_boundaries = await self._detect_sentence_boundaries(text)
+        boundaries.extend(sentence_boundaries)
+        
+        # 排序并去重
+        boundaries = sorted(list(set(boundaries)))
+        
+        # 添加文档结束
+        if boundaries[-1] != len(text):
+            boundaries.append(len(text))
+        
+        return boundaries
+    
+    async def _detect_sentence_boundaries(self, text: str) -> List[int]:
+        """
+        检测句子边界
+        
+        Args:
+            text: 文本
+            
+        Returns:
+            句子边界位置列表
+        """
+        boundaries = []
+        
+        # 中文句子结束标点
+        chinese_endings = r'[。！？；]'
+        # 英文句子结束标点
+        english_endings = r'[.!?;]'
+        
+        # 检测中文句子边界
+        for match in re.finditer(chinese_endings, text):
+            pos = match.end()
+            # 确保不是小数点或缩写
+            if pos < len(text) and (text[pos:pos+1].isspace() or text[pos:pos+1] in '\n\r'):
+                boundaries.append(pos)
+        
+        # 检测英文句子边界
+        for match in re.finditer(english_endings + r'\s+[A-Z]', text):
+            pos = match.start() + 1
+            boundaries.append(pos)
+        
+        return boundaries
+    
+    async def _create_chunks_from_boundaries(self, text: str, boundaries: List[int], 
+                                           document_metadata: Optional[Dict[str, Any]] = None) -> List[ChunkInfo]:
+        """
+        基于边界创建分块
+        
+        Args:
+            text: 文本
+            boundaries: 边界位置列表
+            document_metadata: 文档元数据
+            
+        Returns:
+            分块列表
         """
         chunks = []
+        chunk_index = 0
         
-        # 重新分割句子以获取正确的位置信息
-        sentences = self._split_into_sentences(original_text)
-        
-        for chunk_index, group in enumerate(groups):
-            if not group:
-                continue
+        i = 0
+        while i < len(boundaries) - 1:
+            chunk_start = boundaries[i]
+            chunk_end = boundaries[i + 1]
             
-            # 获取组内句子的内容和位置
-            group_sentences = [sentences[i] for i in group if i < len(sentences)]
+            # 尝试扩展分块到合适的大小
+            while (chunk_end - chunk_start < self.min_chunk_size and 
+                   i + 2 < len(boundaries)):
+                i += 1
+                chunk_end = boundaries[i + 1]
             
-            if not group_sentences:
-                continue
+            # 如果分块太大，尝试在中间找到合适的分割点
+            if chunk_end - chunk_start > self.max_chunk_size:
+                chunk_end = await self._find_optimal_split_point(
+                    text, chunk_start, chunk_start + self.max_chunk_size, boundaries
+                )
             
-            # 组合句子内容
-            chunk_content = " ".join(sentence[0] for sentence in group_sentences)
+            # 提取分块内容
+            chunk_content = text[chunk_start:chunk_end].strip()
             
-            # 计算整体位置
-            start_char = min(sentence[1] for sentence in group_sentences)
-            end_char = max(sentence[2] for sentence in group_sentences)
+            if chunk_content and len(chunk_content) >= 50:  # 最小内容长度
+                # 计算语义连贯性分数
+                coherence_score = await self._calculate_coherence_score(chunk_content)
+                
+                # 提取语义信息
+                semantic_info = await self._extract_semantic_info(chunk_content)
+                
+                chunk = ChunkInfo(
+                    id=str(uuid.uuid4()),
+                    content=chunk_content,
+                    start_char=chunk_start,
+                    end_char=chunk_end,
+                    chunk_index=chunk_index,
+                    metadata={
+                        'splitter_type': 'semantic_based',
+                        'coherence_score': coherence_score,
+                        'semantic_boundaries_count': len([b for b in boundaries if chunk_start <= b <= chunk_end]),
+                        **(document_metadata or {})
+                    },
+                    semantic_info=semantic_info
+                )
+                
+                chunks.append(chunk)
+                chunk_index += 1
             
-            # 创建语义信息
-            semantic_info = {
-                'sentence_count': len(group_sentences),
-                'semantic_coherence_score': 0.8,  # 模拟分数
-                'sentence_indices': group,
-                'avg_sentence_length': len(chunk_content) / len(group_sentences) if group_sentences else 0
-            }
-            
-            # 创建文本块
-            chunk = self.create_chunk_info(
-                content=chunk_content,
-                start_char=start_char,
-                end_char=end_char,
-                chunk_index=chunk_index,
-                metadata={
-                    'splitter_type': 'semantic_based',
-                    'similarity_threshold': self.config.get('similarity_threshold'),
-                    'language': self.language,
-                    'embedding_model': self.model_name,
-                    **(document_metadata or {})
-                },
-                semantic_info=semantic_info
-            )
-            chunks.append(chunk)
+            i += 1
         
         return chunks
     
-    def validate_config(self) -> bool:
-        """验证配置有效性"""
-        required_fields = ['min_chunk_size', 'max_chunk_size', 'similarity_threshold']
+    async def _find_optimal_split_point(self, text: str, start: int, max_end: int, 
+                                      boundaries: List[int]) -> int:
+        """
+        在指定范围内找到最优分割点
         
-        for field in required_fields:
-            if field not in self.config:
-                self.logger.error(f"Missing required config field: {field}")
-                return False
+        Args:
+            text: 文本
+            start: 开始位置
+            max_end: 最大结束位置
+            boundaries: 边界列表
+            
+        Returns:
+            最优分割点位置
+        """
+        # 在范围内查找边界点
+        valid_boundaries = [b for b in boundaries if start < b <= max_end]
         
-        min_size = self.config.get('min_chunk_size', 0)
-        max_size = self.config.get('max_chunk_size', 0)
-        threshold = self.config.get('similarity_threshold', 0)
+        if not valid_boundaries:
+            return max_end
         
-        if min_size <= 0 or max_size <= 0:
-            self.logger.error("Chunk sizes must be positive")
-            return False
+        # 选择最接近目标大小的边界点
+        target_size = (self.min_chunk_size + self.max_chunk_size) // 2
+        target_pos = start + target_size
         
-        if min_size >= max_size:
-            self.logger.error("min_chunk_size must be less than max_chunk_size")
-            return False
-        
-        if not (0.0 <= threshold <= 1.0):
-            self.logger.error("similarity_threshold must be between 0.0 and 1.0")
-            return False
-        
-        return True
+        best_boundary = min(valid_boundaries, key=lambda b: abs(b - target_pos))
+        return best_boundary
     
-    def _get_config_summary(self) -> Dict[str, Any]:
-        """获取配置摘要"""
+    async def _calculate_coherence_score(self, text: str) -> float:
+        """
+        计算文本的语义连贯性分数
+        
+        Args:
+            text: 文本内容
+            
+        Returns:
+            连贯性分数 (0-1)
+        """
+        try:
+            # 简化的连贯性评估
+            score = 0.7  # 基础分数
+            
+            # 检查句子数量
+            sentences = re.split(r'[。！？.!?]', text)
+            sentence_count = len([s for s in sentences if s.strip()])
+            
+            if sentence_count >= 2:
+                score += 0.1
+            
+            # 检查段落结构
+            paragraphs = text.split('\n\n')
+            if len(paragraphs) > 1:
+                score += 0.1
+            
+            # 检查关键词重复（简单的主题一致性）
+            words = re.findall(r'\b\w+\b', text.lower())
+            if len(words) > 10:
+                word_freq = {}
+                for word in words:
+                    if len(word) > 3:  # 忽略短词
+                        word_freq[word] = word_freq.get(word, 0) + 1
+                
+                # 如果有重复的关键词，增加连贯性分数
+                repeated_words = [w for w, c in word_freq.items() if c > 1]
+                if repeated_words:
+                    score += min(0.1, len(repeated_words) * 0.02)
+            
+            return min(1.0, score)
+            
+        except Exception as e:
+            logger.warning(f"Failed to calculate coherence score: {e}")
+            return 0.7
+    
+    async def _extract_semantic_info(self, text: str) -> Dict[str, Any]:
+        """
+        提取语义信息
+        
+        Args:
+            text: 文本内容
+            
+        Returns:
+            语义信息字典
+        """
+        try:
+            # 句子统计
+            sentences = re.split(r'[。！？.!?]', text)
+            sentence_count = len([s for s in sentences if s.strip()])
+            
+            # 段落统计
+            paragraphs = text.split('\n\n')
+            paragraph_count = len([p for p in paragraphs if p.strip()])
+            
+            # 检测内容类型
+            content_type = self._detect_content_type(text)
+            
+            # 提取关键词（简化版）
+            keywords = self._extract_keywords(text)
+            
+            return {
+                'sentence_count': sentence_count,
+                'paragraph_count': paragraph_count,
+                'content_type': content_type,
+                'keywords': keywords[:10],  # 最多10个关键词
+                'avg_sentence_length': len(text) / max(sentence_count, 1),
+                'has_structure': paragraph_count > 1 or any(marker in text for marker in ['#', '1.', '一、'])
+            }
+            
+        except Exception as e:
+            logger.warning(f"Failed to extract semantic info: {e}")
+            return {}
+    
+    def _detect_content_type(self, text: str) -> str:
+        """检测内容类型"""
+        if re.search(r'```|def |class |import ', text):
+            return 'code'
+        elif re.search(r'#+\s+|\*\*|__', text):
+            return 'markdown'
+        elif re.search(r'第[一二三四五六七八九十\d]+章|第[一二三四五六七八九十\d]+节', text):
+            return 'structured_document'
+        elif re.search(r'\d+\.\s+|\([一二三四五六七八九十\d]+\)', text):
+            return 'list'
+        else:
+            return 'plain_text'
+    
+    def _extract_keywords(self, text: str) -> List[str]:
+        """提取关键词（简化版）"""
+        try:
+            # 移除标点符号，提取词汇
+            words = re.findall(r'\b\w+\b', text.lower())
+            
+            # 过滤短词和常见停用词
+            stop_words = {'的', '了', '在', '是', '我', '有', '和', '就', '不', '人', '都', '一', '一个', 
+                         'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with'}
+            
+            filtered_words = [w for w in words if len(w) > 2 and w not in stop_words]
+            
+            # 统计词频
+            word_freq = {}
+            for word in filtered_words:
+                word_freq[word] = word_freq.get(word, 0) + 1
+            
+            # 按频率排序，返回前10个
+            keywords = sorted(word_freq.items(), key=lambda x: x[1], reverse=True)
+            return [word for word, freq in keywords[:10]]
+            
+        except Exception:
+            return []
+    
+    async def _optimize_chunks(self, chunks: List[ChunkInfo]) -> List[ChunkInfo]:
+        """
+        优化分块结果
+        
+        Args:
+            chunks: 原始分块列表
+            
+        Returns:
+            优化后的分块列表
+        """
+        if not chunks:
+            return chunks
+        
+        optimized_chunks = []
+        
+        for i, chunk in enumerate(chunks):
+            # 检查分块质量
+            if chunk.metadata.get('coherence_score', 0) < self.coherence_threshold:
+                # 尝试与相邻分块合并
+                if i > 0 and len(optimized_chunks) > 0:
+                    prev_chunk = optimized_chunks[-1]
+                    combined_length = len(prev_chunk.content) + len(chunk.content)
+                    
+                    if combined_length <= self.max_chunk_size:
+                        # 合并分块
+                        merged_chunk = await self._merge_chunks(prev_chunk, chunk)
+                        optimized_chunks[-1] = merged_chunk
+                        continue
+            
+            optimized_chunks.append(chunk)
+        
+        return optimized_chunks
+    
+    async def _merge_chunks(self, chunk1: ChunkInfo, chunk2: ChunkInfo) -> ChunkInfo:
+        """
+        合并两个分块
+        
+        Args:
+            chunk1: 第一个分块
+            chunk2: 第二个分块
+            
+        Returns:
+            合并后的分块
+        """
+        merged_content = chunk1.content + "\n\n" + chunk2.content
+        
+        # 重新计算语义信息
+        coherence_score = await self._calculate_coherence_score(merged_content)
+        semantic_info = await self._extract_semantic_info(merged_content)
+        
+        return ChunkInfo(
+            id=str(uuid.uuid4()),
+            content=merged_content,
+            start_char=chunk1.start_char,
+            end_char=chunk2.end_char,
+            chunk_index=chunk1.chunk_index,
+            metadata={
+                **chunk1.metadata,
+                'coherence_score': coherence_score,
+                'merged_from': [chunk1.id, chunk2.id]
+            },
+            semantic_info=semantic_info
+        )
+    
+    def get_statistics(self, chunks: List[ChunkInfo]) -> Dict[str, Any]:
+        """获取切分统计信息"""
+        if not chunks:
+            return {"total_chunks": 0, "avg_chunk_length": 0}
+        
+        chunk_lengths = [len(chunk.content) for chunk in chunks]
+        coherence_scores = [
+            chunk.metadata.get('coherence_score', 0.7) 
+            for chunk in chunks
+        ]
+        
         return {
-            'splitter_type': 'semantic_based',
-            'min_chunk_size': self.config.get('min_chunk_size'),
-            'max_chunk_size': self.config.get('max_chunk_size'),
-            'similarity_threshold': self.config.get('similarity_threshold'),
-            'embedding_model': self.model_name,
-            'language': self.language,
-            'model_available': self.embedding_model is not None
-        } 
+            "total_chunks": len(chunks),
+            "avg_chunk_length": sum(chunk_lengths) / len(chunk_lengths),
+            "min_chunk_length": min(chunk_lengths),
+            "max_chunk_length": max(chunk_lengths),
+            "avg_coherence_score": sum(coherence_scores) / len(coherence_scores),
+            "high_coherence_chunks": len([s for s in coherence_scores if s >= 0.8]),
+            "splitter_type": "semantic_based",
+            "total_characters": sum(chunk_lengths)
+        }

@@ -1,0 +1,34 @@
+name: siliconflow_principal_llm
+type: llm_config
+description_for_human: "硅基流动 Principal Agent LLM配置 - 项目主管智能体"
+
+# Principal Agent专用配置 - 使用最强模型
+config:
+  api_key:
+    _type: "from_env"
+    var: "DEFAULT_API_KEY" 
+    required: true
+  api_base:
+    _type: "from_env"
+    var: "DEFAULT_BASE_URL"
+    required: true
+  model: "openai/Qwen/Qwen3-235B-A22B"
+  max_tokens: 8192
+  temperature: 0.6
+  top_p: 0.9
+  stream: true
+  max_retries: 3
+  wait_seconds_on_retry: 3
+  
+# Principal特殊配置
+principal_specific:
+  # Principal需要最强的规划和分解能力
+  reasoning_depth: "deep_planning"
+  # 支持更大的上下文窗口
+  context_window: 8192
+  # 启用并行任务调度
+  enable_parallel_execution: true
+  # 启用工具调用
+  enable_function_calling: true
+  # 更高的输出质量要求
+  quality_threshold: "high"

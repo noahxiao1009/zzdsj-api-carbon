@@ -67,6 +67,15 @@ SUPPORTED_PROVIDERS = {
                 "capabilities": ["text_generation", "image_understanding"]
             },
             {
+                "model_id": "glm-3-turbo",
+                "name": "GLM-3-Turbo",
+                "model_type": "chat",
+                "description": "GLM-3 Turbo高性能对话模型",
+                "context_length": 32768,
+                "pricing": {"input": 0.005, "output": 0.005},
+                "capabilities": ["text_generation"]
+            },
+            {
                 "model_id": "embedding-2",
                 "name": "Embedding-2",
                 "model_type": "embedding",
@@ -102,6 +111,80 @@ SUPPORTED_PROVIDERS = {
                 "context_length": 8192,
                 "pricing": {"input": 0.012, "output": 0.012},
                 "capabilities": ["text_generation"]
+            },
+            {
+                "model_id": "ernie-bot-turbo",
+                "name": "ERNIE-Bot-Turbo",
+                "model_type": "chat",
+                "description": "文心一言Turbo版本",
+                "context_length": 11200,
+                "pricing": {"input": 0.008, "output": 0.008},
+                "capabilities": ["text_generation"]
+            }
+        ]
+    },
+    "alibaba": {
+        "name": "阿里通义",
+        "provider_type": "alibaba",
+        "display_name": "阿里通义",
+        "description": "阿里巴巴人工智能实验室开发的大语言模型，具有强大的中文理解能力。",
+        "api_base": "https://dashscope.aliyuncs.com/api/v1",
+        "logo": "/alibaba-logo.png",
+        "models": [
+            {
+                "model_id": "qwen-turbo",
+                "name": "通义千问-Turbo",
+                "model_type": "chat",
+                "description": "阿里巴巴的高性能对话模型",
+                "context_length": 8192,
+                "pricing": {"input": 0.008, "output": 0.008},
+                "capabilities": ["text_generation", "function_calling"]
+            },
+            {
+                "model_id": "qwen-plus",
+                "name": "通义千问-Plus",
+                "model_type": "chat",
+                "description": "阿里巴巴的旗舰大语言模型",
+                "context_length": 32768,
+                "pricing": {"input": 0.02, "output": 0.02},
+                "capabilities": ["text_generation", "function_calling"]
+            },
+            {
+                "model_id": "text-embedding-v1",
+                "name": "通义Embedding",
+                "model_type": "embedding",
+                "description": "阿里巴巴的文本嵌入模型",
+                "context_length": 2048,
+                "pricing": {"input": 0.0007, "output": 0},
+                "capabilities": ["text_embedding"]
+            }
+        ]
+    },
+    "tencent": {
+        "name": "腾讯混元",
+        "provider_type": "tencent",
+        "display_name": "腾讯混元",
+        "description": "腾讯开发的大语言模型，擅长中文创作和多轮对话。",
+        "api_base": "https://hunyuan.tencentcloudapi.com",
+        "logo": "/tencent-logo.png",
+        "models": [
+            {
+                "model_id": "hunyuan-lite",
+                "name": "混元-Lite",
+                "model_type": "chat",
+                "description": "腾讯混元轻量版模型",
+                "context_length": 4096,
+                "pricing": {"input": 0.0045, "output": 0.0045},
+                "capabilities": ["text_generation"]
+            },
+            {
+                "model_id": "hunyuan-standard",
+                "name": "混元-Standard",
+                "model_type": "chat",
+                "description": "腾讯混元标准版模型",
+                "context_length": 32768,
+                "pricing": {"input": 0.0045, "output": 0.0045},
+                "capabilities": ["text_generation", "function_calling"]
             }
         ]
     },
@@ -123,6 +206,91 @@ SUPPORTED_PROVIDERS = {
                 "capabilities": ["text_generation"]
             }
         ]
+    },
+    "moonshot": {
+        "name": "月之暗面",
+        "provider_type": "moonshot",
+        "display_name": "月之暗面",
+        "description": "月之暗面开发的Kimi大模型，支持超长上下文理解。",
+        "api_base": "https://api.moonshot.cn/v1",
+        "logo": "/moonshot-logo.png",
+        "models": [
+            {
+                "model_id": "moonshot-v1-8k",
+                "name": "Moonshot-v1-8k",
+                "model_type": "chat",
+                "description": "月之暗面8K上下文模型",
+                "context_length": 8192,
+                "pricing": {"input": 0.012, "output": 0.012},
+                "capabilities": ["text_generation"]
+            },
+            {
+                "model_id": "moonshot-v1-32k",
+                "name": "Moonshot-v1-32k",
+                "model_type": "chat",
+                "description": "月之暗面32K上下文模型",
+                "context_length": 32768,
+                "pricing": {"input": 0.024, "output": 0.024},
+                "capabilities": ["text_generation"]
+            },
+            {
+                "model_id": "moonshot-v1-128k",
+                "name": "Moonshot-v1-128k",
+                "model_type": "chat",
+                "description": "月之暗面128K超长上下文模型",
+                "context_length": 131072,
+                "pricing": {"input": 0.06, "output": 0.06},
+                "capabilities": ["text_generation"]
+            }
+        ]
+    },
+    "deepseek": {
+        "name": "深度求索",
+        "provider_type": "deepseek",
+        "display_name": "深度求索",
+        "description": "深度求索开发的DeepSeek系列模型，在代码生成和推理方面表现优异。",
+        "api_base": "https://api.deepseek.com/v1",
+        "logo": "/deepseek-logo.png",
+        "models": [
+            {
+                "model_id": "deepseek-chat",
+                "name": "DeepSeek-Chat",
+                "model_type": "chat",
+                "description": "深度求索对话模型",
+                "context_length": 32768,
+                "pricing": {"input": 0.0014, "output": 0.002},
+                "capabilities": ["text_generation", "function_calling"]
+            },
+            {
+                "model_id": "deepseek-coder",
+                "name": "DeepSeek-Coder",
+                "model_type": "code",
+                "description": "深度求索代码生成模型",
+                "context_length": 16384,
+                "pricing": {"input": 0.0014, "output": 0.002},
+                "capabilities": ["code_generation", "text_generation"]
+            }
+        ]
+    },
+    "ollama": {
+        "name": "Ollama本地",
+        "provider_type": "ollama",
+        "display_name": "Ollama本地",
+        "description": "本地部署的Ollama模型服务，支持多种开源大语言模型。",
+        "api_base": "http://localhost:11434",
+        "logo": "/ollama-logo.png",
+        "is_local": True,
+        "models": []  # 动态获取
+    },
+    "vllm": {
+        "name": "vLLM本地",
+        "provider_type": "vllm",
+        "display_name": "vLLM本地",
+        "description": "本地部署的vLLM推理服务，高性能大语言模型推理引擎。",
+        "api_base": "http://localhost:8000",
+        "logo": "/vllm-logo.png",
+        "is_local": True,
+        "models": []  # 动态获取
     }
 }
 

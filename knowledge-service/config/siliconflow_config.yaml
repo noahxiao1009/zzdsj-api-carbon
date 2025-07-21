@@ -1,0 +1,84 @@
+# Knowledge Service - 硅基流动模型配置
+# LlamaIndex知识库服务模型配置
+
+# 基础API配置
+api_config:
+  base_url: "https://api.siliconflow.cn/v1"
+  api_key: "sk-jipjycienusxsfdptoweqvagdillzrumjjtcblfjfsrdhqxk"
+  timeout: 60
+  max_retries: 3
+
+# LLM配置 - 用于生成和问答
+llm_config:
+  provider: "openai"
+  model: "Qwen/Qwen3-32B"
+  api_base: "https://api.siliconflow.cn/v1"
+  api_key: "sk-jipjycienusxsfdptoweqvagdillzrumjjtcblfjfsrdhqxk"
+  max_tokens: 8192
+  temperature: 0.7
+  stream: true
+
+# 嵌入模型配置
+embedding_config:
+  provider: "openai"
+  model: "Qwen/Qwen3-Embedding-8B"
+  api_base: "https://api.siliconflow.cn/v1"
+  api_key: "sk-jipjycienusxsfdptoweqvagdillzrumjjtcblfjfsrdhqxk"
+  dimension: 8192
+  batch_size: 100
+  max_input_length: 2048
+
+# 重排序模型配置
+rerank_config:
+  provider: "custom"
+  model: "Qwen/Qwen3-Reranker-8B"
+  api_base: "https://api.siliconflow.cn/v1"
+  api_key: "sk-jipjycienusxsfdptoweqvagdillzrumjjtcblfjfsrdhqxk"
+  endpoint: "/rerank"
+  max_documents: 100
+  max_query_length: 512
+
+# LlamaIndex配置
+llamaindex_config:
+  # 服务上下文配置
+  service_context:
+    llm_provider: "openai"
+    llm_model: "Qwen/Qwen3-32B"
+    embed_model_provider: "openai"
+    embed_model: "Qwen/Qwen3-Embedding-8B"
+    
+  # 检索配置
+  retrieval_config:
+    similarity_top_k: 5
+    rerank_top_n: 3
+    enable_reranking: true
+    
+  # 切分配置
+  chunking_config:
+    chunk_size: 1024
+    chunk_overlap: 128
+    semantic_chunking: true
+    
+# Agno集成配置
+agno_integration:
+  enable_agno_retrieval: true
+  agno_model: "Qwen/Qwen3-32B"
+  return_kb_id: true
+  return_kb_address: true
+
+# 检索模式配置
+retrieval_modes:
+  llamaindex:
+    model: "Qwen/Qwen3-32B"
+    embedding_model: "Qwen/Qwen3-Embedding-8B"
+    rerank_model: "Qwen/Qwen3-Reranker-8B"
+    
+  agno:
+    model: "Qwen/Qwen3-32B"
+    search_knowledge: true
+    
+  hybrid:
+    primary_model: "Qwen/Qwen3-32B"
+    embedding_model: "Qwen/Qwen3-Embedding-8B"
+    rerank_model: "Qwen/Qwen3-Reranker-8B"
+    combine_results: true

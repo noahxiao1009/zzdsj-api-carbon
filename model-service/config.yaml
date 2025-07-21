@@ -1,0 +1,162 @@
+# 模型服务配置文件
+service:
+  name: "model-service"
+  version: "1.0.0"
+  port: 8003
+  host: "0.0.0.0"
+  debug: false
+  
+# 日志配置
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/model-service.log"
+  max_size: "10MB"
+  backup_count: 5
+
+# 数据库配置
+database:
+  url: "postgresql://user:password@localhost:5432/model_service"
+  pool_size: 10
+  max_overflow: 20
+  echo: false
+
+# Redis配置
+redis:
+  url: "redis://localhost:6379/0"
+  max_connections: 10
+  decode_responses: true
+
+# 模型提供商配置
+providers:
+  default_timeout: 30
+  max_retries: 3
+  retry_delay: 1.0
+  
+  # 智谱AI配置
+  zhipu:
+    api_base: "https://open.bigmodel.cn/api/paas/v4"
+    timeout: 30
+    max_retries: 3
+  
+  # 百度文心配置
+  baidu:
+    api_base: "https://aip.baidubce.com"
+    timeout: 30
+    max_retries: 3
+  
+  # 阿里通义配置
+  alibaba:
+    api_base: "https://dashscope.aliyuncs.com/api/v1"
+    timeout: 30
+    max_retries: 3
+  
+  # 本地模型配置
+  ollama:
+    api_base: "http://localhost:11434"
+    timeout: 60
+    max_retries: 2
+  
+  vllm:
+    api_base: "http://localhost:8000"
+    timeout: 60
+    max_retries: 2
+
+# 模型配置
+models:
+  cache_ttl: 3600  # 模型信息缓存时间(秒)
+  test_timeout: 10  # 模型测试超时时间(秒)
+  max_tokens_limit: 32768  # 最大token限制
+  
+  # 默认配置参数
+  default_chat_config:
+    temperature: 0.7
+    max_tokens: 4000
+    top_p: 0.9
+    frequency_penalty: 0.0
+    presence_penalty: 0.0
+  
+  default_embedding_config:
+    batch_size: 100
+    normalize: true
+    truncate: true
+
+# 使用监控配置
+monitoring:
+  enabled: true
+  max_records: 100000  # 最大记录数
+  cleanup_interval: 3600  # 清理间隔(秒)
+  stats_flush_interval: 300  # 统计刷新间隔(秒)
+  
+  # 指标保留时间
+  retention:
+    realtime: 3600  # 实时指标保留1小时
+    hourly: 86400   # 小时指标保留1天
+    daily: 2592000  # 日指标保留30天
+
+# 安全配置
+security:
+  api_key_header: "X-API-Key"
+  rate_limit:
+    enabled: true
+    requests_per_minute: 100
+    burst_size: 20
+  
+  # CORS配置
+  cors:
+    allow_origins: ["*"]
+    allow_methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    allow_headers: ["*"]
+    allow_credentials: true
+
+# 服务集成配置
+integration:
+  # 网关服务
+  gateway:
+    url: "http://localhost:8080"
+    register_on_startup: true
+    health_check_interval: 30
+  
+  # 基础服务
+  base_service:
+    url: "http://localhost:8085"
+    timeout: 10
+  
+  # 数据库服务
+  database_service:
+    url: "http://localhost:8090"
+    timeout: 15
+
+# 性能配置
+performance:
+  # 并发配置
+  max_concurrent_requests: 100
+  request_timeout: 30
+  
+  # 连接池配置
+  http_pool_size: 100
+  http_pool_maxsize: 200
+  
+  # 缓存配置
+  cache:
+    enabled: true
+    default_ttl: 3600
+    max_size: 10000
+
+# 功能开关
+features:
+  enable_streaming: true
+  enable_batch_requests: true
+  enable_user_configs: true
+  enable_usage_tracking: true
+  enable_model_testing: true
+  enable_auto_retry: true
+  enable_circuit_breaker: true
+
+# 开发配置
+development:
+  auto_reload: true
+  debug_mode: false
+  mock_external_apis: false
+  log_requests: true
+  log_responses: false

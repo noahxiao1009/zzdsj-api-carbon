@@ -1,0 +1,95 @@
+# Knowledge Graph Service - 硅基流动模型配置
+# 知识图谱服务模型配置
+
+# 基础API配置
+api_config:
+  base_url: "https://api.siliconflow.cn/v1"
+  api_key: "sk-jipjycienusxsfdptoweqvagdillzrumjjtcblfjfsrdhqxk"
+  timeout: 120  # 图谱生成需要更长时间
+  max_retries: 3
+
+# 图谱生成模型配置
+graph_generation:
+  # 实体识别模型
+  entity_extraction:
+    model: "Qwen/Qwen3-32B"
+    max_tokens: 8192
+    temperature: 0.3  # 较低温度确保准确性
+    description: "用于实体识别和提取"
+    
+  # 关系抽取模型
+  relation_extraction:
+    model: "Qwen/Qwen3-235B-A22B"
+    max_tokens: 8192
+    temperature: 0.2  # 更低温度确保关系准确性
+    description: "用于实体关系抽取"
+    
+  # 图谱优化模型
+  graph_optimization:
+    model: "Qwen/Qwen3-235B-A22B"
+    max_tokens: 4096
+    temperature: 0.1  # 最低温度确保结构化输出
+    description: "用于图谱结构优化"
+
+# 文档处理配置
+document_processing:
+  # 文档分析模型
+  analysis_model: "Qwen/Qwen3-32B"
+  # 摘要生成模型
+  summary_model: "moonshotai/Kimi-K2-Instruct"
+  # 关键词提取模型
+  keyword_model: "Qwen/Qwen3-32B"
+
+# 图谱查询配置
+graph_query:
+  # 自然语言查询理解
+  query_understanding:
+    model: "Qwen/Qwen3-32B"
+    max_tokens: 2048
+    temperature: 0.5
+    
+  # 查询结果生成
+  result_generation:
+    model: "Qwen/Qwen3-32B"
+    max_tokens: 4096
+    temperature: 0.6
+
+# 可视化配置
+visualization:
+  # 布局算法选择
+  layout_suggestion:
+    model: "moonshotai/Kimi-K2-Instruct"
+    max_tokens: 1024
+    temperature: 0.4
+    
+  # 节点描述生成
+  node_description:
+    model: "Qwen/Qwen3-32B"
+    max_tokens: 512
+    temperature: 0.5
+
+# AI知识图谱框架配置
+ai_knowledge_graph:
+  # 原始实现兼容配置
+  processor_model: "Qwen/Qwen3-235B-A22B"
+  entity_model: "Qwen/Qwen3-32B"
+  relation_model: "Qwen/Qwen3-235B-A22B"
+  
+  # 批处理配置
+  batch_size: 10
+  parallel_processing: true
+  max_workers: 3
+
+# 项目管理配置
+project_management:
+  # 项目分析模型
+  project_analysis:
+    model: "Qwen/Qwen3-32B"
+    max_tokens: 4096
+    temperature: 0.4
+    
+  # 任务分解模型
+  task_decomposition:
+    model: "Qwen/Qwen3-235B-A22B"
+    max_tokens: 8192
+    temperature: 0.3

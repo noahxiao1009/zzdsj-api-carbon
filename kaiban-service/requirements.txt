@@ -1,0 +1,146 @@
+# Kaiban Service - Python依赖包
+
+# Web框架
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+pydantic-settings==2.0.3
+
+# 异步支持
+asyncio-mqtt==0.16.1
+aiofiles==23.2.1
+httpx==0.25.2
+redis==5.0.1
+
+# 数据库
+sqlalchemy==2.0.23
+alembic==1.12.1
+asyncpg==0.29.0
+psycopg2-binary==2.9.9
+
+# 缓存和状态管理
+redis==5.0.1
+pydantic-redis==0.11.0
+
+# 序列化和验证
+jsonschema==4.19.2
+marshmallow==3.20.1
+orjson==3.9.10
+
+# 日志和监控
+structlog==23.2.0
+loguru==0.7.2
+prometheus-client==0.19.0
+
+# 安全和认证
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# 工具库
+python-dotenv==1.0.0
+PyYAML==6.0.1
+click==8.1.7
+rich==13.7.0
+typer==0.9.0
+
+# HTTP客户端
+requests==2.31.0
+urllib3==2.1.0
+
+# 任务队列和调度
+celery==5.3.4
+kombu==5.3.4
+billiard==4.2.0
+
+# 时间处理
+python-dateutil==2.8.2
+pendulum==2.1.2
+
+# UUID和加密
+uuid7==0.1.0
+cryptography==41.0.8
+
+# 开发工具
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-mock==3.12.0
+black==23.11.0
+isort==5.12.0
+flake8==6.1.0
+mypy==1.7.1
+
+# 文档生成
+mkdocs==1.5.3
+mkdocs-material==9.4.8
+
+# Docker和部署
+docker==6.1.3
+kubernetes==28.1.0
+
+# 性能监控
+memory-profiler==0.61.0
+psutil==5.9.6
+
+# 数据验证和转换
+cerberus==1.3.5
+schema==0.7.5
+
+# 配置管理
+dynaconf==3.2.4
+configparser==6.0.0
+
+# 测试数据生成
+faker==20.1.0
+factory-boy==3.3.0
+
+# WebSocket支持
+websockets==12.0
+python-socketio==5.10.0
+
+# 流处理
+streamz==0.6.4
+
+# 国际化支持
+babel==2.13.1
+
+# 邮件发送
+aiosmtplib==3.0.1
+jinja2==3.1.2
+
+# 图片处理
+Pillow==10.1.0
+
+# 文件处理
+python-magic==0.4.27
+mimetypes==1.0.0
+
+# 网络工具
+ping3==4.0.4
+netifaces==0.11.0
+
+# 系统监控
+py-cpuinfo==9.0.0
+
+# 编码检测
+chardet==5.2.0
+
+# 时区处理
+pytz==2023.3.post1
+
+# 正则表达式增强
+regex==2023.10.3
+
+# JSON操作增强
+jsonpath-ng==1.6.0
+
+# 模板引擎
+jinja2==3.1.2
+markupsafe==2.1.3
+
+# 数据分析（可选）
+pandas==2.1.3
+numpy==1.25.2
+
+# 队列系统
+rq==1.15.1 

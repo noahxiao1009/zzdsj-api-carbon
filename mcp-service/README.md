@@ -1,114 +1,91 @@
-# MCP Service
+# MCP微服务 (MCP Microservice)
 
-统一管理系统定义的MCP服务，使用Docker部署，并指定固定网段，向网关层进行服务注册，提供给全局调用。
+基于FastMCP 2.0框架的模型上下文协议(Model Context Protocol)微服务实现，支持Docker容器化部署、VLAN网络隔离、SSE流式通信、服务注册发现等功能。
 
-## 功能特性
+## 🚀 功能特性
 
-- **服务管理**: 创建、配置、部署、监控MCP服务
-- **工具管理**: 注册和管理MCP工具，支持动态加载
-- **健康监控**: 实时健康检查和性能指标监控
-- **容器化部署**: 基于Docker的自动化部署和管理
-- **日志管理**: 完整的日志记录和查询功能
-- **网关集成**: 与网关服务的无缝集成和服务注册
-- **安全保障**: 完善的认证授权和访问控制
+### 核心功能
+- **MCP服务管理**: 创建、部署、启动、停止、删除MCP服务
+- **Docker容器化**: 自动化的容器部署和管理
+- **VLAN网络隔离**: 基于VLAN的网络隔离和安全策略
+- **SSE流式通信**: 实时的服务器发送事件(Server-Sent Events)
+- **服务注册发现**: 统一的服务注册和发现机制
+- **健康检查**: 自动化的服务健康监控
+- **工具管理**: MCP工具的启用、禁用和配置管理
+
+### 架构特点
+- **微服务架构**: 完全独立的微服务设计
+- **异步处理**: 基于asyncio的异步编程模型
+- **高可用性**: 支持服务重启、故障恢复
+- **可扩展性**: 支持动态添加新的MCP服务
+- **监控统计**: 完整的使用统计和性能监控
 
 ## 技术架构
 
-### 核心技术栈
+## 📋 系统要求
 
-- **Web框架**: FastAPI + Uvicorn
-- **MCP框架**: FastMCP V2
-- **数据库**: PostgreSQL + SQLAlchemy
-- **缓存**: Redis
-- **容器化**: Docker + Docker Compose
-- **服务发现**: Nacos
-- **消息队列**: RabbitMQ
+- **Python**: 3.11+
+- **Docker**: 20.10+
+- **Docker Compose**: 2.0+
+- **PostgreSQL**: 15+
+- **Redis**: 7+
 
-### 系统架构
+## 🛠️ 快速开始
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Gateway       │    │   MCP Service   │    │   MCP Tools     │
-│   Service       │◄──►│   Manager       │◄──►│   Container     │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Nacos         │    │   PostgreSQL    │    │   Docker        │
-│   Registry      │    │   Database      │    │   Network       │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
+### 1. 环境准备
 
-## 快速开始
-
-### 环境要求
-
-- Python 3.11+
-- Docker 20.0+
-- PostgreSQL 13+
-- Redis 6.0+
-- Docker Compose 2.0+
-
-### 安装部署
-
-1. **克隆项目**
 ```bash
+# 克隆项目
 git clone <repository-url>
-cd mcp-service
-```
+cd zzdsl-api-carbon/mcp-service
 
-2. **配置环境**
-```bash
-# 复制配置文件
-cp config.example.yaml config.yaml
+# 创建Python虚拟环境
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# 或
+venv\Scripts\activate  # Windows
 
-# 编辑配置文件
-vim config.yaml
-```
-
-3. **安装依赖**
-```bash
+# 安装依赖
 pip install -r requirements.txt
 ```
 
-4. **数据库初始化**
+### 2. 使用Docker Compose部署
+
 ```bash
-# 创建数据库
-createdb mcp_service_db
-
-# 运行数据库迁移
-alembic upgrade head
-```
-
-5. **启动服务**
-```bash
-# 开发模式
-python app/main.py
-
-# 生产模式
-uvicorn app.main:app --host 0.0.0.0 --port 8008
-```
-
-### Docker部署
-
-1. **构建镜像**
-```bash
-docker build -t mcp-service:latest .
-```
-
-2. **运行容器**
-```bash
-docker run -d \
-  --name mcp-service \
-  -p 8008:8008 \
-  -v $(pwd)/config.yaml:/app/config.yaml \
-  -v $(pwd)/logs:/app/logs \
-  mcp-service:latest
-```
-
-3. **Docker Compose部署**
-```bash
+# 构建并启动所有服务
 docker-compose up -d
+
+# 查看服务状态
+docker-compose ps
+
+# 查看日志
+docker-compose logs -f mcp-service
+
+# 停止服务
+docker-compose down
+```
+
+### 3. 开发模式启动
+
+```bash
+# 确保Redis和PostgreSQL正在运行
+docker-compose up -d redis postgres
+
+# 启动MCP服务
+python main.py
+```
+
+### 4. 验证部署
+
+```bash
+# 健康检查
+curl http://localhost:8089/health
+
+# 服务信息
+curl http://localhost:8089/info
+
+# API文档
+open http://localhost:8089/docs
 ```
 
 ## API文档

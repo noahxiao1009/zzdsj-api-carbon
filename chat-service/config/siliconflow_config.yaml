@@ -1,0 +1,77 @@
+# Chat Service - 硅基流动模型配置
+# 基于Agno框架的聊天服务模型配置
+
+# 基础API配置
+api_config:
+  base_url: "https://api.siliconflow.cn/v1"
+  api_key: "sk-jipjycienusxsfdptoweqvagdillzrumjjtcblfjfsrdhqxk"
+  timeout: 60
+  max_retries: 3
+
+# 聊天模型配置
+chat_models:
+  # 快速响应模式
+  fast_chat:
+    model: "moonshotai/Kimi-K2-Instruct"
+    max_tokens: 4096
+    temperature: 0.8
+    stream: true
+    description: "快速对话响应"
+    
+  # 标准对话模式
+  standard_chat:
+    model: "Qwen/Qwen3-32B"
+    max_tokens: 8192
+    temperature: 0.7
+    stream: true
+    description: "标准对话模式"
+    
+  # 深度对话模式
+  advanced_chat:
+    model: "Qwen/Qwen3-235B-A22B"
+    max_tokens: 8192
+    temperature: 0.6
+    stream: true
+    description: "深度思考对话"
+
+# Agno框架配置
+agno_config:
+  provider: "openai"
+  api_base: "https://api.siliconflow.cn/v1"
+  api_key: "sk-jipjycienusxsfdptoweqvagdillzrumjjtcblfjfsrdhqxk"
+  default_model: "Qwen/Qwen3-32B"
+  enable_streaming: true
+  
+# 响应模式配置
+response_modes:
+  # 流式响应
+  streaming:
+    model: "Qwen/Qwen3-32B"
+    stream: true
+    chunk_size: 1024
+    
+  # 完整响应
+  complete:
+    model: "Qwen/Qwen3-32B"
+    stream: false
+    
+  # 增强响应 (支持工具调用)
+  enhanced:
+    model: "Qwen/Qwen3-32B"
+    stream: true
+    enable_tools: true
+    max_tool_calls: 3
+
+# Agent池配置
+agent_pool_config:
+  max_agents: 10
+  agent_model: "moonshotai/Kimi-K2-Instruct"
+  load_balancing: "round_robin"
+  health_check_interval: 30
+
+# 消息渲染配置
+message_render_config:
+  markdown_support: true
+  code_highlighting: true
+  streaming_render: true
+  render_model: "moonshotai/Kimi-K2-Instruct"

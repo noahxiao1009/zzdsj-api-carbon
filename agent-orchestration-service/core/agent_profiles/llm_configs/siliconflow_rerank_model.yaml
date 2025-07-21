@@ -1,0 +1,31 @@
+name: siliconflow_rerank_model
+type: rerank_config
+description_for_human: "硅基流动重排序模型配置 - 用于优化检索结果"
+
+# 重排序模型配置
+config:
+  api_key:
+    _type: "from_env"
+    var: "DEFAULT_API_KEY"
+    required: true
+  api_base:
+    _type: "from_env"
+    var: "DEFAULT_BASE_URL"
+    required: true
+  model: "openai/Qwen/Qwen3-Reranker-8B"
+  endpoint: "/rerank"
+  max_documents: 100
+  max_query_length: 512
+  max_retries: 2
+  wait_seconds_on_retry: 1
+  
+# 重排序特殊配置
+rerank_specific:
+  # 高精度重排序
+  precision_mode: "high"
+  # 支持多语言查询
+  multilingual_support: true
+  # 相关性阈值
+  relevance_threshold: 0.7
+  # 返回分数
+  return_scores: true

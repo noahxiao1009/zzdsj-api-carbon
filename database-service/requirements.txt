@@ -2,27 +2,53 @@
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
 pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# 异步支持
+asyncio-mqtt==0.13.0
+aiofiles==23.2.1
+httpx==0.25.2
 
 # 数据库驱动
-asyncpg==0.29.0              # PostgreSQL异步驱动
-elasticsearch[async]==8.11.0  # Elasticsearch异步客户端
-pymilvus==2.3.4              # Milvus向量数据库
-redis[hiredis]==5.0.1         # Redis异步客户端
-aio-pika==9.3.1              # RabbitMQ异步客户端
-nacos-sdk-python==0.1.5      # Nacos服务发现客户端
-python-arango==7.6.0         # ArangoDB多模型数据库驱动
+# PostgreSQL
+asyncpg==0.29.0
+psycopg2-binary==2.9.9
+sqlalchemy[asyncio]==2.0.23
+alembic==1.13.1
 
-# HTTP客户端
-httpx==0.25.2                # 异步HTTP客户端
+# Elasticsearch
+elasticsearch[async]==8.11.0
 
-# 配置管理
-python-dotenv==1.0.0         # 环境变量管理
-pyyaml==6.0.1                # YAML配置文件支持
+# Milvus
+pymilvus==2.3.4
 
-# 日志和监控
-structlog==23.2.0            # 结构化日志
+# Redis
+redis[hiredis]==5.0.1
+aioredis==2.0.1
+
+# RabbitMQ
+aio-pika==9.3.1
+pika==1.3.2
+
+# Nacos
+nacos-sdk-python==0.1.5
 
 # 工具库
-python-multipart==0.0.6     # 文件上传支持
-python-jose[cryptography]==3.3.0  # JWT支持
-passlib[bcrypt]==1.7.4       # 密码哈希 
+python-dotenv==1.0.0
+structlog==23.2.0
+python-multipart==0.0.6
+
+# 监控和指标
+prometheus-client==0.19.0
+
+# 测试
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+httpx==0.25.2
+
+# 开发工具
+black==23.11.0
+isort==5.12.0
+flake8==6.1.0
+mypy==1.7.1

@@ -10,6 +10,7 @@ from ..schemas.splitter_schemas import (
 )
 from .template_manager import get_template_manager, SplitterTemplateManager
 from .splitters.token_based_splitter import TokenBasedSplitter
+from .splitters.semantic_based_splitter import SemanticBasedSplitter
 
 logger = logging.getLogger(__name__)
 
@@ -163,8 +164,8 @@ class DocumentSplitter:
         if splitter_type == SplitterType.TOKEN_BASED:
             return TokenBasedSplitter(config)
         elif splitter_type == SplitterType.SEMANTIC_BASED:
-            # 使用简化的语义切分器（模拟实现）
-            return MockSemanticSplitter(config)
+            # 使用真实的语义切分器
+            return SemanticBasedSplitter(config)
         elif splitter_type == SplitterType.PARAGRAPH_BASED:
             return MockParagraphSplitter(config)
         elif splitter_type == SplitterType.AGENTIC_BASED:

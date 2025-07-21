@@ -42,6 +42,16 @@ class PostgreSQLConfig(BaseModel):
     def database_url(self) -> str:
         """获取数据库连接URL"""
         return f"postgresql://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
+    
+    @property
+    def async_database_url(self) -> str:
+        """获取异步数据库连接URL"""
+        return f"postgresql+asyncpg://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
+    
+    @property
+    def sync_database_url(self) -> str:
+        """获取同步数据库连接URL"""
+        return f"postgresql+psycopg2://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
 
 
 class ElasticsearchConfig(BaseModel):

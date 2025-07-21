@@ -1,0 +1,113 @@
+# 硅基流动统一模型配置
+# SiliconFlow Model Configuration
+# API文档: https://docs.siliconflow.cn/cn/api-reference/
+
+# 基础配置
+api_base: "https://api.siliconflow.cn/v1"
+api_key: "sk-jipjycienusxsfdptoweqvagdillzrumjjtcblfjfsrdhqxk"
+api_type: "openai"  # OpenAI兼容接口
+
+# 聊天模型配置
+chat_models:
+  # 大模型 - 用于复杂推理任务
+  large_model:
+    model: "Qwen/Qwen3-235B-A22B"
+    max_tokens: 8192
+    temperature: 0.7
+    top_p: 0.9
+    stream: true
+    description: "最大规模模型，适用于复杂推理和创作任务"
+    
+  # 中等模型 - 平衡性能和效率
+  medium_model:
+    model: "Qwen/Qwen3-32B"
+    max_tokens: 8192
+    temperature: 0.7
+    top_p: 0.9
+    stream: true
+    description: "中等规模模型，适用于一般对话和分析任务"
+    
+  # 快速模型 - 用于快速响应
+  fast_model:
+    model: "moonshotai/Kimi-K2-Instruct"
+    max_tokens: 4096
+    temperature: 0.7
+    top_p: 0.9
+    stream: true
+    description: "快速响应模型，适用于简单对话和快速处理"
+
+# 嵌入模型配置
+embedding_model:
+  model: "Qwen/Qwen3-Embedding-8B"
+  api_endpoint: "/embeddings"
+  dimension: 8192
+  description: "高质量向量嵌入模型"
+  batch_size: 100
+  max_input_length: 2048
+
+# 重排序模型配置
+rerank_model:
+  model: "Qwen/Qwen3-Reranker-8B"
+  api_endpoint: "/rerank"
+  description: "文档重排序模型"
+  max_documents: 100
+  max_query_length: 512
+
+# 默认参数配置
+default_params:
+  timeout: 60
+  max_retries: 3
+  retry_delay: 1
+  backoff_factor: 2
+
+# 模型映射 - 根据用途分配模型
+model_mapping:
+  # 智能体对话
+  agent_chat: "medium_model"
+  
+  # 知识库问答
+  knowledge_qa: "medium_model"
+  
+  # 复杂推理
+  complex_reasoning: "large_model"
+  
+  # 快速响应
+  quick_response: "fast_model"
+  
+  # 文档分析
+  document_analysis: "medium_model"
+  
+  # 代码生成
+  code_generation: "large_model"
+  
+  # 摘要生成
+  summarization: "medium_model"
+  
+  # 翻译任务
+  translation: "fast_model"
+
+# 服务专用配置
+service_configs:
+  agent_service:
+    default_model: "medium_model"
+    stream: true
+    
+  knowledge_service:
+    default_model: "medium_model"
+    embedding_model: "Qwen/Qwen3-Embedding-8B"
+    rerank_model: "Qwen/Qwen3-Reranker-8B"
+    
+  chat_service:
+    default_model: "fast_model"
+    stream: true
+    
+  knowledge_graph_service:
+    default_model: "large_model"
+    
+  intelligent_reports_service:
+    default_model: "medium_model"
+    
+  commonground_service:
+    partner_model: "medium_model"
+    principal_model: "large_model"
+    associate_model: "fast_model"

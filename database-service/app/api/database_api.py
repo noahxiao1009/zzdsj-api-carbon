@@ -327,3 +327,277 @@ async def get_alerts():
     except Exception as e:
         logger.error(f"获取系统警报失败: {e}")
         raise HTTPException(status_code=500, detail="获取警报失败") 
+
+
+# 数据迁移相关接口
+@router.post("/migration/initialize")
+async def initialize_database():
+    """初始化数据库"""
+    try:
+        migration_manager = MigrationManager()
+        result = await migration_manager.initialize_database()
+        
+        if result:
+            return {"message": "数据库初始化成功", "status": "success"}
+        else:
+            raise HTTPException(status_code=500, detail="数据库初始化失败")
+    except Exception as e:
+        logger.error(f"数据库初始化失败: {e}")
+        raise HTTPException(status_code=500, detail=f"初始化失败: {str(e)}")
+
+
+@router.post("/migration/migrate")
+async def migrate_from_original(original_db_url: str = Body(..., embed=True)):
+    """从原始项目迁移数据"""
+    try:
+        migration_manager = MigrationManager()
+        result = await migration_manager.migrate_from_original_project(original_db_url)
+        
+        if result:
+            return {"message": "数据迁移成功", "status": "success"}
+        else:
+            raise HTTPException(status_code=500, detail="数据迁移失败")
+    except Exception as e:
+        logger.error(f"数据迁移失败: {e}")
+        raise HTTPException(status_code=500, detail=f"迁移失败: {str(e)}")
+
+
+@router.post("/migration/migrate-users")
+async def migrate_users_data(source_db_url: str = Body(..., embed=True)):
+    """迁移用户数据"""
+    try:
+        postgres_migrator = PostgresMigrator()
+        result = await postgres_migrator.migrate_users_data(source_db_url)
+        
+        if result:
+            return {"message": "用户数据迁移成功", "status": "success"}
+        else:
+            raise HTTPException(status_code=500, detail="用户数据迁移失败")
+    except Exception as e:
+        logger.error(f"用户数据迁移失败: {e}")
+        raise HTTPException(status_code=500, detail=f"迁移失败: {str(e)}")
+
+
+@router.post("/migration/migrate-assistants")
+async def migrate_assistants_data(source_db_url: str = Body(..., embed=True)):
+    """迁移助手数据"""
+    try:
+        postgres_migrator = PostgresMigrator()
+        result = await postgres_migrator.migrate_assistants_data(source_db_url)
+        
+        if result:
+            return {"message": "助手数据迁移成功", "status": "success"}
+        else:
+            raise HTTPException(status_code=500, detail="助手数据迁移失败")
+    except Exception as e:
+        logger.error(f"助手数据迁移失败: {e}")
+        raise HTTPException(status_code=500, detail=f"迁移失败: {str(e)}")
+
+
+@router.get("/migration/validate")
+async def validate_migration():
+    """验证迁移结果"""
+    try:
+        postgres_migrator = PostgresMigrator()
+        result = await postgres_migrator.validate_migration()
+        
+        return result
+    except Exception as e:
+        logger.error(f"迁移验证失败: {e}")
+        raise HTTPException(status_code=500, detail=f"验证失败: {str(e)}")
+
+
+# 数据同步相关接口
+@router.post("/sync/check-consistency")
+async def check_data_consistency():
+    """检查数据一致性"""
+    try:
+        sync_manager = DataSyncManager()
+        result = await sync_manager.check_data_consistency()
+        
+        return result
+    except Exception as e:
+        logger.error(f"数据一致性检查失败: {e}")
+        raise HTTPException(status_code=500, detail=f"检查失败: {str(e)}")
+
+
+@router.post("/sync/repair-inconsistencies")
+async def repair_data_inconsistencies(inconsistencies: List[Dict[str, Any]] = Body(...)):
+    """修复数据不一致问题"""
+    try:
+        sync_manager = DataSyncManager()
+        result = await sync_manager.repair_data_inconsistencies(inconsistencies)
+        
+        return result
+    except Exception as e:
+        logger.error(f"数据修复失败: {e}")
+        raise HTTPException(status_code=500, detail=f"修复失败: {str(e)}")
+
+
+@router.get("/sync/status")
+async def get_sync_status():
+    """获取同步状态"""
+    try:
+        sync_manager = DataSyncManager()
+        result = await sync_manager.get_sync_status()
+        
+        return result
+    except Exception as e:
+        logger.error(f"获取同步状态失败: {e}")
+        raise HTTPException(status_code=500, detail=f"获取状态失败: {str(e)}")
+
+
+# 数据库管理相关接口
+@router.post("/management/backup")
+async def backup_database(backup_path: str = Body(..., embed=True)):
+    """备份数据库"""
+    try:
+        migration_manager = MigrationManager()
+        result = await migration_manager.backup_database(backup_path)
+        
+        if result:
+            return {"message": "数据库备份成功", "status": "success", "backup_path": backup_path}
+        else:
+            raise HTTPException(status_code=500, detail="数据库备份失败")
+    except Exception as e:
+        logger.error(f"数据库备份失败: {e}")
+        raise HTTPException(status_code=500, detail=f"备份失败: {str(e)}")
+
+
+@router.post("/management/restore")
+async def restore_database(backup_path: str = Body(..., embed=True)):
+    """恢复数据库"""
+    try:
+        migration_manager = MigrationManager()
+        result = await migration_manager.restore_database(backup_path)
+        
+        if result:
+            return {"message": "数据库恢复成功", "status": "success"}
+        else:
+            raise HTTPException(status_code=500, detail="数据库恢复失败")
+    except Exception as e:
+        logger.error(f"数据库恢复失败: {e}")
+        raise HTTPException(status_code=500, detail=f"恢复失败: {str(e)}")
+
+
+@router.post("/management/check-integrity")
+async def check_database_integrity():
+    """检查数据库完整性"""
+    try:
+        migration_manager = MigrationManager()
+        result = await migration_manager.check_database_integrity()
+        
+        return result
+    except Exception as e:
+        logger.error(f"数据库完整性检查失败: {e}")
+        raise HTTPException(status_code=500, detail=f"检查失败: {str(e)}")
+
+
+@router.post("/management/optimize")
+async def optimize_database():
+    """优化数据库"""
+    try:
+        migration_manager = MigrationManager()
+        result = await migration_manager.optimize_database()
+        
+        return result
+    except Exception as e:
+        logger.error(f"数据库优化失败: {e}")
+        raise HTTPException(status_code=500, detail=f"优化失败: {str(e)}")
+
+
+# 仓库操作相关接口
+@router.get("/repositories/users")
+async def get_users_data(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(20, ge=1, le=100),
+    search: Optional[str] = Query(None)
+):
+    """获取用户数据"""
+    try:
+        from ..repositories.user_repository import UserRepository
+        from ..models.database import get_db_session
+        
+        user_repo = UserRepository()
+        
+        async with get_db_session() as db:
+            if search:
+                users = await user_repo.search_users(db, search, skip, limit)
+            else:
+                users = await user_repo.get_multi(db, skip=skip, limit=limit)
+            
+            total = await user_repo.count(db)
+            
+            return {
+                "users": [user.to_dict() for user in users],
+                "total": total,
+                "skip": skip,
+                "limit": limit
+            }
+    except Exception as e:
+        logger.error(f"获取用户数据失败: {e}")
+        raise HTTPException(status_code=500, detail=f"获取数据失败: {str(e)}")
+
+
+@router.get("/repositories/assistants")
+async def get_assistants_data(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(20, ge=1, le=100),
+    user_id: Optional[str] = Query(None)
+):
+    """获取助手数据"""
+    try:
+        from ..repositories.assistant_repository import AssistantRepository
+        from ..models.database import get_db_session
+        
+        assistant_repo = AssistantRepository()
+        
+        async with get_db_session() as db:
+            if user_id:
+                assistants = await assistant_repo.get_by_user_id(db, user_id)
+            else:
+                assistants = await assistant_repo.get_multi(db, skip=skip, limit=limit)
+            
+            total = await assistant_repo.count(db)
+            
+            return {
+                "assistants": [assistant.to_dict() for assistant in assistants],
+                "total": total,
+                "skip": skip,
+                "limit": limit
+            }
+    except Exception as e:
+        logger.error(f"获取助手数据失败: {e}")
+        raise HTTPException(status_code=500, detail=f"获取数据失败: {str(e)}")
+
+
+@router.get("/repositories/knowledge-bases")
+async def get_knowledge_bases_data(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(20, ge=1, le=100),
+    user_id: Optional[str] = Query(None)
+):
+    """获取知识库数据"""
+    try:
+        from ..repositories.knowledge_repository import KnowledgeBaseRepository
+        from ..models.database import get_db_session
+        
+        kb_repo = KnowledgeBaseRepository()
+        
+        async with get_db_session() as db:
+            if user_id:
+                knowledge_bases = await kb_repo.get_by_user_id(db, user_id)
+            else:
+                knowledge_bases = await kb_repo.get_multi(db, skip=skip, limit=limit)
+            
+            total = await kb_repo.count(db)
+            
+            return {
+                "knowledge_bases": [kb.to_dict() for kb in knowledge_bases],
+                "total": total,
+                "skip": skip,
+                "limit": limit
+            }
+    except Exception as e:
+        logger.error(f"获取知识库数据失败: {e}")
+        raise HTTPException(status_code=500, detail=f"获取数据失败: {str(e)}")

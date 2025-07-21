@@ -1,0 +1,135 @@
+version: '3.8'
+
+services:
+  mcp-service:
+    build: .
+    image: zzdsl-mcp-service:latest
+    container_name: mcp-service
+    ports:
+      - "8089:8089"
+    environment:
+      - MCP_HOST=0.0.0.0
+      - MCP_PORT=8089
+      - MCP_LOG_LEVEL=info
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=zzdsl_mcp
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock  # 允许容器管理Docker
+      - ./logs:/app/logs
+      - ./data:/app/data
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - mcp-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8089/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  redis:
+    image: redis:7-alpine
+    container_name: mcp-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - mcp-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: mcp-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=zzdsl_mcp
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - mcp-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # MCP网络管理器（用于创建VLAN网络）
+  mcp-network-manager:
+    image: alpine:latest
+    container_name: mcp-network-manager
+    privileged: true
+    network_mode: host
+    command: |
+      sh -c "
+        # 安装Docker客户端
+        apk add --no-cache docker-cli
+        
+        # 创建MCP VLAN网络
+        docker network create \
+          --driver=bridge \
+          --subnet=172.20.0.0/16 \
+          --gateway=172.20.0.1 \
+          --opt com.docker.network.bridge.name=mcp-vlan-100 \
+          --opt com.docker.network.bridge.enable_icc=true \
+          --opt com.docker.network.bridge.enable_ip_masquerade=true \
+          --label mcp.network.type=vlan \
+          --label mcp.network.vlan_id=100 \
+          mcp-vlan-100 || true
+        
+        # 创建更多VLAN网络
+        for vlan_id in 101 102 103; do
+          docker network create \
+            --driver=bridge \
+            --subnet=172.$$((20 + vlan_id)).0.0/16 \
+            --gateway=172.$$((20 + vlan_id)).0.1 \
+            --opt com.docker.network.bridge.name=mcp-vlan-$$vlan_id \
+            --opt com.docker.network.bridge.enable_icc=true \
+            --opt com.docker.network.bridge.enable_ip_masquerade=true \
+            --label mcp.network.type=vlan \
+            --label mcp.network.vlan_id=$$vlan_id \
+            mcp-vlan-$$vlan_id || true
+        done
+        
+        echo 'MCP VLAN networks created successfully'
+        tail -f /dev/null
+      "
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - mcp-service
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+    driver: local
+  postgres_data:
+    driver: local
+
+networks:
+  mcp-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+          gateway: 172.18.0.1

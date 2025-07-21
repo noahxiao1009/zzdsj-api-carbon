@@ -1,0 +1,17 @@
+2025-07-09 10:00:27,394 - app.utils.logging_config - INFO - 日志系统已配置完成
+2025-07-09 10:02:16,219 - app.utils.logging_config - INFO - 日志系统已配置完成
+2025-07-09 10:03:06,550 - app.utils.logging_config - INFO - 日志系统已配置完成
+2025-07-09 10:03:06,567 - main_simple - INFO - 🎉 Kaiban Service (Simple) 创建完成
+2025-07-09 10:03:18,005 - app.utils.logging_config - INFO - 日志系统已配置完成
+2025-07-09 10:03:18,022 - main_simple - INFO - 🎉 Kaiban Service (Simple) 创建完成
+2025-07-09 10:04:20,088 - app.utils.logging_config - INFO - 日志系统已配置完成
+2025-07-09 10:04:20,106 - main_simple - INFO - 🎉 Kaiban Service (Simple) 创建完成
+2025-07-09 10:04:21,980 - app.api.v1.workflows - INFO - 工作流创建成功: workflow-1752026661.98044
+2025-07-09 10:38:37,103 - app.utils.logging_config - INFO - 日志系统已配置完成
+2025-07-09 10:38:37,122 - main_simple - INFO - 🎉 Kaiban Service (Simple) 创建完成
+2025-07-09 10:41:09,997 - app.api.v1.workflows - INFO - 工作流创建成功: workflow-1752028869.99723
+2025-07-09 10:41:10,008 - app.api.v1.boards - INFO - 看板创建成功: board-1752028870.008842
+2025-07-09 10:41:10,012 - app.api.v1.tasks - INFO - 任务创建成功: task-1752028870.012971
+2025-07-09 10:41:10,015 - app.api.v1.tasks - INFO - 任务创建成功: task-1752028870.01511
+2025-07-09 10:41:10,017 - app.api.v1.tasks - INFO - 任务创建成功: task-1752028870.017325
+2025-07-09 10:41:10,021 - app.api.v1.events - INFO - 事件订阅成功: sub-1752028870.021455

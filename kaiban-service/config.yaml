@@ -1,0 +1,136 @@
+# Kaiban Service 配置文件
+
+# 服务基础配置
+service:
+  name: "kaiban-service"
+  version: "1.0.0"
+  host: "0.0.0.0"
+  port: 8003
+  debug: true
+  environment: "development"
+
+# 数据库配置
+database:
+  postgresql:
+    host: "localhost"
+    port: 5432
+    database: "kaiban_db"
+    username: "postgres"
+    password: "password"
+    pool_size: 10
+    max_overflow: 20
+    echo: false
+
+# Redis配置
+redis:
+  host: "localhost"
+  port: 6379
+  password: ""
+  database: 0
+  max_connections: 10
+  socket_timeout: 30
+  socket_connect_timeout: 30
+  health_check_interval: 30
+
+# 网关服务配置
+gateway:
+  url: "http://localhost:8000"
+  service_id: "kaiban-service"
+  health_check_interval: 30
+  timeout: 10
+
+# 外部服务集成配置
+external_services:
+  # Agno智能体服务
+  agent_service:
+    url: "http://localhost:8001"
+    timeout: 30
+    retry_count: 3
+    health_check_path: "/health"
+  
+  # 模型服务
+  model_service:
+    url: "http://localhost:8002"
+    timeout: 60
+    retry_count: 2
+    health_check_path: "/health"
+  
+  # 知识库服务
+  knowledge_service:
+    url: "http://localhost:8004"
+    timeout: 45
+    retry_count: 2
+    health_check_path: "/health"
+
+# 工作流引擎配置
+workflow:
+  max_concurrent_workflows: 50
+  default_timeout: 300  # 5分钟
+  max_steps_per_workflow: 100
+  auto_save_interval: 30  # 秒
+  checkpoint_enabled: true
+  
+# 任务配置
+tasks:
+  max_concurrent_tasks: 100
+  default_priority: "medium"
+  auto_assign: false
+  status_sync_interval: 10  # 秒
+  
+# 事件系统配置
+events:
+  max_subscribers: 1000
+  event_retention_days: 30
+  batch_size: 100
+  processing_timeout: 60
+  
+# 安全配置
+security:
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://localhost:5173"
+    - "http://127.0.0.1:3000"
+    - "http://127.0.0.1:5173"
+  cors_methods:
+    - "GET"
+    - "POST"
+    - "PUT"
+    - "DELETE"
+    - "OPTIONS"
+  cors_headers:
+    - "Content-Type"
+    - "Authorization"
+    - "X-User-ID"
+    - "X-Request-ID"
+
+# 日志配置
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file_enabled: true
+  file_path: "logs/kaiban-service.log"
+  max_file_size: "10MB"
+  backup_count: 5
+
+# 性能监控配置
+monitoring:
+  metrics_enabled: true
+  metrics_port: 9090
+  health_check_enabled: true
+  
+# 缓存配置
+cache:
+  default_ttl: 300  # 5分钟
+  workflow_ttl: 1800  # 30分钟
+  task_ttl: 600  # 10分钟
+  user_session_ttl: 3600  # 1小时
+  
+# API配置
+api:
+  max_request_size: "10MB"
+  rate_limit:
+    requests_per_minute: 60
+    burst_size: 10
+  pagination:
+    default_page_size: 20
+    max_page_size: 100 

@@ -3,7 +3,7 @@ from typing import List, Dict, Any, Optional
 import uuid
 import time
 import logging
-from ..schemas.splitter_schemas import ChunkInfo, SplitterType
+from ...schemas.splitter_schemas import ChunkInfo, SplitterType
 
 logger = logging.getLogger(__name__)
 

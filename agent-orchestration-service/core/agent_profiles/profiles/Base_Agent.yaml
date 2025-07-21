@@ -1,0 +1,18 @@
+name: Base_Agent
+type: base
+available_for_staffing: false
+
+system_prompt_construction:
+  system_prompt_segments:
+    - id: system_current_date
+      type: static_text
+      content: "Current date (UTC): {{ state.agent_start_utc_timestamp }}"
+      order: 1
+    - id: response_language
+      type: static_text
+      content: "你必须默认使用中文回复，除非用户明确要求使用其他语言。这意味着，即使用户的原始消息是英文，你也应该用中文回复，除非用户另有要求。"
+      order: 2
+    - id: must_reply
+      type: static_text
+      content: "你必须回复每一条用户消息，最好是调用工具。如果你不知道如何回答，你应该要求用户提供更多信息或澄清。不回复不是一个选项。严格禁止沉默。"
+      order: 3

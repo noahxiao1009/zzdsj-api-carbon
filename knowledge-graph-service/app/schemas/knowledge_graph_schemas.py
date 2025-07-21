@@ -81,10 +81,13 @@ class AlgorithmType(str, Enum):
 
 class BaseSchema(BaseModel):
     """基础Schema类"""
-    class Config:
-        from_attributes = True
-        use_enum_values = True
-        arbitrary_types_allowed = True
+    
+    # Pydantic v2 配置
+    model_config = {
+        "from_attributes": True,
+        "use_enum_values": True,
+        "arbitrary_types_allowed": True
+    }
 
 
 # ===== 分页和过滤Schema =====

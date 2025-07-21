@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>{{ graph_title }} - 知识图谱</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: {{ background_color }};
+            color: {{ font_color }};
+        }
+        
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .sidebar {
+            width: 300px;
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .main-content {
+            flex: 1;
+            position: relative;
+        }
+        
+        #graph-container {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .controls button {
+            margin: 0 5px 5px 0;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        
+        .controls button:hover {
+            background: #f5f5f5;
+        }
+        
+        .stats {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stats h3 {
+            margin: 0 0 10px 0;
+            color: #495057;
+        }
+        
+        .stats-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        
+        .legend {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .legend h3 {
+            margin: 0 0 10px 0;
+            color: #495057;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .search-box {
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .entity-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+        }
+        
+        .entity-item {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        
+        .entity-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .entity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .entity-name {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        
+        .entity-type {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+        
+        .dark-theme {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        
+        .dark-theme .sidebar {
+            background-color: #2d2d2d;
+            border-right-color: #444;
+        }
+        
+        .dark-theme .stats,
+        .dark-theme .legend,
+        .dark-theme .entity-list {
+            background-color: #3d3d3d;
+            color: #ffffff;
+        }
+        
+        .dark-theme .controls {
+            background: rgba(45, 45, 45, 0.9);
+            color: #ffffff;
+        }
+        
+        .dark-theme .controls button {
+            background: #4d4d4d;
+            border-color: #666;
+            color: #ffffff;
+        }
+        
+        .dark-theme .controls button:hover {
+            background: #5d5d5d;
+        }
+        
+        .dark-theme .search-box input {
+            background: #4d4d4d;
+            border-color: #666;
+            color: #ffffff;
+        }
+        
+        .dark-theme .entity-item {
+            border-bottom-color: #555;
+        }
+        
+        .dark-theme .entity-item:hover {
+            background: #4d4d4d;
+        }
+    </style>
+    
+    <!-- vis.js CSS -->
+    <link href="https://unpkg.com/vis-network@9.1.7/dist/vis-network.min.css" rel="stylesheet" type="text/css">
+</head>
+<body id="app-body">
+    <div class="container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <!-- 统计信息 -->
+            <div class="stats">
+                <h3>图谱统计</h3>
+                <div class="stats-item">
+                    <span>实体数量:</span>
+                    <span id="entity-count">{{ entity_count }}</span>
+                </div>
+                <div class="stats-item">
+                    <span>关系数量:</span>
+                    <span id="relation-count">{{ relation_count }}</span>
+                </div>
+                <div class="stats-item">
+                    <span>图谱密度:</span>
+                    <span id="graph-density">{{ graph_density }}</span>
+                </div>
+                <div class="stats-item">
+                    <span>平均置信度:</span>
+                    <span id="avg-confidence">{{ avg_confidence }}</span>
+                </div>
+            </div>
+            
+            <!-- 图例 -->
+            <div class="legend">
+                <h3>实体类型</h3>
+                <div id="legend-content">
+                    {{ legend_content }}
+                </div>
+            </div>
+            
+            <!-- 搜索功能 -->
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="搜索实体...">
+            </div>
+            
+            <!-- 实体列表 -->
+            <div class="entity-list" id="entity-list">
+                {{ entity_list }}
+            </div>
+        </div>
+        
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <!-- 控制面板 -->
+            <div class="controls">
+                <button onclick="resetView()">重置视图</button>
+                <button onclick="togglePhysics()">物理模拟</button>
+                <button onclick="toggleTheme()">切换主题</button>
+                <button onclick="exportData()">导出数据</button>
+                <button onclick="showHelp()">帮助</button>
+            </div>
+            
+            <!-- 图谱容器 -->
+            <div id="graph-container"></div>
+        </div>
+    </div>
+    
+    <!-- vis.js JavaScript -->
+    <script src="https://unpkg.com/vis-network@9.1.7/dist/vis-network.min.js"></script>
+    
+    <script>
+        // 图谱数据
+        const nodes = new vis.DataSet({{ nodes_data }});
+        const edges = new vis.DataSet({{ edges_data }});
+        
+        // 网络配置
+        const options = {
+            nodes: {
+                shape: 'dot',
+                size: 16,
+                font: {
+                    size: 14,
+                    face: 'Arial'
+                },
+                borderWidth: 2,
+                shadow: true
+            },
+            edges: {
+                width: 2,
+                color: {
+                    color: '#848484',
+                    highlight: '#3366cc',
+                    hover: '#333333'
+                },
+                arrows: {
+                    to: {
+                        enabled: true,
+                        scaleFactor: 1,
+                        type: 'arrow'
+                    }
+                },
+                smooth: {
+                    enabled: {{ smooth_edges }},
+                    type: 'dynamic',
+                    roundness: 0.5
+                },
+                font: {
+                    size: 12,
+                    face: 'Arial'
+                },
+                labelHighlightBold: true
+            },
+            physics: {
+                enabled: {{ physics_enabled }},
+                stabilization: {
+                    iterations: 1000
+                },
+                barnesHut: {
+                    gravitationalConstant: -2000,
+                    centralGravity: 0.3,
+                    springLength: 95,
+                    springConstant: 0.04,
+                    damping: 0.09,
+                    avoidOverlap: 0.1
+                }
+            },
+            interaction: {
+                hover: true,
+                selectConnectedEdges: false,
+                tooltipDelay: 300
+            },
+            layout: {
+                randomSeed: 42
+            }
+        };
+        
+        // 创建网络
+        const container = document.getElementById('graph-container');
+        const data = { nodes: nodes, edges: edges };
+        const network = new vis.Network(container, data, options);
+        
+        // 变量
+        let physicsEnabled = {{ physics_enabled }};
+        let isDarkTheme = false;
+        
+        // 事件监听
+        network.on('click', function(event) {
+            const nodeId = event.nodes[0];
+            if (nodeId) {
+                highlightNode(nodeId);
+            }
+        });
+        
+        network.on('hoverNode', function(event) {
+            const nodeId = event.node;
+            showNodeTooltip(nodeId, event.pointer.DOM);
+        });
+        
+        network.on('blurNode', function(event) {
+            hideNodeTooltip();
+        });
+        
+        // 功能函数
+        function resetView() {
+            network.fit();
+            network.setOptions({ physics: { enabled: physicsEnabled } });
+        }
+        
+        function togglePhysics() {
+            physicsEnabled = !physicsEnabled;
+            network.setOptions({ physics: { enabled: physicsEnabled } });
+        }
+        
+        function toggleTheme() {
+            isDarkTheme = !isDarkTheme;
+            const body = document.getElementById('app-body');
+            
+            if (isDarkTheme) {
+                body.classList.add('dark-theme');
+                network.setOptions({
+                    nodes: {
+                        color: {
+                            border: '#ffffff',
+                            background: '#4d4d4d'
+                        }
+                    },
+                    edges: {
+                        color: {
+                            color: '#cccccc',
+                            highlight: '#66ccff',
+                            hover: '#ffffff'
+                        }
+                    }
+                });
+            } else {
+                body.classList.remove('dark-theme');
+                network.setOptions({
+                    nodes: {
+                        color: {
+                            border: '#2B7CE9',
+                            background: '#D2E5FF'
+                        }
+                    },
+                    edges: {
+                        color: {
+                            color: '#848484',
+                            highlight: '#3366cc',
+                            hover: '#333333'
+                        }
+                    }
+                });
+            }
+        }
+        
+        function exportData() {
+            const graphData = {
+                nodes: nodes.get(),
+                edges: edges.get(),
+                metadata: {
+                    title: '{{ graph_title }}',
+                    generated_at: new Date().toISOString(),
+                    entity_count: {{ entity_count }},
+                    relation_count: {{ relation_count }}
+                }
+            };
+            
+            const dataStr = JSON.stringify(graphData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = '{{ graph_title }}_graph_data.json';
+            link.click();
+            
+            URL.revokeObjectURL(url);
+        }
+        
+        function showHelp() {
+            alert('知识图谱操作帮助:\n\n' +
+                  '• 拖拽：移动节点\n' +
+                  '• 滚轮：缩放视图\n' +
+                  '• 点击节点：高亮显示相关节点\n' +
+                  '• 悬停：显示节点详情\n' +
+                  '• 搜索：在左侧搜索框输入关键词\n' +
+                  '• 重置视图：恢复到初始状态\n' +
+                  '• 物理模拟：开启/关闭动态布局\n' +
+                  '• 切换主题：明暗主题切换\n' +
+                  '• 导出数据：下载图谱数据JSON文件');
+        }
+        
+        function highlightNode(nodeId) {
+            const connectedNodes = network.getConnectedNodes(nodeId);
+            const connectedEdges = network.getConnectedEdges(nodeId);
+            
+            // 高亮相关节点和边
+            const highlightNodes = [nodeId].concat(connectedNodes);
+            const highlightEdges = connectedEdges;
+            
+            // 更新节点颜色
+            nodes.update(nodes.get().map(node => {
+                if (highlightNodes.includes(node.id)) {
+                    return { ...node, color: { border: '#ff6b6b', background: '#ffe0e0' } };
+                } else {
+                    return { ...node, color: { border: '#cccccc', background: '#f0f0f0' } };
+                }
+            }));
+            
+            // 更新边颜色
+            edges.update(edges.get().map(edge => {
+                if (highlightEdges.includes(edge.id)) {
+                    return { ...edge, color: { color: '#ff6b6b' } };
+                } else {
+                    return { ...edge, color: { color: '#cccccc' } };
+                }
+            }));
+            
+            // 3秒后恢复原色
+            setTimeout(() => {
+                resetHighlight();
+            }, 3000);
+        }
+        
+        function resetHighlight() {
+            // 重置所有节点和边的颜色
+            nodes.update(nodes.get().map(node => {
+                const originalColor = node.originalColor || { border: '#2B7CE9', background: '#D2E5FF' };
+                return { ...node, color: originalColor };
+            }));
+            
+            edges.update(edges.get().map(edge => {
+                const originalColor = edge.originalColor || { color: '#848484' };
+                return { ...edge, color: originalColor };
+            }));
+        }
+        
+        function showNodeTooltip(nodeId, position) {
+            const node = nodes.get(nodeId);
+            if (!node) return;
+            
+            // 创建tooltip
+            const tooltip = document.createElement('div');
+            tooltip.id = 'node-tooltip';
+            tooltip.style.cssText = `
+                position: absolute;
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 10px;
+                border-radius: 5px;
+                font-size: 12px;
+                z-index: 1000;
+                max-width: 200px;
+                pointer-events: none;
+                left: ${position.x + 10}px;
+                top: ${position.y - 10}px;
+            `;
+            
+            tooltip.innerHTML = `
+                <div><strong>${node.label}</strong></div>
+                <div>类型: ${node.group || 'Unknown'}</div>
+                <div>置信度: ${node.confidence || 'N/A'}</div>
+                <div>频次: ${node.frequency || 'N/A'}</div>
+            `;
+            
+            document.body.appendChild(tooltip);
+        }
+        
+        function hideNodeTooltip() {
+            const tooltip = document.getElementById('node-tooltip');
+            if (tooltip) {
+                tooltip.remove();
+            }
+        }
+        
+        // 搜索功能
+        document.getElementById('search-input').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            const entityItems = document.querySelectorAll('.entity-item');
+            
+            entityItems.forEach(item => {
+                const entityName = item.querySelector('.entity-name').textContent.toLowerCase();
+                const entityType = item.querySelector('.entity-type').textContent.toLowerCase();
+                
+                if (entityName.includes(query) || entityType.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+        
+        // 实体列表点击事件
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('entity-item') || e.target.closest('.entity-item')) {
+                const entityItem = e.target.closest('.entity-item');
+                const entityId = entityItem.dataset.entityId;
+                
+                // 聚焦到该节点
+                network.focus(entityId, {
+                    scale: 1.5,
+                    animation: {
+                        duration: 1000,
+                        easingFunction: 'easeInOutQuad'
+                    }
+                });
+                
+                // 高亮该节点
+                highlightNode(entityId);
+            }
+        });
+        
+        // 初始化完成
+        network.on('stabilizationIterationsDone', function() {
+            console.log('Knowledge graph visualization initialized');
+        });
+    </script>
+</body>
+</html>
