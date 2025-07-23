@@ -6679,3 +6679,4 @@ FROM knowledge_bases) AS anon_1
 2025-07-21 15:28:10,934 - sqlalchemy.engine.Engine - INFO - ROLLBACK
 2025-07-21 15:28:11,181 - main - INFO - 🟢 [req_1753082734106] 200 - 157.075s
 2025-07-21 15:28:11,188 - main - INFO - 🟢 [req_1753082734105] 200 - 157.083s
+2025-07-21 16:29:40,591 - main - INFO - 🛑 Knowledge Service shutting down...
