@@ -1,9 +1,12 @@
+const path = require('path');
+const currentDir = __dirname;
+
 module.exports = {
   apps: [{
     name: "model-service",
     script: "main.py",
     interpreter: "python",
-    cwd: "/Users/wxn/Desktop/carbon/zzdsl-api-carbon/model-service",
+    cwd: currentDir,
     instances: 1,
     exec_mode: "fork",
     env: {
@@ -11,14 +14,14 @@ module.exports = {
       SERVICE_NAME: "model-service",
       SERVICE_PORT: 8088,
       LOG_LEVEL: "INFO",
-      PYTHONPATH: "/Users/wxn/Desktop/carbon/zzdsl-api-carbon/model-service"
+      PYTHONPATH: currentDir
     },
     env_production: {
       NODE_ENV: "production",
       SERVICE_NAME: "model-service",
       SERVICE_PORT: 8088,
       LOG_LEVEL: "WARNING",
-      PYTHONPATH: "/Users/wxn/Desktop/carbon/zzdsl-api-carbon/model-service"
+      PYTHONPATH: currentDir
     },
     watch: false,
     max_memory_restart: "3G",

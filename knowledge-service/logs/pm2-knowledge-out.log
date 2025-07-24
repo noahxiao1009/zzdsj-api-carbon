@@ -265,3 +265,5 @@
 2025-07-24 14:42:52: 2025-07-24 14:42:52,338 - main - INFO - [STATS] 服务统计: 知识库数量={'total_knowledge_bases': 2, 'active_knowledge_bases': 2, 'total_documents': 0, 'total_chunks': 0, 'total_size': 0, 'models_distribution': {'Qwen/Qwen3-Embedding-8B': 2}}, 文档数量=0
 2025-07-24 14:42:52: 2025-07-24 14:42:52,338 - main - INFO - [READY] 知识库服务已就绪，监听端口: 8082
 2025-07-24 14:42:52: 2025-07-24 14:42:52,338 - main - INFO - [READY] 服务文档地址: http://localhost:8082/docs
+2025-07-24 15:45:27: 2025-07-24 15:45:27,070 - main - INFO - [SHUTDOWN] 正在关闭知识库服务...
+2025-07-24 15:45:27: 2025-07-24 15:45:27,070 - main - INFO - [SHUTDOWN] 知识库服务已安全关闭

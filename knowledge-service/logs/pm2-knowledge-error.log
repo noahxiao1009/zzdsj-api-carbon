@@ -27,3 +27,8 @@
 2025-07-24 14:42:45: [32mINFO[0m:     Started server process [[36m22845[0m]
 2025-07-24 14:42:45: [32mINFO[0m:     Waiting for application startup.
 2025-07-24 14:42:52: [32mINFO[0m:     Application startup complete.
+2025-07-24 15:45:26: [32mINFO[0m:     Shutting down
+2025-07-24 15:45:27: [32mINFO[0m:     Waiting for application shutdown.
+2025-07-24 15:45:27: [32mINFO[0m:     Application shutdown complete.
+2025-07-24 15:45:27: [32mINFO[0m:     Finished server process [[36m22845[0m]
+2025-07-24 15:45:27: [32mINFO[0m:     Stopping reloader process [[36m[1m22830[0m]

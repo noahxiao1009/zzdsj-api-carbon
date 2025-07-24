@@ -1,9 +1,12 @@
+const path = require('path');
+const currentDir = __dirname;
+
 module.exports = {
   apps: [{
     name: "scheduler-service",
     script: "main.py",
     interpreter: "python",
-    cwd: "/Users/wxn/Desktop/carbon/zzdsl-api-carbon/scheduler-service",
+    cwd: currentDir,
     instances: 1,
     exec_mode: "fork",
     env: {
@@ -11,14 +14,14 @@ module.exports = {
       SERVICE_NAME: "scheduler-service",
       SERVICE_PORT: 8094,
       LOG_LEVEL: "INFO",
-      PYTHONPATH: "/Users/wxn/Desktop/carbon/zzdsl-api-carbon/scheduler-service"
+      PYTHONPATH: currentDir
     },
     env_production: {
       NODE_ENV: "production",
       SERVICE_NAME: "scheduler-service",
       SERVICE_PORT: 8094,
       LOG_LEVEL: "WARNING",
-      PYTHONPATH: "/Users/wxn/Desktop/carbon/zzdsl-api-carbon/scheduler-service"
+      PYTHONPATH: currentDir
     },
     watch: false,
     max_memory_restart: "1G",

@@ -294,3 +294,10 @@
 2025-07-24 14:42:52: 2025-07-24 14:42:52,338 - main - INFO - [READY] 知识库服务已就绪，监听端口: 8082
 2025-07-24 14:42:52: 2025-07-24 14:42:52,338 - main - INFO - [READY] 服务文档地址: http://localhost:8082/docs
 2025-07-24 14:42:52: [32mINFO[0m:     Application startup complete.
+2025-07-24 15:45:26: [32mINFO[0m:     Shutting down
+2025-07-24 15:45:27: [32mINFO[0m:     Waiting for application shutdown.
+2025-07-24 15:45:27: 2025-07-24 15:45:27,070 - main - INFO - [SHUTDOWN] 正在关闭知识库服务...
+2025-07-24 15:45:27: 2025-07-24 15:45:27,070 - main - INFO - [SHUTDOWN] 知识库服务已安全关闭
+2025-07-24 15:45:27: [32mINFO[0m:     Application shutdown complete.
+2025-07-24 15:45:27: [32mINFO[0m:     Finished server process [[36m22845[0m]
+2025-07-24 15:45:27: [32mINFO[0m:     Stopping reloader process [[36m[1m22830[0m]
