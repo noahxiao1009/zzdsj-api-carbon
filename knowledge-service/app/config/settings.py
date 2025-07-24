@@ -183,6 +183,11 @@ class KnowledgeServiceSettings(BaseSettings):
     # 环境配置
     environment: str = Field(default="development", description="运行环境")
     
+    # 开发配置
+    enable_reload: bool = Field(default=True, description="启用热重载(仅开发环境)")
+    reload_dirs: List[str] = Field(default=["app", "config"], description="热重载监控目录")
+    reload_excludes: List[str] = Field(default=["*.log", "*.tmp", "__pycache__"], description="热重载排除文件")
+    
     # 数据库配置快捷属性
     DATABASE_URL: str = Field(default="", description="数据库连接URL")
     REDIS_URL: str = Field(default="", description="Redis连接URL")

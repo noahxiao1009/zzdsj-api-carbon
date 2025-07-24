@@ -1,17 +1,10 @@
 """
-智政科技AI智能办公助手 - 知识库服务
+NextAgent - 知识库服务
 基于LlamaIndex和Agno框架的知识库管理和检索服务
 
 服务端口: 8082
 微服务架构组件: 知识库服务 (Knowledge Service)
 
-功能特性:
-- 双框架支持: LlamaIndex精细化检索 + Agno快速检索
-- 多模型集成: 支持OpenAI、Azure、HuggingFace等嵌入模型
-- 多向量存储: 支持PGVector、Milvus、ElasticSearch等
-- 精细化控制: 每个知识库独立配置嵌入模型和参数
-- 检索模式: 支持llamaindex、agno、hybrid三种检索模式
-- 企业级架构: 完整的错误处理、日志、监控、配置管理
 """
 
 import asyncio
@@ -54,27 +47,31 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     """应用生命周期管理"""
     # 启动时执行
-    logger.info("🚀 Knowledge Service starting up...")
+    logger.info("[STARTUP] 正在初始化知识库服务应用...")
     
     # 初始化知识库管理器
     try:
+        logger.info("[INIT] 正在初始化知识库管理器...")
         knowledge_manager = get_unified_knowledge_manager()
-        logger.info("✅ Knowledge Manager initialized")
+        logger.info("[SUCCESS] 知识库管理器初始化成功")
         
         # 获取管理器统计信息
+        logger.info("[STATS] 正在获取服务统计信息...")
         stats = await knowledge_manager.get_statistics()
-        logger.info(f"📊 Knowledge Service Stats: {stats}")
+        logger.info(f"[STATS] 服务统计: 知识库数量={stats.get('knowledge_bases', 0)}, 文档数量={stats.get('documents', 0)}")
         
     except Exception as e:
-        logger.error(f"❌ Failed to initialize Knowledge Service: {e}")
+        logger.error(f"[ERROR] 知识库服务初始化失败: {e}")
         raise
     
-    logger.info(f"🎯 Knowledge Service ready on port {settings.port}")
+    logger.info(f"[READY] 知识库服务已就绪，监听端口: {settings.port}")
+    logger.info("[READY] 服务文档地址: http://localhost:{}/docs".format(settings.port))
     
     yield
     
     # 关闭时执行
-    logger.info("🛑 Knowledge Service shutting down...")
+    logger.info("[SHUTDOWN] 正在关闭知识库服务...")
+    logger.info("[SHUTDOWN] 知识库服务已安全关闭")
 
 
 # 创建FastAPI应用
@@ -141,7 +138,7 @@ async def request_middleware(request: Request, call_next):
     request_id = f"req_{int(start_time * 1000)}"
     
     # 记录请求开始
-    logger.info(f"🔵 [{request_id}] {request.method} {request.url}")
+    logger.info(f"[REQUEST] [{request_id}] {request.method} {request.url.path}")
     
     try:
         # 处理请求
@@ -150,8 +147,11 @@ async def request_middleware(request: Request, call_next):
         # 计算处理时间
         process_time = time.time() - start_time
         
-        # 记录请求完成
-        logger.info(f"🟢 [{request_id}] {response.status_code} - {process_time:.3f}s")
+        # 根据状态码确定日志级别
+        if response.status_code >= 400:
+            logger.warning(f"[RESPONSE] [{request_id}] 状态码: {response.status_code}, 耗时: {process_time:.3f}s")
+        else:
+            logger.info(f"[RESPONSE] [{request_id}] 状态码: {response.status_code}, 耗时: {process_time:.3f}s")
         
         # 添加响应头
         response.headers["X-Request-ID"] = request_id
@@ -161,7 +161,7 @@ async def request_middleware(request: Request, call_next):
         
     except Exception as e:
         process_time = time.time() - start_time
-        logger.error(f"🔴 [{request_id}] Error: {e} - {process_time:.3f}s")
+        logger.error(f"[ERROR] [{request_id}] 请求处理异常: {e}, 耗时: {process_time:.3f}s")
         raise
 
 
@@ -198,14 +198,15 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 @app.exception_handler(Exception)
 async def general_exception_handler(request: Request, exc: Exception):
     """通用异常处理器"""
-    logger.error(f"Unexpected error: {exc}")
+    logger.error(f"[EXCEPTION] 未预期的错误: {exc}")
     return JSONResponse(
         status_code=500,
         content={
             "error": True,
             "status_code": 500,
             "message": "内部服务器错误",
-            "path": str(request.url)
+            "path": str(request.url),
+            "timestamp": time.time()
         }
     )
 
@@ -228,13 +229,14 @@ async def health_check():
             "stats": stats
         }
     except Exception as e:
-        logger.error(f"Health check failed: {e}")
+        logger.error(f"[HEALTH] 健康检查失败: {e}")
         raise HTTPException(
             status_code=503,
             detail={
                 "status": "unhealthy",
                 "service": "knowledge-service",
-                "error": str(e)
+                "error": str(e),
+                "timestamp": time.time()
             }
         )
 
@@ -303,22 +305,72 @@ async def debug_info():
         }
 
 
+def print_startup_banner():
+    """打印服务启动横幅"""
+    banner = f"""
+{'='*80}
+    智政科技AI智能办公助手 - 知识库服务 (Knowledge Service)
+{'='*80}
+    服务版本: v1.0.0
+    运行端口: {settings.port}
+    环境配置: {getattr(settings, 'environment', 'development')}
+    日志级别: {settings.log_level.upper()}
+    
+    核心功能:
+    • 双框架支持: LlamaIndex + Agno
+    • 多模型集成: OpenAI, Azure, HuggingFace
+    • 多向量存储: PGVector, Milvus, ElasticSearch
+    • 检索模式: llamaindex, agno, hybrid
+{'='*80}
+"""
+    print(banner)
+
+
 if __name__ == "__main__":
-    # 直接运行时的配置
-    logger.info(f"🚀 Starting Knowledge Service on port {settings.port}")
+    # 打印启动横幅
+    print_startup_banner()
+    
+    # 日志启动信息
+    logger.info("[STARTUP] 正在启动知识库服务...")
+    logger.info(f"[CONFIG] 服务端口: {settings.port}")
+    logger.info(f"[CONFIG] 运行环境: {getattr(settings, 'environment', 'development')}")
     
     try:
+        # 确定是否启用热重载
+        enable_reload = (
+            settings.environment == "development" and 
+            getattr(settings, 'enable_reload', True)
+        )
+        
+        # 热重载配置
+        reload_config = {}
+        if enable_reload:
+            reload_config.update({
+                "reload": True,
+                "reload_dirs": getattr(settings, 'reload_dirs', ["app", "config"]),
+                "reload_excludes": getattr(settings, 'reload_excludes', ["*.log", "*.tmp", "__pycache__"])
+            })
+            logger.info(f"[RELOAD] 热重载已启用，监控目录: {reload_config['reload_dirs']}")
+        else:
+            reload_config["reload"] = False
+            logger.info("[RELOAD] 热重载已禁用")
+        
+        logger.info("[STARTUP] 服务启动中...")
         uvicorn.run(
             "main:app",
             host="0.0.0.0",
             port=settings.port,
             log_level=settings.log_level.lower(),
-            reload=getattr(settings, 'environment', 'development') == "development",
             access_log=True,
-            use_colors=True
+            use_colors=True,
+            **reload_config
         )
     except KeyboardInterrupt:
-        logger.info("👋 Knowledge Service stopped by user")
+        logger.info("[SHUTDOWN] 知识库服务已被用户停止")
+        print("\n" + "="*80)
+        print("    知识库服务已安全关闭")
+        print("="*80)
     except Exception as e:
-        logger.error(f"❌ Failed to start Knowledge Service: {e}")
+        logger.error(f"[ERROR] 知识库服务启动失败: {e}")
+        print(f"\n错误: 服务启动失败 - {e}")
         sys.exit(1) 

@@ -420,18 +420,45 @@ ELASTICSEARCH_URL=http://localhost:9200
 # Agno框架配置 (可选)
 AGNO_API_KEY=your_agno_api_key
 
+# 开发配置
+ENABLE_RELOAD=true                              # 是否启用热重载(仅开发环境)
+RELOAD_DIRS=["app","config"]                    # 热重载监控目录
+RELOAD_EXCLUDES=["*.log","*.tmp","__pycache__"] # 热重载排除文件
+
 # 文件存储配置
 DOCUMENT_STORAGE_PATH=/data/documents
 MAX_FILE_SIZE=50MB
 ```
 
 ### 启动服务
-```bash
-# 开发模式
-uvicorn main:app --host 0.0.0.0 --port 8002 --reload
 
-# 生产模式
-uvicorn main:app --host 0.0.0.0 --port 8002
+#### 开发模式 (默认开启热重载)
+```bash
+# 使用配置文件中的热重载设置
+python main.py
+
+# 或直接使用uvicorn
+uvicorn main:app --host 0.0.0.0 --port 8082 --reload
+```
+
+#### 生产模式 (禁用热重载)
+```bash
+# 使用生产环境启动脚本
+python start_no_reload.py
+
+# 或设置环境变量
+ENABLE_RELOAD=false python main.py
+
+# 或直接使用uvicorn
+uvicorn main:app --host 0.0.0.0 --port 8082
+```
+
+#### 配置热重载选项
+```bash
+# 在.env文件中设置
+ENABLE_RELOAD=false                             # 禁用热重载
+RELOAD_DIRS=["app","config","custom"]           # 自定义监控目录
+RELOAD_EXCLUDES=["*.log","*.cache","*.tmp"]     # 自定义排除文件
 ```
 
 ### 验证服务
