@@ -135,10 +135,32 @@ start_service() {
     
     log_info "启动服务: $service_name (端口: $port, 环境: $environment)"
     
+    # 处理conda环境
+    if [ -n "$CONDA_ENV" ] && [ -z "$PYTHON_INTERPRETER" ]; then
+        if command -v conda &> /dev/null; then
+            local conda_prefix=$(conda info --envs | grep "^$CONDA_ENV " | awk '{print $NF}')
+            if [ -n "$conda_prefix" ] && [ -f "$conda_prefix/bin/python" ]; then
+                export PYTHON_INTERPRETER="$conda_prefix/bin/python"
+                log_info "使用Conda环境: $CONDA_ENV -> $PYTHON_INTERPRETER"
+            else
+                log_warn "Conda环境 '$CONDA_ENV' 不存在或无效，使用默认Python"
+            fi
+        else
+            log_warn "未找到conda命令，忽略CONDA_ENV设置"
+        fi
+    fi
+    
+    # 检查是否指定了Python解释器
+    local python_info=""
+    if [ -n "$PYTHON_INTERPRETER" ]; then
+        python_info=" (Python: $PYTHON_INTERPRETER)"
+    fi
+    
     cd "$service_name" || return 1
     
-    if pm2 start ecosystem.config.js --env "$environment"; then
-        log_success "$service_name 启动成功"
+    # 传递Python解释器环境变量
+    if PYTHON_INTERPRETER="$PYTHON_INTERPRETER" pm2 start ecosystem.config.js --env "$environment"; then
+        log_success "$service_name 启动成功$python_info"
         cd ..
         return 0
     else
@@ -585,6 +607,11 @@ show_help() {
     echo "  development (默认)   开发环境"
     echo "  production          生产环境"
     echo ""
+    echo -e "${YELLOW}Python环境配置:${NC}"
+    echo "  自动检测             使用 which python 检测当前Python环境"
+    echo "  手动指定             PYTHON_INTERPRETER=/path/to/python ./pm2-manager.sh ..."
+    echo "  Conda环境示例        PYTHON_INTERPRETER=/opt/anaconda3/envs/myenv/bin/python"
+    echo ""
     echo -e "${YELLOW}示例:${NC}"
     echo "  ./pm2-manager.sh interactive              # 交互式管理界面"
     echo "  ./pm2-manager.sh i production             # 生产环境交互管理"
@@ -593,6 +620,12 @@ show_help() {
     echo "  ./pm2-manager.sh start knowledge production  # 启动知识库服务"
     echo "  ./pm2-manager.sh restart:all development # 重启所有服务"
     echo "  ./pm2-manager.sh logs gateway             # 查看网关日志"
+    echo ""
+    echo -e "${YELLOW}Python环境示例:${NC}"
+    echo "  PYTHON_INTERPRETER=/opt/anaconda3/bin/python ./pm2-manager.sh start:core"
+    echo "  PYTHON_INTERPRETER=\$(which python3) ./pm2-manager.sh start knowledge"
+    echo "  CONDA_ENV=myenv ./pm2-manager.sh start:core  # 使用conda环境"
+    echo "  ./start-with-conda.sh myenv core             # 专用conda启动脚本"
     echo ""
 }
 

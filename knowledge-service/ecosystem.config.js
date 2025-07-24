@@ -1,11 +1,32 @@
 const path = require('path');
+const { execSync } = require('child_process');
 const currentDir = __dirname;
+
+// 动态获取Python解释器路径
+function getPythonInterpreter() {
+  try {
+    // 优先使用环境变量指定的Python路径
+    if (process.env.PYTHON_INTERPRETER) {
+      return process.env.PYTHON_INTERPRETER;
+    }
+    
+    // 尝试获取当前激活的Python环境
+    const pythonPath = execSync('which python', { encoding: 'utf8' }).trim();
+    console.log(`使用Python解释器: ${pythonPath}`);
+    return pythonPath;
+  } catch (error) {
+    console.warn('无法检测Python路径，使用默认值: python');
+    return 'python';
+  }
+}
+
+const pythonInterpreter = getPythonInterpreter();
 
 module.exports = {
   apps: [{
     name: "knowledge-service",
     script: "main.py",
-    interpreter: "python",
+    interpreter: pythonInterpreter,
     cwd: currentDir,
     instances: 1,
     exec_mode: "fork",
