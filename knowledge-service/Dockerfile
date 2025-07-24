@@ -1,11 +1,11 @@
-# 智政科技AI智能办公助手 - 知识库服务 Docker 镜像
+# NextAgent - 知识库服务 Docker 镜像
 # 基于 Python 3.11 Alpine 的轻量级镜像
 
 FROM python:3.11-slim
 
 # 设置维护者信息
 LABEL maintainer="智政科技 <support@zhengtech.com>"
-LABEL description="智政科技AI智能办公助手 - 知识库服务"
+LABEL description="NextAgent - 知识库服务"
 LABEL version="1.0.0"
 
 # 设置工作目录

@@ -63,7 +63,7 @@ async def lifespan(app: FastAPI):
 
 # 创建FastAPI应用
 app = FastAPI(
-    title="智政科技AI智能办公助手 - 知识库服务",
+    title="NextAgent - 知识库服务",
     description="""
     基于LlamaIndex和Agno框架的知识库管理和检索服务
     
@@ -156,7 +156,7 @@ async def health_check():
 async def root():
     """根端点"""
     return {
-        "message": "智政科技AI智能办公助手 - 知识库服务",
+        "message": "NextAgent - 知识库服务",
         "service": "knowledge-service",
         "version": "1.0.0",
         "port": settings.port,

@@ -1,0 +1,296 @@
+2025-07-24 14:42:12: /opt/anaconda3/lib/python3.12/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+2025-07-24 14:42:12:   warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+2025-07-24 14:42:12: 
+2025-07-24 14:42:12: ================================================================================
+2025-07-24 14:42:12:     NextAgent - 知识库服务 (Knowledge Service)
+2025-07-24 14:42:12: ================================================================================
+2025-07-24 14:42:12:     服务版本: v1.0.0
+2025-07-24 14:42:12:     运行端口: 8082
+2025-07-24 14:42:12:     环境配置: development
+2025-07-24 14:42:12:     日志级别: INFO
+2025-07-24 14:42:12:     
+2025-07-24 14:42:12:     核心功能:
+2025-07-24 14:42:12:     • 双框架支持: LlamaIndex + Agno
+2025-07-24 14:42:12:     • 多模型集成: OpenAI, Azure, HuggingFace
+2025-07-24 14:42:12:     • 多向量存储: PGVector, Milvus, ElasticSearch
+2025-07-24 14:42:12:     • 检索模式: llamaindex, agno, hybrid
+2025-07-24 14:42:12: ================================================================================
+2025-07-24 14:42:12: 
+2025-07-24 14:42:12: 2025-07-24 14:42:12,504 - __main__ - INFO - [STARTUP] 正在启动知识库服务...
+2025-07-24 14:42:12: 2025-07-24 14:42:12,505 - __main__ - INFO - [CONFIG] 服务端口: 8082
+2025-07-24 14:42:12: 2025-07-24 14:42:12,505 - __main__ - INFO - [CONFIG] 运行环境: development
+2025-07-24 14:42:12: 2025-07-24 14:42:12,505 - __main__ - INFO - [RELOAD] 热重载已启用，监控目录: ['app', 'config']
+2025-07-24 14:42:12: 2025-07-24 14:42:12,505 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-24 14:42:12: [32mINFO[0m:     Will watch for changes in these directories: ['/Users/wxn/Desktop/carbon/zzdsl-api-carbon/knowledge-service/app', '/Users/wxn/Desktop/carbon/zzdsl-api-carbon/knowledge-service/config']
+2025-07-24 14:42:12: [32mINFO[0m:     Uvicorn running on [1mhttp://0.0.0.0:8082[0m (Press CTRL+C to quit)
+2025-07-24 14:42:12: [32mINFO[0m:     Started reloader process [[36m[1m21964[0m] using [36m[1mWatchFiles[0m
+2025-07-24 14:42:14: /opt/anaconda3/lib/python3.12/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+2025-07-24 14:42:14:   warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+2025-07-24 14:42:15: [32mINFO[0m:     Started server process [[36m22720[0m]
+2025-07-24 14:42:15: [32mINFO[0m:     Waiting for application startup.
+2025-07-24 14:42:15: 2025-07-24 14:42:15,147 - main - INFO - [STARTUP] 正在初始化知识库服务应用...
+2025-07-24 14:42:15: 2025-07-24 14:42:15,147 - main - INFO - [INIT] 正在初始化知识库管理器...
+2025-07-24 14:42:15: 2025-07-24 14:42:15,148 - app.core.llamaindex_manager - INFO - LlamaIndex Manager initialized
+2025-07-24 14:42:15: 2025-07-24 14:42:15,148 - app.core.agno_manager - INFO - Agno Manager initialized
+2025-07-24 14:42:15: 2025-07-24 14:42:15,148 - app.core.splitters.semantic_based_splitter - INFO - SemanticBasedSplitter initialized with config: {'min_chunk_size': 100, 'max_chunk_size': 2000, 'similarity_threshold': 0.7, 'language': 'zh'}
+2025-07-24 14:42:15: 2025-07-24 14:42:15,148 - app.core.enhanced_knowledge_manager - INFO - Unified Knowledge Manager initialized with enhanced data model
+2025-07-24 14:42:15: 2025-07-24 14:42:15,148 - main - INFO - [SUCCESS] 知识库管理器初始化成功
+2025-07-24 14:42:15: 2025-07-24 14:42:15,148 - main - INFO - [STATS] 正在获取服务统计信息...
+2025-07-24 14:42:17: 2025-07-24 14:42:17,301 INFO sqlalchemy.engine.Engine select pg_catalog.version()
+2025-07-24 14:42:17: 2025-07-24 14:42:17,301 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-07-24 14:42:17: 2025-07-24 14:42:17,302 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-07-24 14:42:17: 2025-07-24 14:42:17,302 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-07-24 14:42:17: 2025-07-24 14:42:17,801 INFO sqlalchemy.engine.Engine select current_schema()
+2025-07-24 14:42:17: 2025-07-24 14:42:17,801 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-07-24 14:42:17: 2025-07-24 14:42:17,801 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-07-24 14:42:17: 2025-07-24 14:42:17,801 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-07-24 14:42:18: 2025-07-24 14:42:18,275 INFO sqlalchemy.engine.Engine show standard_conforming_strings
+2025-07-24 14:42:18: 2025-07-24 14:42:18,275 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-07-24 14:42:18: 2025-07-24 14:42:18,276 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-07-24 14:42:18: 2025-07-24 14:42:18,276 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-07-24 14:42:18: 2025-07-24 14:42:18,801 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-24 14:42:18: 2025-07-24 14:42:18,801 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-07-24 14:42:18: 2025-07-24 14:42:18,823 INFO sqlalchemy.engine.Engine SELECT count(knowledge_bases.id) AS total_count, count(knowledge_bases.id) FILTER (WHERE knowledge_bases.status = %(status_1)s) AS active_count, sum(knowledge_bases.document_count) AS total_documents, sum(knowledge_bases.chunk_count) AS total_chunks, sum(knowledge_bases.total_size) AS total_size 
+2025-07-24 14:42:18: FROM knowledge_bases 
+2025-07-24 14:42:18:  LIMIT %(param_1)s
+2025-07-24 14:42:18: 2025-07-24 14:42:18,823 - sqlalchemy.engine.Engine - INFO - SELECT count(knowledge_bases.id) AS total_count, count(knowledge_bases.id) FILTER (WHERE knowledge_bases.status = %(status_1)s) AS active_count, sum(knowledge_bases.document_count) AS total_documents, sum(knowledge_bases.chunk_count) AS total_chunks, sum(knowledge_bases.total_size) AS total_size 
+2025-07-24 14:42:18: FROM knowledge_bases 
+2025-07-24 14:42:18:  LIMIT %(param_1)s
+2025-07-24 14:42:18: 2025-07-24 14:42:18,823 INFO sqlalchemy.engine.Engine [generated in 0.00026s] {'status_1': 'active', 'param_1': 1}
+2025-07-24 14:42:18: 2025-07-24 14:42:18,823 - sqlalchemy.engine.Engine - INFO - [generated in 0.00026s] {'status_1': 'active', 'param_1': 1}
+2025-07-24 14:42:19: 2025-07-24 14:42:19,794 INFO sqlalchemy.engine.Engine SELECT knowledge_bases.embedding_model AS knowledge_bases_embedding_model, count(knowledge_bases.id) AS count 
+2025-07-24 14:42:19: FROM knowledge_bases GROUP BY knowledge_bases.embedding_model
+2025-07-24 14:42:19: 2025-07-24 14:42:19,794 - sqlalchemy.engine.Engine - INFO - SELECT knowledge_bases.embedding_model AS knowledge_bases_embedding_model, count(knowledge_bases.id) AS count 
+2025-07-24 14:42:19: FROM knowledge_bases GROUP BY knowledge_bases.embedding_model
+2025-07-24 14:42:19: 2025-07-24 14:42:19,794 INFO sqlalchemy.engine.Engine [generated in 0.00027s] {}
+2025-07-24 14:42:19: 2025-07-24 14:42:19,794 - sqlalchemy.engine.Engine - INFO - [generated in 0.00027s] {}
+2025-07-24 14:42:20: 2025-07-24 14:42:20,046 INFO sqlalchemy.engine.Engine SELECT count(document_chunks.id) AS total_chunks, count(document_chunks.id) FILTER (WHERE document_chunks.embedding_status = %(embedding_status_1)s) AS embedded_chunks, sum(document_chunks.token_count) AS total_tokens, avg(document_chunks.token_count) AS avg_tokens, max(document_chunks.token_count) AS max_tokens, min(document_chunks.token_count) AS min_tokens 
+2025-07-24 14:42:20: FROM document_chunks 
+2025-07-24 14:42:20:  LIMIT %(param_1)s
+2025-07-24 14:42:20: 2025-07-24 14:42:20,046 - sqlalchemy.engine.Engine - INFO - SELECT count(document_chunks.id) AS total_chunks, count(document_chunks.id) FILTER (WHERE document_chunks.embedding_status = %(embedding_status_1)s) AS embedded_chunks, sum(document_chunks.token_count) AS total_tokens, avg(document_chunks.token_count) AS avg_tokens, max(document_chunks.token_count) AS max_tokens, min(document_chunks.token_count) AS min_tokens 
+2025-07-24 14:42:20: FROM document_chunks 
+2025-07-24 14:42:20:  LIMIT %(param_1)s
+2025-07-24 14:42:20: 2025-07-24 14:42:20,047 INFO sqlalchemy.engine.Engine [generated in 0.00030s] {'embedding_status_1': 'completed', 'param_1': 1}
+2025-07-24 14:42:20: 2025-07-24 14:42:20,047 - sqlalchemy.engine.Engine - INFO - [generated in 0.00030s] {'embedding_status_1': 'completed', 'param_1': 1}
+2025-07-24 14:42:20: 2025-07-24 14:42:20,331 INFO sqlalchemy.engine.Engine SELECT document_chunks.embedding_model AS document_chunks_embedding_model, count(document_chunks.id) AS count 
+2025-07-24 14:42:20: FROM document_chunks 
+2025-07-24 14:42:20: WHERE document_chunks.embedding_model IS NOT NULL GROUP BY document_chunks.embedding_model
+2025-07-24 14:42:20: 2025-07-24 14:42:20,331 - sqlalchemy.engine.Engine - INFO - SELECT document_chunks.embedding_model AS document_chunks_embedding_model, count(document_chunks.id) AS count 
+2025-07-24 14:42:20: FROM document_chunks 
+2025-07-24 14:42:20: WHERE document_chunks.embedding_model IS NOT NULL GROUP BY document_chunks.embedding_model
+2025-07-24 14:42:20: 2025-07-24 14:42:20,331 INFO sqlalchemy.engine.Engine [generated in 0.00018s] {}
+2025-07-24 14:42:20: 2025-07-24 14:42:20,331 - sqlalchemy.engine.Engine - INFO - [generated in 0.00018s] {}
+2025-07-24 14:42:20: 2025-07-24 14:42:20,582 INFO sqlalchemy.engine.Engine SELECT count(processing_jobs.id) AS total_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_1)s) AS pending_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_2)s) AS running_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_3)s) AS completed_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_4)s) AS failed_jobs, avg(processing_jobs.actual_duration) AS avg_duration 
+2025-07-24 14:42:20: FROM processing_jobs 
+2025-07-24 14:42:20:  LIMIT %(param_1)s
+2025-07-24 14:42:20: 2025-07-24 14:42:20,582 - sqlalchemy.engine.Engine - INFO - SELECT count(processing_jobs.id) AS total_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_1)s) AS pending_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_2)s) AS running_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_3)s) AS completed_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_4)s) AS failed_jobs, avg(processing_jobs.actual_duration) AS avg_duration 
+2025-07-24 14:42:20: FROM processing_jobs 
+2025-07-24 14:42:20:  LIMIT %(param_1)s
+2025-07-24 14:42:20: 2025-07-24 14:42:20,583 INFO sqlalchemy.engine.Engine [generated in 0.00030s] {'status_1': 'pending', 'status_2': 'running', 'status_3': 'completed', 'status_4': 'failed', 'param_1': 1}
+2025-07-24 14:42:20: 2025-07-24 14:42:20,583 - sqlalchemy.engine.Engine - INFO - [generated in 0.00030s] {'status_1': 'pending', 'status_2': 'running', 'status_3': 'completed', 'status_4': 'failed', 'param_1': 1}
+2025-07-24 14:42:20: 2025-07-24 14:42:20,833 INFO sqlalchemy.engine.Engine SELECT processing_jobs.job_type AS processing_jobs_job_type, count(processing_jobs.id) AS count 
+2025-07-24 14:42:20: FROM processing_jobs GROUP BY processing_jobs.job_type
+2025-07-24 14:42:20: 2025-07-24 14:42:20,833 - sqlalchemy.engine.Engine - INFO - SELECT processing_jobs.job_type AS processing_jobs_job_type, count(processing_jobs.id) AS count 
+2025-07-24 14:42:20: FROM processing_jobs GROUP BY processing_jobs.job_type
+2025-07-24 14:42:20: 2025-07-24 14:42:20,833 INFO sqlalchemy.engine.Engine [generated in 0.00026s] {}
+2025-07-24 14:42:20: 2025-07-24 14:42:20,833 - sqlalchemy.engine.Engine - INFO - [generated in 0.00026s] {}
+2025-07-24 14:42:21: 2025-07-24 14:42:21,541 - main - INFO - [STATS] 服务统计: 知识库数量={'total_knowledge_bases': 2, 'active_knowledge_bases': 2, 'total_documents': 0, 'total_chunks': 0, 'total_size': 0, 'models_distribution': {'Qwen/Qwen3-Embedding-8B': 2}}, 文档数量=0
+2025-07-24 14:42:21: 2025-07-24 14:42:21,541 - main - INFO - [READY] 知识库服务已就绪，监听端口: 8082
+2025-07-24 14:42:21: 2025-07-24 14:42:21,542 - main - INFO - [READY] 服务文档地址: http://localhost:8082/docs
+2025-07-24 14:42:21: [32mINFO[0m:     Application startup complete.
+2025-07-24 14:42:32: /opt/anaconda3/lib/python3.12/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+2025-07-24 14:42:32:   warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+2025-07-24 14:42:32: 
+2025-07-24 14:42:32: ================================================================================
+2025-07-24 14:42:32:     NextAgent - 知识库服务 (Knowledge Service)
+2025-07-24 14:42:32: ================================================================================
+2025-07-24 14:42:32:     服务版本: v1.0.0
+2025-07-24 14:42:32:     运行端口: 8082
+2025-07-24 14:42:32:     环境配置: development
+2025-07-24 14:42:32:     日志级别: INFO
+2025-07-24 14:42:32:     
+2025-07-24 14:42:32:     核心功能:
+2025-07-24 14:42:32:     • 双框架支持: LlamaIndex + Agno
+2025-07-24 14:42:32:     • 多模型集成: OpenAI, Azure, HuggingFace
+2025-07-24 14:42:32:     • 多向量存储: PGVector, Milvus, ElasticSearch
+2025-07-24 14:42:32:     • 检索模式: llamaindex, agno, hybrid
+2025-07-24 14:42:32: ================================================================================
+2025-07-24 14:42:32: 
+2025-07-24 14:42:32: 2025-07-24 14:42:32,696 - __main__ - INFO - [STARTUP] 正在启动知识库服务...
+2025-07-24 14:42:32: 2025-07-24 14:42:32,697 - __main__ - INFO - [CONFIG] 服务端口: 8082
+2025-07-24 14:42:32: 2025-07-24 14:42:32,697 - __main__ - INFO - [CONFIG] 运行环境: development
+2025-07-24 14:42:32: 2025-07-24 14:42:32,697 - __main__ - INFO - [RELOAD] 热重载已启用，监控目录: ['app', 'config']
+2025-07-24 14:42:32: 2025-07-24 14:42:32,697 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-24 14:42:32: [32mINFO[0m:     Will watch for changes in these directories: ['/Users/wxn/Desktop/carbon/zzdsl-api-carbon/knowledge-service/app', '/Users/wxn/Desktop/carbon/zzdsl-api-carbon/knowledge-service/config']
+2025-07-24 14:42:32: [32mINFO[0m:     Uvicorn running on [1mhttp://0.0.0.0:8082[0m (Press CTRL+C to quit)
+2025-07-24 14:42:32: [32mINFO[0m:     Started reloader process [[36m[1m22734[0m] using [36m[1mWatchFiles[0m
+2025-07-24 14:42:34: /opt/anaconda3/lib/python3.12/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+2025-07-24 14:42:34:   warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+2025-07-24 14:42:35: [32mINFO[0m:     Started server process [[36m22749[0m]
+2025-07-24 14:42:35: [32mINFO[0m:     Waiting for application startup.
+2025-07-24 14:42:35: 2025-07-24 14:42:35,050 - main - INFO - [STARTUP] 正在初始化知识库服务应用...
+2025-07-24 14:42:35: 2025-07-24 14:42:35,050 - main - INFO - [INIT] 正在初始化知识库管理器...
+2025-07-24 14:42:35: 2025-07-24 14:42:35,051 - app.core.llamaindex_manager - INFO - LlamaIndex Manager initialized
+2025-07-24 14:42:35: 2025-07-24 14:42:35,051 - app.core.agno_manager - INFO - Agno Manager initialized
+2025-07-24 14:42:35: 2025-07-24 14:42:35,051 - app.core.splitters.semantic_based_splitter - INFO - SemanticBasedSplitter initialized with config: {'min_chunk_size': 100, 'max_chunk_size': 2000, 'similarity_threshold': 0.7, 'language': 'zh'}
+2025-07-24 14:42:35: 2025-07-24 14:42:35,051 - app.core.enhanced_knowledge_manager - INFO - Unified Knowledge Manager initialized with enhanced data model
+2025-07-24 14:42:35: 2025-07-24 14:42:35,051 - main - INFO - [SUCCESS] 知识库管理器初始化成功
+2025-07-24 14:42:35: 2025-07-24 14:42:35,051 - main - INFO - [STATS] 正在获取服务统计信息...
+2025-07-24 14:42:37: 2025-07-24 14:42:37,226 INFO sqlalchemy.engine.Engine select pg_catalog.version()
+2025-07-24 14:42:37: 2025-07-24 14:42:37,226 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-07-24 14:42:37: 2025-07-24 14:42:37,227 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-07-24 14:42:37: 2025-07-24 14:42:37,227 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-07-24 14:42:37: 2025-07-24 14:42:37,841 INFO sqlalchemy.engine.Engine select current_schema()
+2025-07-24 14:42:37: 2025-07-24 14:42:37,841 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-07-24 14:42:37: 2025-07-24 14:42:37,841 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-07-24 14:42:37: 2025-07-24 14:42:37,841 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-07-24 14:42:38: 2025-07-24 14:42:38,343 INFO sqlalchemy.engine.Engine show standard_conforming_strings
+2025-07-24 14:42:38: 2025-07-24 14:42:38,343 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-07-24 14:42:38: 2025-07-24 14:42:38,344 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-07-24 14:42:38: 2025-07-24 14:42:38,344 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-07-24 14:42:38: 2025-07-24 14:42:38,862 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-24 14:42:38: 2025-07-24 14:42:38,862 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-07-24 14:42:38: 2025-07-24 14:42:38,882 INFO sqlalchemy.engine.Engine SELECT count(knowledge_bases.id) AS total_count, count(knowledge_bases.id) FILTER (WHERE knowledge_bases.status = %(status_1)s) AS active_count, sum(knowledge_bases.document_count) AS total_documents, sum(knowledge_bases.chunk_count) AS total_chunks, sum(knowledge_bases.total_size) AS total_size 
+2025-07-24 14:42:38: FROM knowledge_bases 
+2025-07-24 14:42:38:  LIMIT %(param_1)s
+2025-07-24 14:42:38: 2025-07-24 14:42:38,882 - sqlalchemy.engine.Engine - INFO - SELECT count(knowledge_bases.id) AS total_count, count(knowledge_bases.id) FILTER (WHERE knowledge_bases.status = %(status_1)s) AS active_count, sum(knowledge_bases.document_count) AS total_documents, sum(knowledge_bases.chunk_count) AS total_chunks, sum(knowledge_bases.total_size) AS total_size 
+2025-07-24 14:42:38: FROM knowledge_bases 
+2025-07-24 14:42:38:  LIMIT %(param_1)s
+2025-07-24 14:42:38: 2025-07-24 14:42:38,882 INFO sqlalchemy.engine.Engine [generated in 0.00022s] {'status_1': 'active', 'param_1': 1}
+2025-07-24 14:42:38: 2025-07-24 14:42:38,882 - sqlalchemy.engine.Engine - INFO - [generated in 0.00022s] {'status_1': 'active', 'param_1': 1}
+2025-07-24 14:42:39: 2025-07-24 14:42:39,398 INFO sqlalchemy.engine.Engine SELECT knowledge_bases.embedding_model AS knowledge_bases_embedding_model, count(knowledge_bases.id) AS count 
+2025-07-24 14:42:39: FROM knowledge_bases GROUP BY knowledge_bases.embedding_model
+2025-07-24 14:42:39: 2025-07-24 14:42:39,398 - sqlalchemy.engine.Engine - INFO - SELECT knowledge_bases.embedding_model AS knowledge_bases_embedding_model, count(knowledge_bases.id) AS count 
+2025-07-24 14:42:39: FROM knowledge_bases GROUP BY knowledge_bases.embedding_model
+2025-07-24 14:42:39: 2025-07-24 14:42:39,398 INFO sqlalchemy.engine.Engine [generated in 0.00017s] {}
+2025-07-24 14:42:39: 2025-07-24 14:42:39,398 - sqlalchemy.engine.Engine - INFO - [generated in 0.00017s] {}
+2025-07-24 14:42:39: 2025-07-24 14:42:39,654 INFO sqlalchemy.engine.Engine SELECT count(document_chunks.id) AS total_chunks, count(document_chunks.id) FILTER (WHERE document_chunks.embedding_status = %(embedding_status_1)s) AS embedded_chunks, sum(document_chunks.token_count) AS total_tokens, avg(document_chunks.token_count) AS avg_tokens, max(document_chunks.token_count) AS max_tokens, min(document_chunks.token_count) AS min_tokens 
+2025-07-24 14:42:39: FROM document_chunks 
+2025-07-24 14:42:39:  LIMIT %(param_1)s
+2025-07-24 14:42:39: 2025-07-24 14:42:39,654 - sqlalchemy.engine.Engine - INFO - SELECT count(document_chunks.id) AS total_chunks, count(document_chunks.id) FILTER (WHERE document_chunks.embedding_status = %(embedding_status_1)s) AS embedded_chunks, sum(document_chunks.token_count) AS total_tokens, avg(document_chunks.token_count) AS avg_tokens, max(document_chunks.token_count) AS max_tokens, min(document_chunks.token_count) AS min_tokens 
+2025-07-24 14:42:39: FROM document_chunks 
+2025-07-24 14:42:39:  LIMIT %(param_1)s
+2025-07-24 14:42:39: 2025-07-24 14:42:39,654 INFO sqlalchemy.engine.Engine [generated in 0.00030s] {'embedding_status_1': 'completed', 'param_1': 1}
+2025-07-24 14:42:39: 2025-07-24 14:42:39,654 - sqlalchemy.engine.Engine - INFO - [generated in 0.00030s] {'embedding_status_1': 'completed', 'param_1': 1}
+2025-07-24 14:42:39: 2025-07-24 14:42:39,907 INFO sqlalchemy.engine.Engine SELECT document_chunks.embedding_model AS document_chunks_embedding_model, count(document_chunks.id) AS count 
+2025-07-24 14:42:39: FROM document_chunks 
+2025-07-24 14:42:39: WHERE document_chunks.embedding_model IS NOT NULL GROUP BY document_chunks.embedding_model
+2025-07-24 14:42:39: 2025-07-24 14:42:39,907 - sqlalchemy.engine.Engine - INFO - SELECT document_chunks.embedding_model AS document_chunks_embedding_model, count(document_chunks.id) AS count 
+2025-07-24 14:42:39: FROM document_chunks 
+2025-07-24 14:42:39: WHERE document_chunks.embedding_model IS NOT NULL GROUP BY document_chunks.embedding_model
+2025-07-24 14:42:39: 2025-07-24 14:42:39,907 INFO sqlalchemy.engine.Engine [generated in 0.00019s] {}
+2025-07-24 14:42:39: 2025-07-24 14:42:39,907 - sqlalchemy.engine.Engine - INFO - [generated in 0.00019s] {}
+2025-07-24 14:42:40: 2025-07-24 14:42:40,197 INFO sqlalchemy.engine.Engine SELECT count(processing_jobs.id) AS total_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_1)s) AS pending_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_2)s) AS running_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_3)s) AS completed_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_4)s) AS failed_jobs, avg(processing_jobs.actual_duration) AS avg_duration 
+2025-07-24 14:42:40: FROM processing_jobs 
+2025-07-24 14:42:40:  LIMIT %(param_1)s
+2025-07-24 14:42:40: 2025-07-24 14:42:40,197 - sqlalchemy.engine.Engine - INFO - SELECT count(processing_jobs.id) AS total_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_1)s) AS pending_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_2)s) AS running_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_3)s) AS completed_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_4)s) AS failed_jobs, avg(processing_jobs.actual_duration) AS avg_duration 
+2025-07-24 14:42:40: FROM processing_jobs 
+2025-07-24 14:42:40:  LIMIT %(param_1)s
+2025-07-24 14:42:40: 2025-07-24 14:42:40,197 INFO sqlalchemy.engine.Engine [generated in 0.00022s] {'status_1': 'pending', 'status_2': 'running', 'status_3': 'completed', 'status_4': 'failed', 'param_1': 1}
+2025-07-24 14:42:40: 2025-07-24 14:42:40,197 - sqlalchemy.engine.Engine - INFO - [generated in 0.00022s] {'status_1': 'pending', 'status_2': 'running', 'status_3': 'completed', 'status_4': 'failed', 'param_1': 1}
+2025-07-24 14:42:40: 2025-07-24 14:42:40,449 INFO sqlalchemy.engine.Engine SELECT processing_jobs.job_type AS processing_jobs_job_type, count(processing_jobs.id) AS count 
+2025-07-24 14:42:40: FROM processing_jobs GROUP BY processing_jobs.job_type
+2025-07-24 14:42:40: 2025-07-24 14:42:40,449 - sqlalchemy.engine.Engine - INFO - SELECT processing_jobs.job_type AS processing_jobs_job_type, count(processing_jobs.id) AS count 
+2025-07-24 14:42:40: FROM processing_jobs GROUP BY processing_jobs.job_type
+2025-07-24 14:42:40: 2025-07-24 14:42:40,449 INFO sqlalchemy.engine.Engine [generated in 0.00017s] {}
+2025-07-24 14:42:40: 2025-07-24 14:42:40,449 - sqlalchemy.engine.Engine - INFO - [generated in 0.00017s] {}
+2025-07-24 14:42:42: /opt/anaconda3/lib/python3.12/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+2025-07-24 14:42:42:   warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+2025-07-24 14:42:42: 
+2025-07-24 14:42:42: ================================================================================
+2025-07-24 14:42:42:     NextAgent - 知识库服务 (Knowledge Service)
+2025-07-24 14:42:42: ================================================================================
+2025-07-24 14:42:42:     服务版本: v1.0.0
+2025-07-24 14:42:42:     运行端口: 8082
+2025-07-24 14:42:42:     环境配置: development
+2025-07-24 14:42:42:     日志级别: INFO
+2025-07-24 14:42:42:     
+2025-07-24 14:42:42:     核心功能:
+2025-07-24 14:42:42:     • 双框架支持: LlamaIndex + Agno
+2025-07-24 14:42:42:     • 多模型集成: OpenAI, Azure, HuggingFace
+2025-07-24 14:42:42:     • 多向量存储: PGVector, Milvus, ElasticSearch
+2025-07-24 14:42:42:     • 检索模式: llamaindex, agno, hybrid
+2025-07-24 14:42:42: ================================================================================
+2025-07-24 14:42:42: 
+2025-07-24 14:42:42: 2025-07-24 14:42:42,901 - __main__ - INFO - [STARTUP] 正在启动知识库服务...
+2025-07-24 14:42:42: 2025-07-24 14:42:42,901 - __main__ - INFO - [CONFIG] 服务端口: 8082
+2025-07-24 14:42:42: 2025-07-24 14:42:42,901 - __main__ - INFO - [CONFIG] 运行环境: development
+2025-07-24 14:42:42: 2025-07-24 14:42:42,901 - __main__ - INFO - [RELOAD] 热重载已启用，监控目录: ['app', 'config']
+2025-07-24 14:42:42: 2025-07-24 14:42:42,901 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-24 14:42:42: [32mINFO[0m:     Will watch for changes in these directories: ['/Users/wxn/Desktop/carbon/zzdsl-api-carbon/knowledge-service/app', '/Users/wxn/Desktop/carbon/zzdsl-api-carbon/knowledge-service/config']
+2025-07-24 14:42:42: [32mINFO[0m:     Uvicorn running on [1mhttp://0.0.0.0:8082[0m (Press CTRL+C to quit)
+2025-07-24 14:42:42: [32mINFO[0m:     Started reloader process [[36m[1m22830[0m] using [36m[1mWatchFiles[0m
+2025-07-24 14:42:44: /opt/anaconda3/lib/python3.12/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+2025-07-24 14:42:44:   warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+2025-07-24 14:42:45: [32mINFO[0m:     Started server process [[36m22845[0m]
+2025-07-24 14:42:45: [32mINFO[0m:     Waiting for application startup.
+2025-07-24 14:42:45: 2025-07-24 14:42:45,248 - main - INFO - [STARTUP] 正在初始化知识库服务应用...
+2025-07-24 14:42:45: 2025-07-24 14:42:45,249 - main - INFO - [INIT] 正在初始化知识库管理器...
+2025-07-24 14:42:45: 2025-07-24 14:42:45,249 - app.core.llamaindex_manager - INFO - LlamaIndex Manager initialized
+2025-07-24 14:42:45: 2025-07-24 14:42:45,249 - app.core.agno_manager - INFO - Agno Manager initialized
+2025-07-24 14:42:45: 2025-07-24 14:42:45,249 - app.core.splitters.semantic_based_splitter - INFO - SemanticBasedSplitter initialized with config: {'min_chunk_size': 100, 'max_chunk_size': 2000, 'similarity_threshold': 0.7, 'language': 'zh'}
+2025-07-24 14:42:45: 2025-07-24 14:42:45,249 - app.core.enhanced_knowledge_manager - INFO - Unified Knowledge Manager initialized with enhanced data model
+2025-07-24 14:42:45: 2025-07-24 14:42:45,249 - main - INFO - [SUCCESS] 知识库管理器初始化成功
+2025-07-24 14:42:45: 2025-07-24 14:42:45,249 - main - INFO - [STATS] 正在获取服务统计信息...
+2025-07-24 14:42:48: 2025-07-24 14:42:48,144 INFO sqlalchemy.engine.Engine select pg_catalog.version()
+2025-07-24 14:42:48: 2025-07-24 14:42:48,144 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-07-24 14:42:48: 2025-07-24 14:42:48,145 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-07-24 14:42:48: 2025-07-24 14:42:48,145 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-07-24 14:42:48: 2025-07-24 14:42:48,702 INFO sqlalchemy.engine.Engine select current_schema()
+2025-07-24 14:42:48: 2025-07-24 14:42:48,702 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-07-24 14:42:48: 2025-07-24 14:42:48,702 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-07-24 14:42:48: 2025-07-24 14:42:48,702 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-07-24 14:42:49: 2025-07-24 14:42:49,233 INFO sqlalchemy.engine.Engine show standard_conforming_strings
+2025-07-24 14:42:49: 2025-07-24 14:42:49,233 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-07-24 14:42:49: 2025-07-24 14:42:49,233 INFO sqlalchemy.engine.Engine [raw sql] {}
+2025-07-24 14:42:49: 2025-07-24 14:42:49,233 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-07-24 14:42:49: 2025-07-24 14:42:49,821 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2025-07-24 14:42:49: 2025-07-24 14:42:49,821 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-07-24 14:42:49: 2025-07-24 14:42:49,846 INFO sqlalchemy.engine.Engine SELECT count(knowledge_bases.id) AS total_count, count(knowledge_bases.id) FILTER (WHERE knowledge_bases.status = %(status_1)s) AS active_count, sum(knowledge_bases.document_count) AS total_documents, sum(knowledge_bases.chunk_count) AS total_chunks, sum(knowledge_bases.total_size) AS total_size 
+2025-07-24 14:42:49: FROM knowledge_bases 
+2025-07-24 14:42:49:  LIMIT %(param_1)s
+2025-07-24 14:42:49: 2025-07-24 14:42:49,846 - sqlalchemy.engine.Engine - INFO - SELECT count(knowledge_bases.id) AS total_count, count(knowledge_bases.id) FILTER (WHERE knowledge_bases.status = %(status_1)s) AS active_count, sum(knowledge_bases.document_count) AS total_documents, sum(knowledge_bases.chunk_count) AS total_chunks, sum(knowledge_bases.total_size) AS total_size 
+2025-07-24 14:42:49: FROM knowledge_bases 
+2025-07-24 14:42:49:  LIMIT %(param_1)s
+2025-07-24 14:42:49: 2025-07-24 14:42:49,846 INFO sqlalchemy.engine.Engine [generated in 0.00025s] {'status_1': 'active', 'param_1': 1}
+2025-07-24 14:42:49: 2025-07-24 14:42:49,846 - sqlalchemy.engine.Engine - INFO - [generated in 0.00025s] {'status_1': 'active', 'param_1': 1}
+2025-07-24 14:42:50: 2025-07-24 14:42:50,412 INFO sqlalchemy.engine.Engine SELECT knowledge_bases.embedding_model AS knowledge_bases_embedding_model, count(knowledge_bases.id) AS count 
+2025-07-24 14:42:50: FROM knowledge_bases GROUP BY knowledge_bases.embedding_model
+2025-07-24 14:42:50: 2025-07-24 14:42:50,412 - sqlalchemy.engine.Engine - INFO - SELECT knowledge_bases.embedding_model AS knowledge_bases_embedding_model, count(knowledge_bases.id) AS count 
+2025-07-24 14:42:50: FROM knowledge_bases GROUP BY knowledge_bases.embedding_model
+2025-07-24 14:42:50: 2025-07-24 14:42:50,412 INFO sqlalchemy.engine.Engine [generated in 0.00035s] {}
+2025-07-24 14:42:50: 2025-07-24 14:42:50,412 - sqlalchemy.engine.Engine - INFO - [generated in 0.00035s] {}
+2025-07-24 14:42:50: 2025-07-24 14:42:50,698 INFO sqlalchemy.engine.Engine SELECT count(document_chunks.id) AS total_chunks, count(document_chunks.id) FILTER (WHERE document_chunks.embedding_status = %(embedding_status_1)s) AS embedded_chunks, sum(document_chunks.token_count) AS total_tokens, avg(document_chunks.token_count) AS avg_tokens, max(document_chunks.token_count) AS max_tokens, min(document_chunks.token_count) AS min_tokens 
+2025-07-24 14:42:50: FROM document_chunks 
+2025-07-24 14:42:50:  LIMIT %(param_1)s
+2025-07-24 14:42:50: 2025-07-24 14:42:50,698 - sqlalchemy.engine.Engine - INFO - SELECT count(document_chunks.id) AS total_chunks, count(document_chunks.id) FILTER (WHERE document_chunks.embedding_status = %(embedding_status_1)s) AS embedded_chunks, sum(document_chunks.token_count) AS total_tokens, avg(document_chunks.token_count) AS avg_tokens, max(document_chunks.token_count) AS max_tokens, min(document_chunks.token_count) AS min_tokens 
+2025-07-24 14:42:50: FROM document_chunks 
+2025-07-24 14:42:50:  LIMIT %(param_1)s
+2025-07-24 14:42:50: 2025-07-24 14:42:50,698 INFO sqlalchemy.engine.Engine [generated in 0.00030s] {'embedding_status_1': 'completed', 'param_1': 1}
+2025-07-24 14:42:50: 2025-07-24 14:42:50,698 - sqlalchemy.engine.Engine - INFO - [generated in 0.00030s] {'embedding_status_1': 'completed', 'param_1': 1}
+2025-07-24 14:42:50: 2025-07-24 14:42:50,975 INFO sqlalchemy.engine.Engine SELECT document_chunks.embedding_model AS document_chunks_embedding_model, count(document_chunks.id) AS count 
+2025-07-24 14:42:50: FROM document_chunks 
+2025-07-24 14:42:50: WHERE document_chunks.embedding_model IS NOT NULL GROUP BY document_chunks.embedding_model
+2025-07-24 14:42:50: 2025-07-24 14:42:50,975 - sqlalchemy.engine.Engine - INFO - SELECT document_chunks.embedding_model AS document_chunks_embedding_model, count(document_chunks.id) AS count 
+2025-07-24 14:42:50: FROM document_chunks 
+2025-07-24 14:42:50: WHERE document_chunks.embedding_model IS NOT NULL GROUP BY document_chunks.embedding_model
+2025-07-24 14:42:50: 2025-07-24 14:42:50,975 INFO sqlalchemy.engine.Engine [generated in 0.00026s] {}
+2025-07-24 14:42:50: 2025-07-24 14:42:50,975 - sqlalchemy.engine.Engine - INFO - [generated in 0.00026s] {}
+2025-07-24 14:42:51: 2025-07-24 14:42:51,256 INFO sqlalchemy.engine.Engine SELECT count(processing_jobs.id) AS total_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_1)s) AS pending_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_2)s) AS running_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_3)s) AS completed_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_4)s) AS failed_jobs, avg(processing_jobs.actual_duration) AS avg_duration 
+2025-07-24 14:42:51: FROM processing_jobs 
+2025-07-24 14:42:51:  LIMIT %(param_1)s
+2025-07-24 14:42:51: 2025-07-24 14:42:51,256 - sqlalchemy.engine.Engine - INFO - SELECT count(processing_jobs.id) AS total_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_1)s) AS pending_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_2)s) AS running_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_3)s) AS completed_jobs, count(processing_jobs.id) FILTER (WHERE processing_jobs.status = %(status_4)s) AS failed_jobs, avg(processing_jobs.actual_duration) AS avg_duration 
+2025-07-24 14:42:51: FROM processing_jobs 
+2025-07-24 14:42:51:  LIMIT %(param_1)s
+2025-07-24 14:42:51: 2025-07-24 14:42:51,257 INFO sqlalchemy.engine.Engine [generated in 0.00023s] {'status_1': 'pending', 'status_2': 'running', 'status_3': 'completed', 'status_4': 'failed', 'param_1': 1}
+2025-07-24 14:42:51: 2025-07-24 14:42:51,257 - sqlalchemy.engine.Engine - INFO - [generated in 0.00023s] {'status_1': 'pending', 'status_2': 'running', 'status_3': 'completed', 'status_4': 'failed', 'param_1': 1}
+2025-07-24 14:42:52: 2025-07-24 14:42:52,075 INFO sqlalchemy.engine.Engine SELECT processing_jobs.job_type AS processing_jobs_job_type, count(processing_jobs.id) AS count 
+2025-07-24 14:42:52: FROM processing_jobs GROUP BY processing_jobs.job_type
+2025-07-24 14:42:52: 2025-07-24 14:42:52,075 - sqlalchemy.engine.Engine - INFO - SELECT processing_jobs.job_type AS processing_jobs_job_type, count(processing_jobs.id) AS count 
+2025-07-24 14:42:52: FROM processing_jobs GROUP BY processing_jobs.job_type
+2025-07-24 14:42:52: 2025-07-24 14:42:52,076 INFO sqlalchemy.engine.Engine [generated in 0.00034s] {}
+2025-07-24 14:42:52: 2025-07-24 14:42:52,076 - sqlalchemy.engine.Engine - INFO - [generated in 0.00034s] {}
+2025-07-24 14:42:52: 2025-07-24 14:42:52,338 - main - INFO - [STATS] 服务统计: 知识库数量={'total_knowledge_bases': 2, 'active_knowledge_bases': 2, 'total_documents': 0, 'total_chunks': 0, 'total_size': 0, 'models_distribution': {'Qwen/Qwen3-Embedding-8B': 2}}, 文档数量=0
+2025-07-24 14:42:52: 2025-07-24 14:42:52,338 - main - INFO - [READY] 知识库服务已就绪，监听端口: 8082
+2025-07-24 14:42:52: 2025-07-24 14:42:52,338 - main - INFO - [READY] 服务文档地址: http://localhost:8082/docs
+2025-07-24 14:42:52: [32mINFO[0m:     Application startup complete.

@@ -2,7 +2,7 @@
 
 ## 一、项目概述
 
-本文档详细描述了Chat-Service与Agent-Service对接及消息渲染功能的完整开发计划。Chat-Service是ZZDSJ智政科技AI智能办公助手的核心对话服务，负责处理用户与智能体的实时交互。
+本文档详细描述了Chat-Service与Agent-Service对接及消息渲染功能的完整开发计划。Chat-Service是ZZDSJ NextAgent的核心对话服务，负责处理用户与智能体的实时交互。
 
 ## 二、现状分析
 

@@ -2,7 +2,7 @@
 
 ## 概述
 
-智政科技AI智能办公助手系统的API网关服务，基于原ZZDSJ Backend API架构改造而成，负责统一管理所有微服务的访问入口。
+NextAgent系统的API网关服务，基于原ZZDSJ Backend API架构改造而成，负责统一管理所有微服务的访问入口。
 
 ## 功能特点
 

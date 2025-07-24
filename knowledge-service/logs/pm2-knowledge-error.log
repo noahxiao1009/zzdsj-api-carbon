@@ -1,0 +1,29 @@
+2025-07-24 14:42:12: /opt/anaconda3/lib/python3.12/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+2025-07-24 14:42:12:   warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+2025-07-24 14:42:12: [32mINFO[0m:     Will watch for changes in these directories: ['/Users/wxn/Desktop/carbon/zzdsl-api-carbon/knowledge-service/app', '/Users/wxn/Desktop/carbon/zzdsl-api-carbon/knowledge-service/config']
+2025-07-24 14:42:12: [32mINFO[0m:     Uvicorn running on [1mhttp://0.0.0.0:8082[0m (Press CTRL+C to quit)
+2025-07-24 14:42:12: [32mINFO[0m:     Started reloader process [[36m[1m21964[0m] using [36m[1mWatchFiles[0m
+2025-07-24 14:42:14: /opt/anaconda3/lib/python3.12/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+2025-07-24 14:42:14:   warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+2025-07-24 14:42:15: [32mINFO[0m:     Started server process [[36m22720[0m]
+2025-07-24 14:42:15: [32mINFO[0m:     Waiting for application startup.
+2025-07-24 14:42:21: [32mINFO[0m:     Application startup complete.
+2025-07-24 14:42:32: /opt/anaconda3/lib/python3.12/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+2025-07-24 14:42:32:   warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+2025-07-24 14:42:32: [32mINFO[0m:     Will watch for changes in these directories: ['/Users/wxn/Desktop/carbon/zzdsl-api-carbon/knowledge-service/app', '/Users/wxn/Desktop/carbon/zzdsl-api-carbon/knowledge-service/config']
+2025-07-24 14:42:32: [32mINFO[0m:     Uvicorn running on [1mhttp://0.0.0.0:8082[0m (Press CTRL+C to quit)
+2025-07-24 14:42:32: [32mINFO[0m:     Started reloader process [[36m[1m22734[0m] using [36m[1mWatchFiles[0m
+2025-07-24 14:42:34: /opt/anaconda3/lib/python3.12/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+2025-07-24 14:42:34:   warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+2025-07-24 14:42:35: [32mINFO[0m:     Started server process [[36m22749[0m]
+2025-07-24 14:42:35: [32mINFO[0m:     Waiting for application startup.
+2025-07-24 14:42:42: /opt/anaconda3/lib/python3.12/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+2025-07-24 14:42:42:   warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+2025-07-24 14:42:42: [32mINFO[0m:     Will watch for changes in these directories: ['/Users/wxn/Desktop/carbon/zzdsl-api-carbon/knowledge-service/app', '/Users/wxn/Desktop/carbon/zzdsl-api-carbon/knowledge-service/config']
+2025-07-24 14:42:42: [32mINFO[0m:     Uvicorn running on [1mhttp://0.0.0.0:8082[0m (Press CTRL+C to quit)
+2025-07-24 14:42:42: [32mINFO[0m:     Started reloader process [[36m[1m22830[0m] using [36m[1mWatchFiles[0m
+2025-07-24 14:42:44: /opt/anaconda3/lib/python3.12/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+2025-07-24 14:42:44:   warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+2025-07-24 14:42:45: [32mINFO[0m:     Started server process [[36m22845[0m]
+2025-07-24 14:42:45: [32mINFO[0m:     Waiting for application startup.
+2025-07-24 14:42:52: [32mINFO[0m:     Application startup complete.
