@@ -1,0 +1,85 @@
+# 任务管理服务配置文件
+
+# 服务配置
+port: 8084
+grpc_port: 8085
+environment: development
+log_level: info
+
+# 数据库配置
+database:
+  host: localhost
+  port: 5434
+  user: zzdsj_demo
+  password: zzdsj123
+  database: zzdsj_demo
+  ssl_mode: disable
+
+# Redis配置
+redis:
+  host: localhost
+  port: 6379
+  password: ""
+  db: 1
+
+# 工作进程配置
+worker:
+  pool_size: 10                    # 工作进程池大小
+  max_concurrent_tasks: 50         # 最大并发任务数
+  task_timeout: "5m"               # 任务超时时间
+  poll_interval: "1s"              # 轮询间隔
+
+# 任务配置
+task:
+  max_retry_attempts: 3            # 最大重试次数
+  retry_backoff_base: "1s"         # 重试退避基础时间
+  retry_backoff_max: "60s"         # 重试退避最大时间
+  default_priority: "normal"       # 默认优先级
+  queue_prefix: "task_queue"       # 队列前缀
+
+# MinIO配置
+minio:
+  endpoint: localhost:9000
+  access_key: zzdsjadmin
+  secret_key: zzdsjadmin
+  bucket_name: knowledge-files
+  use_ssl: false
+
+# 文件上传配置
+upload:
+  max_file_size: 104857600         # 100MB
+  max_batch_size: 20               # 20个文件
+  concurrency_limit: 10            # 10并发
+  rate_limit: 100                  # 100req/s
+  burst_limit: 200                 # 突发200个请求
+
+# 监控配置 (可选)
+monitoring:
+  enabled: true
+  metrics_port: 8085
+  health_check_interval: "30s"
+
+# 日志配置 (可选)
+logging:
+  format: "json"                   # 日志格式: json, text
+  output: "stdout"                 # 输出: stdout, file
+  file_path: "/var/log/task-manager.log"
+  max_size: 100                    # 日志文件最大大小(MB)
+  max_backups: 3                   # 保留的日志文件数量
+  max_age: 7                       # 日志文件保留天数
+
+# 性能配置 (可选)
+performance:
+  enable_pprof: false              # 启用性能分析
+  pprof_port: 6060
+  gc_percent: 100                  # GC目标百分比
+  max_procs: 0                     # 最大CPU核心数 (0=自动)
+
+# 安全配置 (可选)
+security:
+  enable_cors: true                # 启用CORS
+  allowed_origins: ["*"]           # 允许的来源
+  allowed_methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+  allowed_headers: ["Content-Type", "Authorization"]
+  api_key_required: false          # 是否需要API密钥
+  api_key: ""                      # API密钥

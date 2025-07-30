@@ -11,6 +11,15 @@ from app.config.settings import settings
 engine = create_engine(
     settings.DATABASE_URL,
     pool_pre_ping=True,
+    pool_size=10,                    # 连接池大小
+    max_overflow=20,                 # 最大溢出连接数
+    pool_timeout=30,                 # 获取连接的超时时间
+    pool_recycle=3600,               # 连接回收时间(1小时)
+    connect_args={
+        "connect_timeout": 10,       # 连接超时
+        "application_name": "knowledge-service",
+        "sslmode": "prefer"          # SSL连接模式
+    },
     echo=settings.DEBUG
 )
 

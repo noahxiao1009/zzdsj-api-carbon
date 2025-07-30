@@ -49,20 +49,67 @@ async def lifespan(app: FastAPI):
     # 启动时执行
     logger.info("[STARTUP] 正在初始化知识库服务应用...")
     
-    # 初始化知识库管理器
+    # 环境初始化和验证
     try:
-        logger.info("[INIT] 正在初始化知识库管理器...")
-        knowledge_manager = get_unified_knowledge_manager()
-        logger.info("[SUCCESS] 知识库管理器初始化成功")
+        logger.info("[INIT] 正在进行环境初始化验证...")
+        from app.utils.environment_initializer import initialize_environment
         
-        # 获取管理器统计信息
-        logger.info("[STATS] 正在获取服务统计信息...")
-        stats = await knowledge_manager.get_statistics()
-        logger.info(f"[STATS] 服务统计: 知识库数量={stats.get('knowledge_bases', 0)}, 文档数量={stats.get('documents', 0)}")
+        init_result = await initialize_environment()
+        if init_result['overall_status'] == 'failed':
+            logger.error("[ERROR] 环境初始化失败，服务无法启动")
+            logger.error(f"[ERROR] 错误详情: {[err.message for err in init_result['errors']]}")
+            for rec in init_result['recommendations']:
+                logger.error(f"[RECOMMENDATION] {rec}")
+            raise RuntimeError("环境初始化失败")
+        elif init_result['overall_status'] == 'partial':
+            logger.warning(f"[WARNING] 环境初始化部分成功: {init_result['summary']}")
+            for err in init_result['errors']:
+                logger.warning(f"[WARNING] {err.component}: {err.message}")
+        else:
+            logger.info(f"[SUCCESS] 环境初始化完成: {init_result['summary']}")
+        
+        # 记录各组件状态
+        for component, result in init_result['components'].items():
+            status_icon = "✓" if result.status == 'success' else "⚠" if result.status == 'skipped' else "✗"
+            logger.info(f"[COMPONENT] {status_icon} {component}: {result.message}")
+            
+    except Exception as e:
+        logger.error(f"[ERROR] 环境初始化异常: {e}")
+        raise
+    
+    # 使用快速管理器进行轻量级初始化
+    try:
+        logger.info("[INIT] 正在初始化快速知识库管理器...")
+        from app.models.database import get_db
+        from app.core.fast_knowledge_manager import get_fast_knowledge_manager
+        
+        db = next(get_db())
+        try:
+            fast_manager = get_fast_knowledge_manager(db)
+            total_count = fast_manager.count_knowledge_bases()
+            logger.info("[SUCCESS] 快速知识库管理器初始化成功")
+            
+            # 获取快速统计信息
+            logger.info("[STATS] 正在获取服务统计信息...")
+            logger.info(f"[STATS] 服务统计: 知识库数量={total_count}, 文档数量=0")
+        finally:
+            db.close()
         
     except Exception as e:
         logger.error(f"[ERROR] 知识库服务初始化失败: {e}")
-        raise
+        # 不抛出异常，允许服务继续启动
+        logger.warning("[WARNING] 使用降级模式启动服务")
+    
+    # 跳过文档处理Worker启动以提高性能
+    # try:
+    #     logger.info("[WORKER] 正在启动文档处理Worker...")
+    #     from app.worker_manager import start_worker
+    #     await start_worker()
+    #     logger.info("[SUCCESS] 文档处理Worker启动成功")
+    # except Exception as e:
+    #     logger.error(f"[ERROR] Worker启动失败: {e}")
+    #     # 不抛出异常，允许主服务继续运行
+    logger.info("[WORKER] 跳过Worker启动以提高API响应性能")
     
     logger.info(f"[READY] 知识库服务已就绪，监听端口: {settings.port}")
     logger.info("[READY] 服务文档地址: http://localhost:{}/docs".format(settings.port))
@@ -71,6 +118,16 @@ async def lifespan(app: FastAPI):
     
     # 关闭时执行
     logger.info("[SHUTDOWN] 正在关闭知识库服务...")
+    
+    # 停止文档处理Worker
+    try:
+        logger.info("[SHUTDOWN] 正在停止文档处理Worker...")
+        from app.worker_manager import stop_worker
+        await stop_worker()
+        logger.info("[SUCCESS] 文档处理Worker已停止")
+    except Exception as e:
+        logger.error(f"[ERROR] Worker停止失败: {e}")
+    
     logger.info("[SHUTDOWN] 知识库服务已安全关闭")
 
 
@@ -216,18 +273,29 @@ async def general_exception_handler(request: Request, exc: Exception):
 async def health_check():
     """健康检查"""
     try:
-        # 检查知识库管理器状态
-        knowledge_manager = get_unified_knowledge_manager()
-        stats = await knowledge_manager.get_statistics()
+        # 使用快速管理器进行健康检查
+        from app.models.database import get_db
+        from app.core.fast_knowledge_manager import get_fast_knowledge_manager
         
-        return {
-            "status": "healthy",
-            "service": "knowledge-service",
-            "version": "1.0.0",
-            "port": settings.port,
-            "timestamp": time.time(),
-            "stats": stats
-        }
+        db = next(get_db())
+        try:
+            fast_manager = get_fast_knowledge_manager(db)
+            total_count = fast_manager.count_knowledge_bases()
+            
+            return {
+                "status": "healthy",
+                "service": "knowledge-service",
+                "version": "1.0.0",
+                "port": settings.port,
+                "timestamp": time.time(),
+                "stats": {
+                    "total_knowledge_bases": total_count,
+                    "performance_mode": "optimized",
+                    "fast_api": True
+                }
+            }
+        finally:
+            db.close()
     except Exception as e:
         logger.error(f"[HEALTH] 健康检查失败: {e}")
         raise HTTPException(
@@ -262,8 +330,29 @@ async def root():
 
 
 # 注册路由
-app.include_router(knowledge_router, prefix="/api/v1")
+# app.include_router(knowledge_router, prefix="/api/v1")  # 暂时禁用慢速路由
 app.include_router(splitter_router, prefix="/api/v1")
+
+# 注册快速知识库路由（优化性能）- 替换原始路由
+from app.api.fast_knowledge_routes import router as fast_knowledge_router
+app.include_router(fast_knowledge_router, prefix="/api/v1/fast")
+app.include_router(fast_knowledge_router, prefix="/api/v1")  # 直接替换原始路由
+
+# 注册前端专用路由（为前端BFF层优化）
+from app.api.frontend_routes import router as frontend_router
+app.include_router(frontend_router, prefix="/api")
+
+# 注册新的异步上传路由
+from app.api.upload_routes import router as upload_router
+app.include_router(upload_router, prefix="/api/v1")
+
+# 注册知识库检索模式管理路由
+from app.api.knowledge_search_routes import router as knowledge_search_router
+app.include_router(knowledge_search_router, prefix="/api/v1")
+
+# 注册文件夹管理路由
+from app.api.folder_management_routes import router as folder_management_router
+app.include_router(folder_management_router, prefix="/api/v1")
 
 
 # 开发环境调试信息

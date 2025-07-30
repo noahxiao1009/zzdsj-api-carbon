@@ -13,18 +13,24 @@ class DatabaseSettings(BaseSettings):
     """数据库配置"""
     
     # PostgreSQL配置
-    postgres_host: str = Field(default="localhost", description="PostgreSQL主机")
-    postgres_port: int = Field(default=5432, description="PostgreSQL端口")
-    postgres_user: str = Field(default="postgres", description="PostgreSQL用户名")
-    postgres_password: str = Field(default="", description="PostgreSQL密码")
-    postgres_db: str = Field(default="knowledge_db", description="PostgreSQL数据库名")
-    postgres_schema: str = Field(default="public", description="PostgreSQL模式")
+    postgres_host: str = Field(default="localhost", env="POSTGRES_HOST", description="PostgreSQL主机")
+    postgres_port: int = Field(default=5432, env="POSTGRES_PORT", description="PostgreSQL端口")
+    postgres_user: str = Field(default="postgres", env="POSTGRES_USER", description="PostgreSQL用户名")
+    postgres_password: str = Field(default="", env="POSTGRES_PASSWORD", description="PostgreSQL密码")
+    postgres_db: str = Field(default="knowledge_db", env="POSTGRES_DB", description="PostgreSQL数据库名")
+    postgres_schema: str = Field(default="public", env="POSTGRES_SCHEMA", description="PostgreSQL模式")
     
     # Redis配置
-    redis_host: str = Field(default="localhost", description="Redis主机")
-    redis_port: int = Field(default=6379, description="Redis端口")
-    redis_password: str = Field(default="", description="Redis密码")
-    redis_db: int = Field(default=0, description="Redis数据库")
+    redis_host: str = Field(default="localhost", env="REDIS_HOST", description="Redis主机")
+    redis_port: int = Field(default=6379, env="REDIS_PORT", description="Redis端口")
+    redis_password: str = Field(default="", env="REDIS_PASSWORD", description="Redis密码")
+    redis_db: int = Field(default=0, env="REDIS_DB", description="Redis数据库")
+    
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+        case_sensitive = False
+        extra = "allow"
 
 
 class VectorStoreSettings(BaseSettings):
@@ -45,9 +51,18 @@ class VectorStoreSettings(BaseSettings):
     pgvector_dimension: int = Field(default=1536, description="向量维度")
     
     # Elasticsearch配置
-    elasticsearch_enabled: bool = Field(default=False, description="启用Elasticsearch")
-    elasticsearch_host: str = Field(default="localhost", description="Elasticsearch主机")
-    elasticsearch_port: int = Field(default=9200, description="Elasticsearch端口")
+    elasticsearch_enabled: bool = Field(default=False, env="ELASTICSEARCH_ENABLED", description="启用Elasticsearch")
+    elasticsearch_host: str = Field(default="localhost", env="ELASTICSEARCH_HOST", description="Elasticsearch主机")
+    elasticsearch_port: int = Field(default=9200, env="ELASTICSEARCH_PORT", description="Elasticsearch端口")
+    elasticsearch_username: str = Field(default="", env="ELASTICSEARCH_USERNAME", description="Elasticsearch用户名")
+    elasticsearch_password: str = Field(default="", env="ELASTICSEARCH_PASSWORD", description="Elasticsearch密码")
+    elasticsearch_use_ssl: bool = Field(default=False, env="ELASTICSEARCH_USE_SSL", description="Elasticsearch使用SSL")
+    
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+        case_sensitive = False
+        extra = "allow"
 
 
 class EmbeddingSettings(BaseSettings):
@@ -120,8 +135,14 @@ class AgnoSettings(BaseSettings):
 class ExternalServiceSettings(BaseSettings):
     """外部服务配置"""
     
+    # Task Manager服务配置
+    task_manager_url: str = Field(default="http://localhost:8084", env="TASK_MANAGER_URL", description="Task Manager服务URL")
+    task_manager_grpc_address: str = Field(default="localhost:8085", env="TASK_MANAGER_GRPC_ADDRESS", description="Task Manager gRPC地址")
+    task_manager_timeout: int = Field(default=30, env="TASK_MANAGER_TIMEOUT", description="Task Manager超时时间")
+    enable_task_manager_integration: bool = Field(default=True, env="ENABLE_TASK_MANAGER_INTEGRATION", description="启用Task Manager集成")
+    
     # 模型服务配置
-    model_service_url: str = Field(default="http://localhost:8083", description="模型服务URL")
+    model_service_url: str = Field(default="http://localhost:8088", description="模型服务URL")
     model_service_timeout: int = Field(default=30, description="模型服务超时时间")
     
     # 智能体服务配置
@@ -129,7 +150,7 @@ class ExternalServiceSettings(BaseSettings):
     agent_service_timeout: int = Field(default=60, description="智能体服务超时时间")
     
     # 基础服务配置
-    base_service_url: str = Field(default="http://localhost:8084", description="基础服务URL")
+    base_service_url: str = Field(default="http://localhost:8085", description="基础服务URL")
     base_service_timeout: int = Field(default=30, description="基础服务超时时间")
 
 
@@ -137,29 +158,62 @@ class StorageSettings(BaseSettings):
     """存储配置"""
     
     # MinIO配置
-    minio_endpoint: str = Field(default="167.71.85.231:9000", description="MinIO服务地址")
-    minio_access_key: str = Field(default="HwEJOE3pYo92PZyx", description="MinIO访问密钥")
-    minio_secret_key: str = Field(default="I8p29jlLm9LJ7rDBvpXTvdeA58zNEvJs", description="MinIO私钥")
-    minio_secure: bool = Field(default=False, description="是否使用HTTPS")
-    minio_bucket_name: str = Field(default="knowledge-files", description="MinIO存储桶名称")
+    minio_endpoint: str = Field(default="localhost:9000", env="MINIO_ENDPOINT", description="MinIO服务地址")
+    minio_access_key: str = Field(default="zzdsjadmin", env="MINIO_ACCESS_KEY", description="MinIO访问密钥")
+    minio_secret_key: str = Field(default="zzdsjadmin", env="MINIO_SECRET_KEY", description="MinIO私钥")
+    minio_secure: bool = Field(default=False, env="MINIO_SECURE", description="是否使用HTTPS")
+    minio_bucket_name: str = Field(default="knowledge-files", env="MINIO_BUCKET_NAME", description="MinIO存储桶名称")
+    
+    @property
+    def minio_host(self) -> str:
+        """从endpoint中提取主机"""
+        return self.minio_endpoint.split(':')[0]
+    
+    @property 
+    def minio_port(self) -> int:
+        """从endpoint中提取端口"""
+        parts = self.minio_endpoint.split(':')
+        return int(parts[1]) if len(parts) > 1 else 9000
     
     # 存储策略配置
-    storage_backend: str = Field(default="minio", description="存储后端类型 (local/minio)")
-    local_storage_path: str = Field(default="./uploads", description="本地存储路径")
+    storage_backend: str = Field(default="minio", env="STORAGE_BACKEND", description="存储后端类型 (local/minio)")
+    local_storage_path: str = Field(default="./uploads", env="LOCAL_STORAGE_PATH", description="本地存储路径")
+    temp_upload_dir: str = Field(default="/tmp/uploads", env="TEMP_UPLOAD_DIR", description="临时上传目录")
     
 
 class ProcessingSettings(BaseSettings):
     """文档处理配置"""
     
     # 并发配置
-    max_workers: int = Field(default=4, description="最大工作线程数")
-    batch_size: int = Field(default=100, description="批处理大小")
+    max_workers: int = Field(default=4, env="MAX_WORKERS", description="最大工作线程数")
+    batch_size: int = Field(default=100, env="BATCH_SIZE", description="批处理大小")
     
     # 文件上传配置
-    upload_dir: str = Field(default="uploads", description="上传目录")
-    max_file_size: int = Field(default=100 * 1024 * 1024, description="最大文件大小(100MB)")
+    upload_dir: str = Field(default="uploads", env="UPLOAD_DIR", description="上传目录")
+    max_file_size: int = Field(default=104857600, env="MAX_FILE_SIZE", description="最大文件大小(字节)")
+    
+    # 异步队列配置
+    enable_async_processing: bool = Field(default=True, env="ENABLE_ASYNC_PROCESSING", description="启用异步处理")
+    default_queue_name: str = Field(default="document_processing", env="DEFAULT_QUEUE_NAME", description="默认队列名称")
+    task_timeout: int = Field(default=300, env="TASK_TIMEOUT", description="任务超时时间(秒)")
+    max_task_retries: int = Field(default=3, env="MAX_TASK_RETRIES", description="最大重试次数")
+    worker_concurrency: int = Field(default=3, env="WORKER_CONCURRENCY", description="工作进程并发数")
+    
+    # 任务通知配置
+    enable_task_notifications: bool = Field(default=True, env="ENABLE_TASK_NOTIFICATIONS", description="启用任务通知")
+    notification_channel: str = Field(default="task_notifications", env="NOTIFICATION_CHANNEL", description="通知频道")
+    task_retention_days: int = Field(default=7, env="TASK_RETENTION_DAYS", description="任务保留天数")
+    
+    # 切分策略配置
+    default_chunk_size: int = Field(default=1024, env="DEFAULT_CHUNK_SIZE", description="默认分块大小")
+    default_chunk_overlap: int = Field(default=128, env="DEFAULT_CHUNK_OVERLAP", description="默认分块重叠")
+    default_chunk_strategy: str = Field(default="basic", env="DEFAULT_CHUNK_STRATEGY", description="默认切分策略")
+    enable_semantic_chunking: bool = Field(default=True, env="ENABLE_SEMANTIC_CHUNKING", description="启用语义切分")
+    enable_intelligent_chunking: bool = Field(default=True, env="ENABLE_INTELLIGENT_CHUNKING", description="启用智能切分")
+    
+    # 文件类型配置
     allowed_extensions: List[str] = Field(
-        default=[".pdf", ".txt", ".docx", ".doc", ".md", ".csv", ".json"],
+        default=[".pdf", ".txt", ".docx", ".doc", ".md", ".csv", ".json", ".html"],
         description="允许的文件扩展名"
     )
     
@@ -182,6 +236,7 @@ class KnowledgeServiceSettings(BaseSettings):
     
     # 环境配置
     environment: str = Field(default="development", description="运行环境")
+    is_local: bool = Field(default=False, description="是否为本地环境")
     
     # 开发配置
     enable_reload: bool = Field(default=True, description="启用热重载(仅开发环境)")
@@ -237,6 +292,7 @@ class KnowledgeServiceSettings(BaseSettings):
         env_file = ".env"
         env_file_encoding = "utf-8"
         case_sensitive = False
+        extra = "allow"
         extra = "allow"  # 允许额外的环境变量
         
     def get_database_url(self) -> str:
@@ -270,6 +326,63 @@ class KnowledgeServiceSettings(BaseSettings):
     def upload_directory(self) -> str:
         """获取上传目录"""
         return self.UPLOAD_DIR or self.processing.upload_dir
+    
+    def __init__(self, **kwargs):
+        """初始化处理，根据环境自动设置is_local"""
+        super().__init__(**kwargs)
+        if self.environment == "local":
+            self.is_local = True
+    
+    def get_database_config(self) -> dict:
+        """获取数据库配置，适配本地环境"""
+        config = {
+            "host": self.database.postgres_host,
+            "port": self.database.postgres_port,
+            "database": self.database.postgres_db,
+            "user": self.database.postgres_user,
+        }
+        
+        # 本地环境通常不需要密码
+        if not self.is_local and self.database.postgres_password:
+            config["password"] = self.database.postgres_password
+            
+        return config
+    
+    def get_elasticsearch_config(self) -> dict:
+        """获取Elasticsearch配置，适配本地环境"""
+        if not self.vector_store.elasticsearch_enabled:
+            return {}
+            
+        # 本地环境使用HTTP，远程环境使用HTTPS和认证
+        if self.is_local:
+            hosts = [f"http://{self.vector_store.elasticsearch_host}:{self.vector_store.elasticsearch_port}"]
+        else:
+            scheme = "https" if self.vector_store.elasticsearch_use_ssl else "http"
+            hosts = [f"{scheme}://{self.vector_store.elasticsearch_host}:{self.vector_store.elasticsearch_port}"]
+            
+        config = {
+            "hosts": hosts,
+            "verify_certs": False,
+            "ssl_show_warn": False
+        }
+        
+        # 远程环境添加认证
+        if not self.is_local and self.vector_store.elasticsearch_username:
+            config["http_auth"] = (
+                self.vector_store.elasticsearch_username,
+                self.vector_store.elasticsearch_password
+            )
+                
+        return config
+    
+    def get_connection_test_config(self) -> dict:
+        """获取连接测试配置"""
+        return {
+            "database_timeout": 5 if self.is_local else 30,
+            "elasticsearch_timeout": 3 if self.is_local else 15,
+            "redis_timeout": 2 if self.is_local else 10,
+            "skip_auth_test": self.is_local  # 本地环境跳过认证测试
+        }
     
     @property
     def max_upload_size(self) -> int:

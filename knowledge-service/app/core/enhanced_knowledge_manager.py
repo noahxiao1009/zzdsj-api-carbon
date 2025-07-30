@@ -13,6 +13,7 @@ from sqlalchemy.orm import Session
 
 from app.config.settings import settings
 from app.models.database import get_db
+from app.utils.cache import cached
 from app.repositories import (
     KnowledgeBaseRepository,
     DocumentRepository, 
@@ -211,6 +212,7 @@ class UnifiedKnowledgeManager:
             logger.error(f"Failed to get knowledge base {kb_id}: {e}")
             return None
     
+    @cached(ttl=30, key_prefix="kb_list")  # 30秒缓存
     async def list_knowledge_bases(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
         """获取知识库列表（基于新数据模型）"""
         try:

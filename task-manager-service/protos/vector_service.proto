@@ -1,0 +1,134 @@
+syntax = "proto3";
+
+package vector_service;
+
+// 向量处理服务
+service VectorProcessingService {
+    // 生成文本嵌入向量
+    rpc GenerateEmbeddings(EmbeddingRequest) returns (EmbeddingResponse);
+    
+    // 批量生成嵌入向量
+    rpc BatchGenerateEmbeddings(BatchEmbeddingRequest) returns (BatchEmbeddingResponse);
+    
+    // 存储向量到Milvus
+    rpc StoreVectors(VectorStorageRequest) returns (VectorStorageResponse);
+    
+    // 批量向量存储
+    rpc BatchStoreVectors(BatchVectorStorageRequest) returns (BatchVectorStorageResponse);
+    
+    // 计算向量相似度
+    rpc ComputeSimilarity(SimilarityRequest) returns (SimilarityResponse);
+    
+    // 获取处理状态
+    rpc GetProcessingStatus(ProcessingStatusRequest) returns (ProcessingStatusResponse);
+}
+
+// 嵌入向量生成请求
+message EmbeddingRequest {
+    string request_id = 1;          // 请求ID
+    string text = 2;                // 文本内容
+    string model_name = 3;          // 模型名称
+    string kb_id = 4;               // 知识库ID
+    map<string, string> metadata = 5; // 元数据
+}
+
+// 嵌入向量响应
+message EmbeddingResponse {
+    string request_id = 1;          // 请求ID
+    bool success = 2;               // 是否成功
+    repeated float embedding = 3;    // 向量数据
+    int32 dimension = 4;            // 向量维度
+    string model_name = 5;          // 使用的模型
+    string error_message = 6;       // 错误信息
+    int64 processing_time_ms = 7;   // 处理时间(毫秒)
+}
+
+// 批量嵌入向量请求
+message BatchEmbeddingRequest {
+    string batch_id = 1;            // 批次ID
+    repeated EmbeddingRequest requests = 2; // 请求列表
+    int32 batch_size = 3;           // 批次大小
+    bool parallel_processing = 4;    // 是否并行处理
+}
+
+// 批量嵌入向量响应
+message BatchEmbeddingResponse {
+    string batch_id = 1;            // 批次ID
+    bool success = 2;               // 整体是否成功
+    repeated EmbeddingResponse responses = 3; // 响应列表
+    int32 total_count = 4;          // 总数
+    int32 success_count = 5;        // 成功数
+    int32 failed_count = 6;         // 失败数
+    int64 total_processing_time_ms = 7; // 总处理时间
+}
+
+// 向量存储请求
+message VectorStorageRequest {
+    string request_id = 1;          // 请求ID
+    string collection_name = 2;     // 集合名称
+    string document_id = 3;         // 文档ID
+    string chunk_id = 4;            // 分块ID
+    repeated float vector = 5;       // 向量数据
+    map<string, string> metadata = 6; // 元数据
+    string kb_id = 7;               // 知识库ID
+}
+
+// 向量存储响应
+message VectorStorageResponse {
+    string request_id = 1;          // 请求ID
+    bool success = 2;               // 是否成功
+    string vector_id = 3;           // 向量ID
+    string error_message = 4;       // 错误信息
+    int64 storage_time_ms = 5;      // 存储时间
+}
+
+// 批量向量存储请求
+message BatchVectorStorageRequest {
+    string batch_id = 1;            // 批次ID
+    repeated VectorStorageRequest requests = 2; // 存储请求列表
+}
+
+// 批量向量存储响应
+message BatchVectorStorageResponse {
+    string batch_id = 1;            // 批次ID
+    bool success = 2;               // 整体是否成功
+    repeated VectorStorageResponse responses = 3; // 响应列表
+    int32 total_count = 4;          // 总数
+    int32 success_count = 5;        // 成功数
+    int32 failed_count = 6;         // 失败数
+}
+
+// 相似度计算请求
+message SimilarityRequest {
+    string request_id = 1;          // 请求ID
+    repeated float query_vector = 2; // 查询向量
+    repeated float target_vector = 3; // 目标向量
+    string similarity_type = 4;     // 相似度类型 (cosine, euclidean, dot_product)
+}
+
+// 相似度计算响应
+message SimilarityResponse {
+    string request_id = 1;          // 请求ID
+    bool success = 2;               // 是否成功
+    float similarity_score = 3;     // 相似度分数
+    string similarity_type = 4;     // 相似度类型
+    string error_message = 5;       // 错误信息
+}
+
+// 处理状态查询请求
+message ProcessingStatusRequest {
+    string request_id = 1;          // 请求ID
+    string batch_id = 2;            // 批次ID
+}
+
+// 处理状态响应
+message ProcessingStatusResponse {
+    string request_id = 1;          // 请求ID
+    string status = 2;              // 状态 (pending, processing, completed, failed)
+    int32 progress = 3;             // 进度百分比
+    string message = 4;             // 状态消息
+    int64 created_at = 5;           // 创建时间戳
+    int64 started_at = 6;           // 开始时间戳
+    int64 completed_at = 7;         // 完成时间戳
+    map<string, string> metadata = 8; // 元数据
+}

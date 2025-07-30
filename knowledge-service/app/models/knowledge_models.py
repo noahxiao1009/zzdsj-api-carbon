@@ -82,6 +82,7 @@ class Document(Base):
     # 主键和关联
     id = Column(String(255), primary_key=True, default=lambda: str(uuid.uuid4()), index=True)
     kb_id = Column(String(255), ForeignKey("knowledge_bases.id"), nullable=False, index=True)
+    folder_id = Column(String(255), ForeignKey("knowledge_folders.id"), nullable=True, index=True)
     
     # 文件信息
     filename = Column(String(255), nullable=False)
@@ -118,11 +119,14 @@ class Document(Base):
     
     # 关系
     knowledge_base = relationship("KnowledgeBase", back_populates="documents")
+    folder = relationship("KnowledgeFolder", back_populates="documents")
     chunks = relationship("DocumentChunk", back_populates="document", cascade="all, delete-orphan")
     
     # 索引
     __table_args__ = (
         Index('idx_doc_kb_status', 'kb_id', 'status'),
+        Index('idx_doc_folder', 'folder_id'),
+        Index('idx_doc_kb_folder', 'kb_id', 'folder_id'),
         Index('idx_doc_filename', 'filename'),
         Index('idx_doc_file_hash', 'file_hash'),
         Index('idx_doc_created_at', 'created_at'),

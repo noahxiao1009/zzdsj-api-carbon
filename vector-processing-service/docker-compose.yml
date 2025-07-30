@@ -1,0 +1,206 @@
+version: '3.8'
+
+services:
+  # Vector Processing Service
+  vector-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vector-processing-service
+    ports:
+      - "8093:8093"  # gRPC端口
+      - "9093:9093"  # 监控端口
+    environment:
+      - REDIS_HOST=redis
+      - MILVUS_HOST=milvus
+      - CONFIG_PATH=/app/config/config.yaml
+    env_file:
+      - .env
+    depends_on:
+      redis:
+        condition: service_healthy
+      milvus:
+        condition: service_healthy
+    volumes:
+      - ./config:/app/config
+      - ./logs:/var/log
+    networks:
+      - vector-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8093/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Redis - 缓存和队列
+  redis:
+    image: redis:7.2-alpine
+    container_name: vector-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - vector-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Milvus - 向量数据库
+  milvus:
+    image: milvusdb/milvus:v2.3.4
+    container_name: vector-milvus
+    ports:
+      - "19530:19530"  # gRPC端口
+      - "19121:19121"  # HTTP端口
+    environment:
+      - ETCD_ENDPOINTS=etcd:2379
+      - MINIO_ADDRESS=minio:9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+    volumes:
+      - ./config/milvus.yaml:/milvus/configs/milvus.yaml
+      - milvus_data:/var/lib/milvus
+    depends_on:
+      etcd:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    networks:
+      - vector-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:19121/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
+
+  # Etcd - Milvus元数据存储
+  etcd:
+    image: quay.io/coreos/etcd:v3.5.10
+    container_name: vector-etcd
+    ports:
+      - "2379:2379"
+    environment:
+      - ETCD_AUTO_COMPACTION_MODE=revision
+      - ETCD_AUTO_COMPACTION_RETENTION=1000
+      - ETCD_QUOTA_BACKEND_BYTES=4294967296
+      - ETCD_SNAPSHOT_COUNT=50000
+    volumes:
+      - etcd_data:/etcd
+    command: etcd -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls http://0.0.0.0:2379 --data-dir /etcd
+    networks:
+      - vector-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # MinIO - Milvus对象存储
+  minio:
+    image: minio/minio:RELEASE.2023-12-23T07-19-11Z
+    container_name: vector-minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+    volumes:
+      - minio_data:/data
+    command: minio server /data --console-address ":9001"
+    networks:
+      - vector-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Prometheus - 监控
+  prometheus:
+    image: prom/prometheus:v2.48.0
+    container_name: vector-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.enable-lifecycle'
+    networks:
+      - vector-network
+    restart: unless-stopped
+    depends_on:
+      - vector-service
+
+  # Grafana - 可视化
+  grafana:
+    image: grafana/grafana:10.2.2
+    container_name: vector-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./config/grafana/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - vector-network
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+  # Jaeger - 链路追踪
+  jaeger:
+    image: jaegertracing/all-in-one:1.51
+    container_name: vector-jaeger
+    ports:
+      - "16686:16686"  # UI端口
+      - "14268:14268"  # HTTP端口
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - vector-network
+    restart: unless-stopped
+
+# 网络配置
+networks:
+  vector-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# 数据卷
+volumes:
+  redis_data:
+    driver: local
+  milvus_data:
+    driver: local
+  etcd_data:
+    driver: local
+  minio_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local

@@ -1,0 +1,181 @@
+# 向量处理服务配置文件
+
+# 服务配置
+server:
+  port: 8093
+  host: "0.0.0.0"
+  name: "vector-processing-service"
+  version: "v1.0.0"
+  environment: "development"
+  
+  # 性能配置
+  max_connections: 1000
+  connection_timeout: 30s
+  idle_timeout: 60s
+  read_timeout: 30s
+  write_timeout: 30s
+
+# gRPC配置
+grpc:
+  port: 8093
+  max_recv_msg_size: 4194304  # 4MB
+  max_send_msg_size: 4194304  # 4MB
+  keepalive:
+    time: 30s
+    timeout: 5s
+    permit_without_stream: true
+  
+  # TLS配置（生产环境启用）
+  tls:
+    enabled: false
+    cert_file: ""
+    key_file: ""
+
+# 任务管理器通信
+task_manager:
+  address: "localhost:8084"
+  timeout: 30s
+  max_retries: 3
+  
+  # gRPC配置
+  grpc:
+    keepalive:
+      time: 30s
+      timeout: 5s
+
+# Redis配置
+redis:
+  host: "localhost"
+  port: 6379
+  password: ""
+  db: 0
+  
+  # 连接池配置
+  pool:
+    max_idle: 10
+    max_active: 100
+    idle_timeout: 240s
+    wait: true
+  
+  # 集群配置（如果使用Redis集群）
+  cluster:
+    enabled: false
+    nodes: []
+
+# Milvus配置
+milvus:
+  host: "localhost"
+  port: 19530
+  username: ""
+  password: ""
+  
+  # 连接配置
+  connection:
+    secure: false
+    timeout: 30s
+    max_retry: 3
+    retry_delay: 1s
+  
+  # 默认集合配置
+  default:
+    dimension: 768
+    metric_type: "COSINE"
+    index_type: "IVF_FLAT"
+    nlist: 1024
+
+# 向量化模型配置
+embedding:
+  # 默认模型
+  default_model: "text-embedding-ada-002"
+  
+  # 模型配置
+  models:
+    text-embedding-ada-002:
+      provider: "openai"
+      dimension: 1536
+      max_batch_size: 100
+      max_input_length: 8192
+      
+    siliconflow-embedding:
+      provider: "siliconflow"
+      dimension: 768
+      max_batch_size: 50
+      max_input_length: 4096
+      api_base: "https://api.siliconflow.cn/v1"
+      
+    bge-large-zh:
+      provider: "huggingface"
+      dimension: 1024
+      max_batch_size: 32
+      max_input_length: 512
+
+# 处理配置
+processing:
+  # 并发配置
+  workers: 10
+  max_concurrent_requests: 100
+  queue_size: 1000
+  
+  # 批处理配置
+  batch:
+    size: 50
+    timeout: 10s
+    max_wait_time: 5s
+  
+  # 重试配置
+  retry:
+    max_attempts: 3
+    backoff_base: 1s
+    backoff_max: 30s
+    exponential: true
+
+# 监控配置
+monitoring:
+  # Prometheus metrics
+  prometheus:
+    enabled: true
+    port: 9093
+    path: "/metrics"
+  
+  # 健康检查
+  health:
+    enabled: true
+    port: 8093
+    path: "/health"
+    interval: 30s
+  
+  # 日志配置
+  logging:
+    level: "info"
+    format: "json"
+    file: "/var/log/vector-service.log"
+    max_size: "100MB"
+    max_backups: 3
+    max_age: 7
+
+# 安全配置
+security:
+  # API限流
+  rate_limit:
+    enabled: true
+    requests_per_second: 100
+    burst: 200
+  
+  # 认证配置
+  auth:
+    enabled: false
+    jwt_secret: ""
+    token_ttl: "24h"
+
+# 存储配置
+storage:
+  # 临时文件存储
+  temp_dir: "/tmp/vector-service"
+  max_temp_size: "1GB"
+  cleanup_interval: "1h"
+
+# 开发配置
+development:
+  debug: true
+  pprof_enabled: true
+  mock_external_services: false
