@@ -1,0 +1,27 @@
+# Message Push Service Dependencies
+
+# Web框架
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# 异步HTTP客户端
+httpx==0.25.2
+
+# Redis支持
+redis[hiredis]==5.0.1
+
+# 数据验证
+pydantic==2.5.0
+
+# 日志和监控
+structlog==23.2.0
+
+# 工具库
+python-multipart==0.0.6
+python-jose[cryptography]==3.3.0
+
+# 开发工具
+pytest==7.4.3
+pytest-asyncio==0.21.1
+black==23.11.0
+isort==5.12.0

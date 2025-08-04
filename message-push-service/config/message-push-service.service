@@ -1,0 +1,68 @@
+# Systemd Service 配置文件
+# Message Push Service - SSE消息推送微服务
+
+[Unit]
+Description=Message Push Service - SSE消息推送微服务
+Documentation=http://localhost:8089/docs
+After=network.target redis.service postgresql.service
+Wants=redis.service
+Requires=network.target
+
+[Service]
+Type=exec
+User=zzdsj
+Group=zzdsj
+WorkingDirectory=/opt/zzdsl-api-carbon/message-push-service
+
+# 环境配置
+Environment=PATH=/opt/zzdsl-api-carbon/message-push-service/venv/bin
+Environment=PYTHONPATH=/opt/zzdsl-api-carbon/message-push-service
+EnvironmentFile=/opt/zzdsl-api-carbon/message-push-service/config/production.env
+
+# 启动命令
+ExecStart=/opt/zzdsl-api-carbon/message-push-service/venv/bin/python main.py
+ExecReload=/bin/kill -HUP $MAINPID
+
+# 重启策略
+Restart=always
+RestartSec=10
+StartLimitInterval=60
+StartLimitBurst=3
+
+# 资源限制
+LimitNOFILE=65536
+LimitNPROC=4096
+MemoryLimit=512M
+CPUQuota=100%
+
+# 安全配置
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/zzdsl-api-carbon/message-push-service/logs
+ReadWritePaths=/opt/zzdsl-api-carbon/message-push-service/temp
+PrivateTmp=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+
+# 日志配置
+StandardOutput=append:/opt/zzdsl-api-carbon/message-push-service/logs/systemd-output.log
+StandardError=append:/opt/zzdsl-api-carbon/message-push-service/logs/systemd-error.log
+SyslogIdentifier=message-push-service
+SyslogLevel=info
+
+# 健康检查
+ExecStartPost=/bin/sleep 10
+ExecStartPost=/bin/bash -c 'curl -f http://localhost:8089/sse/health || exit 1'
+
+# 优雅停止
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=30
+FinalKillSignal=SIGKILL
+
+[Install]
+WantedBy=multi-user.target
+Alias=sse-push.service

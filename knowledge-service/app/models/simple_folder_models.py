@@ -43,6 +43,10 @@ class KnowledgeFolder(Base):
     # 状态
     status = Column(String(20), default="active")  # active, archived, deleted
     
+    # UI显示属性
+    color = Column(String(50), default="#1890ff")  # 文件夹颜色
+    icon = Column(String(50), default="folder")    # 文件夹图标
+    
     # 时间戳
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
@@ -51,7 +55,7 @@ class KnowledgeFolder(Base):
     knowledge_base = relationship("KnowledgeBase", foreign_keys=[kb_id])
     parent = relationship("KnowledgeFolder", remote_side=[id], back_populates="children")
     children = relationship("KnowledgeFolder", back_populates="parent")
-    documents = relationship("Document", back_populates="folder")
+    # documents = relationship("Document", back_populates="folder")  # 暂时注释掉避免循环导入
     
     # 索引
     __table_args__ = (

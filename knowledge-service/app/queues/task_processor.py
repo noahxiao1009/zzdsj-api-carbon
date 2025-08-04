@@ -180,39 +180,45 @@ class TaskProcessor:
         )
         
         try:
-            # 1. 文档预处理和验证
-            await self._validate_document(task)
+            # 使用增强的文档处理器，支持SSE推送
+            from app.services.enhanced_document_processor import EnhancedDocumentProcessor
+            from app.models.database import get_db
             
-            # 更新进度: 30%
-            await self.redis_queue.update_task_progress(
-                task.task_id, 30, "文档验证完成"
+            db = next(get_db())
+            processor = EnhancedDocumentProcessor(db)
+            
+            # 构建文件路径（从MinIO存储）
+            file_path = task.file_path
+            
+            # 准备处理参数
+            metadata = {
+                "task_id": task.task_id,
+                "processing_options": task.processing_options,
+                "splitter_strategy_id": task.splitter_strategy_id,
+                "custom_config": task.custom_splitter_config
+            }
+            
+            # 调用增强的文档处理器（包含SSE推送）
+            result = await processor.process_uploaded_document(
+                kb_id=task.kb_id,
+                file_path=file_path,
+                filename=task.original_filename,
+                title=task.original_filename,
+                metadata=metadata,
+                user_id=task.user_id  # 传递user_id用于SSE推送
             )
             
-            # 2. 文档切分处理
-            chunks = await self._split_document(task)
-            task.chunks_count = len(chunks)
-            
-            # 更新进度: 60%
-            await self.redis_queue.update_task_progress(
-                task.task_id, 60, f"文档切分完成，生成 {len(chunks)} 个分块"
-            )
-            
-            # 3. 生成嵌入向量
-            embeddings = await self._generate_embeddings(task, chunks)
-            task.embedding_count = len(embeddings)
-            
-            # 更新进度: 80%
-            await self.redis_queue.update_task_progress(
-                task.task_id, 80, f"嵌入向量生成完成，共 {len(embeddings)} 个"
-            )
-            
-            # 4. 存储到向量数据库
-            await self._store_vectors(task, chunks, embeddings)
-            
-            # 更新进度: 100%
-            await self.redis_queue.update_task_progress(
-                task.task_id, 100, "文档处理完成"
-            )
+            if result.get("success"):
+                # 更新任务状态
+                task.chunks_count = result.get("document", {}).get("chunk_count", 0)
+                await self.redis_queue.update_task_progress(
+                    task.task_id, 100, "文档处理完成"
+                )
+                logger.info(f"文档处理成功: {task.original_filename}")
+            else:
+                raise Exception(result.get("message", "文档处理失败"))
+                
+            db.close()
             
             # 更新任务元数据
             await self.redis_queue.update_task(

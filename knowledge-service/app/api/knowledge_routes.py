@@ -10,9 +10,10 @@ from typing import List, Optional, Dict, Any, Union
 from datetime import datetime
 from pathlib import Path
 
-from fastapi import APIRouter, HTTPException, UploadFile, File, Form, Query, Path, Depends, BackgroundTasks
+from fastapi import APIRouter, HTTPException, UploadFile, File, Form, Query, Path, Depends, BackgroundTasks, Body
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
+from pydantic import BaseModel
 
 from app.schemas.knowledge_schemas import (
     KnowledgeBaseCreate,
@@ -579,21 +580,51 @@ async def list_documents(
     - search: 文件名搜索
     """
     try:
-        # 这里需要通过manager获取文档列表
-        # 暂时返回模拟数据，实际实现需要调用DocumentRepository
+        # 获取文档列表（内部会验证知识库是否存在）
+        result = await manager.list_documents(
+            kb_id=kb_id,
+            page=page,
+            page_size=page_size,
+            search=search,
+            file_type=file_type,
+            status=status
+        )
         
-        return {
-            "success": True,
-            "data": {
-                "documents": [],
-                "pagination": {
-                    "page": page,
-                    "page_size": page_size,
-                    "total": 0,
-                    "total_pages": 0
+        if result["success"]:
+            return {
+                "success": True,
+                "data": {
+                    "documents": result["documents"],
+                    "pagination": {
+                        "page": page,
+                        "page_size": page_size,
+                        "total": result["total"],
+                        "total_pages": (result["total"] + page_size - 1) // page_size
+                    },
+                    "filters": {
+                        "file_types": result.get("file_types", []),
+                        "statuses": result.get("statuses", [])
+                    }
                 }
             }
-        }
+        else:
+            # 检查是否是知识库不存在的错误
+            if "not found" in result.get("error", "").lower():
+                raise HTTPException(
+                    status_code=404,
+                    detail={
+                        "error": "KNOWLEDGE_BASE_NOT_FOUND", 
+                        "message": f"知识库 {kb_id} 不存在"
+                    }
+                )
+            else:
+                raise HTTPException(
+                    status_code=500,
+                    detail={
+                        "error": "DOCUMENT_LIST_FAILED",
+                        "message": result.get("error", "获取文档列表失败")
+                    }
+                )
         
     except Exception as e:
         logger.error(f"Failed to list documents for KB {kb_id}: {e}")
@@ -1540,6 +1571,125 @@ async def get_index_performance_comparison() -> Dict[str, Any]:
             status_code=500,
             detail={
                 "error": "GET_PERFORMANCE_COMPARISON_FAILED",
+                "message": str(e)
+            }
+        )
+
+
+# ==============================================
+# 知识库切分策略管理 API
+# ==============================================
+
+class CustomSplitterStrategyCreate(BaseModel):
+    """自定义切分策略创建请求模型"""
+    name: str
+    description: str
+    chunk_strategy: str = "token_based"
+    chunk_size: int
+    chunk_overlap: int
+    preserve_structure: bool = True
+    parameters: Dict[str, Any] = {}
+    is_active: bool = True
+    category: str = "custom"
+
+@router.get("/{kb_id}/splitter-strategies",
+           summary="获取知识库的切分策略列表",
+           description="获取指定知识库的所有可用切分策略")
+async def list_kb_splitter_strategies(
+    kb_id: str = Path(..., description="知识库ID"),
+    db: Session = Depends(get_db)
+):
+    """获取知识库的切分策略列表"""
+    try:
+        from app.core.splitter_strategy_manager import get_splitter_strategy_manager
+        
+        strategy_manager = get_splitter_strategy_manager(db)
+        strategies = strategy_manager.list_strategies()
+        
+        return {
+            "success": True,
+            "strategies": [strategy.to_dict() for strategy in strategies],
+            "total": len(strategies)
+        }
+        
+    except Exception as e:
+        logger.error(f"Failed to list splitter strategies for KB {kb_id}: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "error": "LIST_STRATEGIES_FAILED",
+                "message": str(e)
+            }
+        )
+
+
+@router.post("/{kb_id}/splitter-strategies",
+            summary="为知识库创建自定义切分策略",
+            description="创建知识库特定的自定义切分策略")
+async def create_kb_splitter_strategy(
+    kb_id: str = Path(..., description="知识库ID"),
+    request: CustomSplitterStrategyCreate = Body(...),
+    db: Session = Depends(get_db)
+):
+    """为知识库创建自定义切分策略"""
+    try:
+        from app.core.splitter_strategy_manager import get_splitter_strategy_manager
+        
+        # 验证知识库是否存在
+        manager = get_unified_knowledge_manager(db)
+        kb = await manager.get_knowledge_base(kb_id)
+        if not kb:
+            raise HTTPException(
+                status_code=404,
+                detail={
+                    "error": "KNOWLEDGE_BASE_NOT_FOUND",
+                    "message": f"知识库 {kb_id} 不存在"
+                }
+            )
+        
+        strategy_manager = get_splitter_strategy_manager(db)
+        
+        # 创建策略配置
+        config = {
+            "chunk_size": request.chunk_size,
+            "chunk_overlap": request.chunk_overlap,
+            "chunk_strategy": request.chunk_strategy,
+            "preserve_structure": request.preserve_structure,
+            "parameters": request.parameters,
+            "knowledge_base_id": kb_id
+        }
+        
+        strategy = strategy_manager.create_strategy(
+            name=request.name,
+            description=request.description,
+            config=config,
+            is_system=False,
+            created_by="user"
+        )
+        
+        if not strategy:
+            raise HTTPException(
+                status_code=400,
+                detail={
+                    "error": "CREATE_STRATEGY_FAILED",
+                    "message": "创建策略失败"
+                }
+            )
+        
+        return {
+            "success": True,
+            "strategy": strategy.to_dict(),
+            "message": "自定义策略创建成功"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to create splitter strategy for KB {kb_id}: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "error": "CREATE_STRATEGY_FAILED",
                 "message": str(e)
             }
         )

@@ -17,6 +17,7 @@ from app.models.knowledge_models import KnowledgeBase, Document, DocumentChunk
 from app.services.siliconflow_client import get_siliconflow_client, create_embeddings, rerank_documents
 from app.core.document_splitter import DocumentSplitter
 from app.core.enhanced_knowledge_manager import get_unified_knowledge_manager
+from app.utils.sse_client import send_document_progress, send_document_status, send_document_error, send_document_success
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +36,8 @@ class EnhancedDocumentProcessor:
         file_path: str,
         filename: str,
         title: str = None,
-        metadata: Dict[str, Any] = None
+        metadata: Dict[str, Any] = None,
+        user_id: str = None
     ) -> Dict[str, Any]:
         """
         处理上传的文档
@@ -77,6 +79,10 @@ class EnhancedDocumentProcessor:
                 }
             
             # 创建文档记录
+            # 从metadata中移除splitter_strategy_id，因为Document模型中没有这个字段
+            document_metadata = metadata.copy() if metadata else {}
+            document_metadata.pop('splitter_strategy_id', None)
+            
             document = Document(
                 kb_id=kb_id,
                 filename=filename,
@@ -90,7 +96,7 @@ class EnhancedDocumentProcessor:
                 content_preview=content[:500] + "..." if len(content) > 500 else content,
                 status="processing",
                 processing_stage="extract",
-                metadata=metadata or {},
+                metadata=document_metadata,
                 language="zh"
             )
             
@@ -100,8 +106,19 @@ class EnhancedDocumentProcessor:
             
             logger.info(f"创建文档记录: {document.id}")
             
+            # 发送初始进度消息
+            if user_id:
+                await send_document_progress(
+                    user_id=user_id,
+                    document_id=str(document.id),
+                    progress=10,
+                    stage="extract",
+                    message=f"文档 {filename} 已创建，开始处理",
+                    details={"filename": filename, "file_size": document.file_size}
+                )
+            
             # 异步处理文档分块和向量化
-            asyncio.create_task(self._process_document_chunks(document, kb))
+            asyncio.create_task(self._process_document_chunks(document, kb, user_id))
             
             return {
                 "success": True,
@@ -123,12 +140,22 @@ class EnhancedDocumentProcessor:
                 "message": str(e)
             }
     
-    async def _process_document_chunks(self, document: Document, kb: KnowledgeBase):
+    async def _process_document_chunks(self, document: Document, kb: KnowledgeBase, user_id: str = None):
         """处理文档分块和向量化"""
         try:
-            # 更新处理状态
+            # 更新处理状态并发送进度
             document.processing_stage = "chunk"
             self.db.commit()
+            
+            if user_id:
+                await send_document_progress(
+                    user_id=user_id,
+                    document_id=str(document.id),
+                    progress=20,
+                    stage="chunk",
+                    message="开始文档分块处理",
+                    details={"chunk_strategy": kb.chunk_strategy or "token_based"}
+                )
             
             # 文档分块
             chunks = await self._split_document_content(
@@ -139,6 +166,16 @@ class EnhancedDocumentProcessor:
             )
             
             logger.info(f"文档 {document.id} 分块完成，共 {len(chunks)} 个分块")
+            
+            if user_id:
+                await send_document_progress(
+                    user_id=user_id,
+                    document_id=str(document.id),
+                    progress=40,
+                    stage="chunk",
+                    message=f"文档分块完成，共生成 {len(chunks)} 个分块",
+                    details={"chunk_count": len(chunks)}
+                )
             
             # 创建分块记录
             chunk_objects = []
@@ -159,8 +196,18 @@ class EnhancedDocumentProcessor:
             document.processing_stage = "embed"
             self.db.commit()
             
+            if user_id:
+                await send_document_progress(
+                    user_id=user_id,
+                    document_id=str(document.id),
+                    progress=60,
+                    stage="embed",
+                    message="开始生成向量嵌入",
+                    details={"chunk_count": len(chunks)}
+                )
+            
             # 批量生成嵌入向量
-            await self._generate_embeddings_for_chunks(chunk_objects, document)
+            await self._generate_embeddings_for_chunks(chunk_objects, document, user_id)
             
             # 更新文档状态
             document.status = "completed"
@@ -175,20 +222,67 @@ class EnhancedDocumentProcessor:
             
             logger.info(f"文档 {document.id} 处理完成")
             
+            # 发送完成消息
+            if user_id:
+                await send_document_success(
+                    user_id=user_id,
+                    document_id=str(document.id),
+                    message=f"文档 {document.filename} 处理完成",
+                    result_data={
+                        "document_id": str(document.id),
+                        "chunk_count": document.chunk_count,
+                        "status": "completed",
+                        "kb_id": kb_id
+                    }
+                )
+            
         except Exception as e:
             logger.error(f"处理文档分块失败: {e}")
             document.status = "failed"
             document.error_message = str(e)
             self.db.commit()
+            
+            # 发送错误消息
+            if user_id:
+                await send_document_error(
+                    user_id=user_id,
+                    document_id=str(document.id),
+                    error_message=f"文档 {document.filename} 处理失败: {str(e)}",
+                    error_details={
+                        "document_id": str(document.id),
+                        "stage": document.processing_stage,
+                        "error": str(e)
+                    }
+                )
     
-    async def _generate_embeddings_for_chunks(self, chunks: List[DocumentChunk], document: Document):
+    async def _generate_embeddings_for_chunks(self, chunks: List[DocumentChunk], document: Document, user_id: str = None):
         """为分块生成嵌入向量"""
         try:
             # 提取分块内容
             chunk_texts = [chunk.content for chunk in chunks]
             
+            if user_id:
+                await send_document_progress(
+                    user_id=user_id,
+                    document_id=str(document.id),
+                    progress=70,
+                    stage="embed",
+                    message=f"正在为 {len(chunks)} 个分块生成向量嵌入",
+                    details={"embedding_model": "Qwen/Qwen3-Embedding-8B"}
+                )
+            
             # 批量生成嵌入向量
             embeddings = await self.siliconflow_client.create_embedding(chunk_texts)
+            
+            if user_id:
+                await send_document_progress(
+                    user_id=user_id,
+                    document_id=str(document.id),
+                    progress=85,
+                    stage="store",
+                    message="向量生成完成，正在存储到向量数据库",
+                    details={"embedding_count": len(embeddings)}
+                )
             
             # 存储向量到向量数据库（这里可以集成Milvus）
             await self._store_embeddings_to_vector_db(chunks, embeddings, document)
@@ -202,6 +296,16 @@ class EnhancedDocumentProcessor:
             self.db.commit()
             
             logger.info(f"为文档 {document.id} 的 {len(chunks)} 个分块生成嵌入向量完成")
+            
+            if user_id:
+                await send_document_progress(
+                    user_id=user_id,
+                    document_id=str(document.id),
+                    progress=95,
+                    stage="finalize",
+                    message="向量存储完成，正在完成最后处理",
+                    details={"completed_chunks": len(chunks)}
+                )
             
         except Exception as e:
             logger.error(f"生成嵌入向量失败: {e}")

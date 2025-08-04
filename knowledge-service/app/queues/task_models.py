@@ -42,6 +42,9 @@ class ProcessingTaskModel(TaskModel):
     """文档处理任务模型"""
     task_type: str = Field(default="document_processing", description="任务类型")
     
+    # 用户信息
+    user_id: Optional[str] = Field(default=None, description="用户ID（用于SSE推送）")
+    
     # 知识库信息
     kb_id: str = Field(..., description="知识库ID")
     kb_name: str = Field(default="", description="知识库名称")

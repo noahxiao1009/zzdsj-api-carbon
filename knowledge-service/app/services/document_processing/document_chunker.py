@@ -130,26 +130,33 @@ class DocumentChunker:
     ) -> List[Tuple[str, int, int]]:
         """基于Token的分块"""
         try:
-            chunks = await self.token_splitter.split_text(
-                text=content,
-                chunk_size=config.chunk_size,
-                chunk_overlap=config.chunk_overlap
-            )
+            # 为当前任务创建专用的分块器配置
+            token_config = {
+                'chunk_size': config.chunk_size,
+                'chunk_overlap': config.chunk_overlap,
+                'preserve_structure': config.preserve_structure,
+                'use_token_count': True,
+                'separators': ['\n\n', '\n', ' ', '']
+            }
+            
+            # 创建临时分块器实例
+            from app.core.splitters import TokenBasedSplitter
+            temp_splitter = TokenBasedSplitter(token_config)
+            
+            chunks = await temp_splitter.split_text(text=content)
             
             # 计算每个分块的字符位置
             result_chunks = []
             current_pos = 0
             
-            for chunk in chunks:
-                # 在原文中查找分块位置
-                start_pos = content.find(chunk, current_pos)
-                if start_pos == -1:
-                    # 如果找不到，使用近似位置
-                    start_pos = current_pos
+            for chunk_info in chunks:
+                # chunk_info是ChunkInfo对象，需要提取content
+                chunk_content = chunk_info.content
+                start_pos = chunk_info.start_char
+                end_pos = chunk_info.end_char
                 
-                end_pos = start_pos + len(chunk)
-                result_chunks.append((chunk, start_pos, end_pos))
-                current_pos = start_pos + len(chunk) - config.chunk_overlap
+                result_chunks.append((chunk_content, start_pos, end_pos))
+                current_pos = end_pos - config.chunk_overlap
             
             return result_chunks
             
@@ -158,6 +165,35 @@ class DocumentChunker:
             # 回退到简单分块
             return self._simple_chunk(content, config)
     
+    def _simple_chunk(self, content: str, config: ChunkConfig) -> List[Tuple[str, int, int]]:
+        """简单的字符级分块，作为回退方案"""
+        chunk_size = config.chunk_size
+        chunk_overlap = config.chunk_overlap
+        
+        chunks = []
+        start = 0
+        
+        while start < len(content):
+            end = min(start + chunk_size, len(content))
+            chunk_text = content[start:end]
+            
+            # 尝试在分隔符处断开
+            if end < len(content):
+                for sep in ['\n\n', '\n', '. ', '。', ' ']:
+                    last_pos = chunk_text.rfind(sep)
+                    if last_pos > chunk_size // 2:  # 至少保留一半长度
+                        end = start + last_pos + len(sep)
+                        chunk_text = content[start:end]
+                        break
+            
+            chunks.append((chunk_text.strip(), start, end))
+            start = max(start + chunk_size - chunk_overlap, end - chunk_overlap)
+            
+            if start >= len(content):
+                break
+        
+        return chunks
+    
     async def _semantic_chunk(
         self, 
         content: str, 
@@ -165,11 +201,18 @@ class DocumentChunker:
     ) -> List[Tuple[str, int, int]]:
         """基于语义的分块"""
         try:
-            chunks = await self.semantic_splitter.split_text(
-                text=content,
-                chunk_size=config.chunk_size,
-                chunk_overlap=config.chunk_overlap
-            )
+            # 为语义分块创建临时分块器
+            semantic_config = {
+                'min_chunk_size': 100,
+                'max_chunk_size': config.chunk_size * 2,
+                'similarity_threshold': 0.7,
+                'language': 'zh'
+            }
+            
+            from app.core.splitters import SemanticBasedSplitter
+            temp_semantic_splitter = SemanticBasedSplitter(semantic_config)
+            
+            chunks = await temp_semantic_splitter.split_text(text=content)
             
             # 计算每个分块的字符位置
             result_chunks = []

@@ -38,13 +38,15 @@ router = APIRouter(prefix="/knowledge-bases", tags=["文档上传"])
 async def upload_documents_async(
     kb_id: str = PathParam(..., description="知识库ID"),
     files: List[UploadFile] = File(..., description="要上传的文档文件"),
+    user_id: Optional[str] = Form(None, description="用户ID（用于SSE推送）"),
     splitter_strategy_id: Optional[str] = Form(None, description="切分策略ID"),
-    chunk_size: Optional[int] = Form(1024, description="分块大小"),
-    chunk_overlap: Optional[int] = Form(128, description="分块重叠"),
-    chunk_strategy: Optional[str] = Form("basic", description="分块策略"),
-    preserve_structure: bool = Form(True, description="保留文档结构"),
+    chunk_size: Optional[int] = Form(None, description="分块大小（覆盖策略配置）"),
+    chunk_overlap: Optional[int] = Form(None, description="分块重叠（覆盖策略配置）"),
+    chunk_strategy: Optional[str] = Form(None, description="分块策略（覆盖策略配置）"),
+    preserve_structure: Optional[bool] = Form(None, description="保留文档结构（覆盖策略配置）"),
     enable_async_processing: bool = Form(True, description="启用异步处理"),
-    callback_url: Optional[str] = Form(None, description="处理完成回调URL")
+    callback_url: Optional[str] = Form(None, description="处理完成回调URL"),
+    folder_id: Optional[str] = Form(None, description="目标文件夹ID")
 ) -> Dict[str, Any]:
     """
     异步上传文档到知识库
@@ -74,6 +76,39 @@ async def upload_documents_async(
                     "message": f"知识库 {kb_id} 不存在"
                 }
             )
+        
+        # 获取切分策略配置
+        from app.core.splitter_strategy_manager import get_splitter_strategy_manager
+        strategy_manager = get_splitter_strategy_manager()
+        
+        effective_splitter_config = {}
+        
+        # 如果指定了策略ID，使用指定策略
+        if splitter_strategy_id:
+            strategy = strategy_manager.get_strategy_by_id(splitter_strategy_id)
+            if strategy:
+                effective_splitter_config = strategy["config"].copy()
+                # 记录策略使用
+                strategy_manager.record_strategy_usage(splitter_strategy_id, kb_id)
+            else:
+                logger.warning(f"指定的切分策略不存在: {splitter_strategy_id}")
+        
+        # 如果策略不存在，使用知识库默认策略
+        if not effective_splitter_config:
+            # 这里需要从knowledge_base获取默认策略
+            # 暂时使用基础配置
+            from app.models.splitter_strategy import SplitterStrategy
+            effective_splitter_config = SplitterStrategy.get_default_config("basic")
+        
+        # 用户参数覆盖策略配置
+        if chunk_size is not None:
+            effective_splitter_config["chunk_size"] = chunk_size
+        if chunk_overlap is not None:
+            effective_splitter_config["chunk_overlap"] = chunk_overlap
+        if chunk_strategy is not None:
+            effective_splitter_config["chunk_strategy"] = chunk_strategy
+        if preserve_structure is not None:
+            effective_splitter_config["preserve_structure"] = preserve_structure
         
         # 验证MinIO连接
         if not test_minio_connection():
@@ -128,42 +163,91 @@ async def upload_documents_async(
                 
                 # 4. 创建处理任务
                 processing_task = ProcessingTaskModel(
+                    user_id=user_id,
                     kb_id=kb_id,
                     kb_name=kb_exists.get("name", ""),
                     file_info={
                         "file_id": file_id,
                         "stored_filename": stored_filename,
                         "content_type": file.content_type,
-                        "upload_time": datetime.now().isoformat()
+                        "upload_time": datetime.now().isoformat(),
+                        "folder_id": folder_id
                     },
                     file_path=stored_filename,
                     original_filename=file.filename,
                     file_size=file_size,
                     file_type=file_extension,
                     splitter_strategy_id=splitter_strategy_id,
-                    custom_splitter_config={
-                        "chunk_size": chunk_size,
-                        "chunk_overlap": chunk_overlap,
-                        "chunk_strategy": chunk_strategy,
-                        "preserve_structure": preserve_structure
-                    },
+                    custom_splitter_config=effective_splitter_config,
                     processing_options={
                         "enable_async_processing": enable_async_processing,
                         "generate_embeddings": True,
-                        "store_vectors": True
+                        "store_vectors": True,
+                        "folder_id": folder_id
                     },
                     callback_url=callback_url
                 )
                 
-                # 5. 加入处理队列
-                success = await redis_queue.enqueue_task(processing_task, "document_processing")
+                # 5. 提交任务到Task Manager Service
+                import httpx
                 
-                if not success:
+                task_data = {
+                    "task_type": "document_processing",
+                    "kb_id": kb_id,
+                    "priority": "normal",
+                    "payload": {
+                        "task_id": processing_task.task_id,
+                        "user_id": user_id,
+                        "kb_id": kb_id,
+                        "kb_name": kb_exists.get("name", ""),
+                        "file_info": processing_task.file_info,
+                        "file_path": stored_filename,
+                        "original_filename": file.filename,
+                        "file_size": file_size,
+                        "file_type": file_extension,
+                        "splitter_strategy_id": splitter_strategy_id,
+                        "custom_splitter_config": effective_splitter_config,
+                        "processing_options": processing_task.processing_options,
+                        "callback_url": callback_url,
+                        "service_name": "knowledge-service",
+                        "source": "upload_documents_async"
+                    },
+                    "max_retries": 3,
+                    "timeout": 300
+                }
+                
+                try:
+                    async with httpx.AsyncClient() as client:
+                        response = await client.post(
+                            "http://localhost:8084/api/v1/tasks",
+                            json=task_data,
+                            timeout=10.0
+                        )
+                        
+                        if response.status_code not in [200, 201]:
+                            raise HTTPException(
+                                status_code=500,
+                                detail={
+                                    "error": "TASK_SUBMISSION_FAILED",
+                                    "message": f"任务提交到Task Manager失败: {response.text}"
+                                }
+                            )
+                        
+                        # 获取task-manager返回的任务信息
+                        task_response = response.json()
+                        actual_task_id = task_response.get("id", processing_task.task_id)
+                        
+                        logger.info(f"任务 {processing_task.task_id} 已提交到Task Manager，实际任务ID: {actual_task_id}")
+                        
+                        # 更新任务ID为task-manager返回的ID
+                        processing_task.task_id = actual_task_id
+                        
+                except httpx.RequestError as e:
                     raise HTTPException(
                         status_code=500,
                         detail={
-                            "error": "QUEUE_FAILED",
-                            "message": f"任务 {processing_task.task_id} 加入队列失败"
+                            "error": "TASK_MANAGER_CONNECTION_FAILED",
+                            "message": f"无法连接到Task Manager: {str(e)}"
                         }
                     )
                 

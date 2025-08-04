@@ -350,6 +350,122 @@ class UnifiedKnowledgeManager:
                 "error": str(e)
             }
     
+    async def list_documents(
+        self, 
+        kb_id: str, 
+        page: int = 1, 
+        page_size: int = 20,
+        search: Optional[str] = None,
+        file_type: Optional[str] = None,
+        status: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """获取知识库文档列表"""
+        try:
+            # 验证知识库是否存在
+            kb = await self.kb_repo.get_by_id(kb_id)
+            if not kb:
+                return {
+                    "success": False,
+                    "error": "Knowledge base not found"
+                }
+            
+            # 计算分页参数
+            skip = (page - 1) * page_size
+            
+            # 直接使用SQL查询避免Model的folder_id问题
+            from app.models.knowledge_models import Document
+            
+            # 构建基础查询，明确选择存在的列
+            query = self.db.query(
+                Document.id,
+                Document.kb_id,
+                Document.filename,
+                Document.original_filename,
+                Document.file_type,
+                Document.file_size,
+                Document.file_path,
+                Document.file_hash,
+                Document.title,
+                Document.content_preview,
+                Document.status,
+                Document.processing_stage,
+                Document.error_message,
+                Document.chunk_count,
+                Document.token_count,
+                Document.doc_metadata,
+                Document.language,
+                Document.tags,
+                Document.uploaded_at,
+                Document.processed_at,
+                Document.created_at,
+                Document.updated_at
+            ).filter(Document.kb_id == kb.id)
+            
+            # 应用状态过滤
+            if status:
+                query = query.filter(Document.status == status)
+            
+            # 获取总数
+            total_count = query.count()
+            
+            # 分页和排序
+            documents = query.order_by(Document.created_at.desc())\
+                            .offset(skip)\
+                            .limit(page_size)\
+                            .all()
+            
+            # 转换为API响应格式
+            document_list = []
+            for doc in documents:
+                document_list.append({
+                    "id": str(doc.id),
+                    "title": doc.title or doc.filename,
+                    "filename": doc.filename,
+                    "content_type": doc.file_type or "unknown",
+                    "file_size": doc.file_size or 0,
+                    "status": doc.status,
+                    "processing_status": doc.status,  # 映射到处理状态
+                    "chunk_count": doc.chunk_count or 0,
+                    "vector_count": doc.chunk_count or 0,  # 假设每个chunk对应一个vector
+                    "created_at": doc.created_at.isoformat() if doc.created_at else None,
+                    "updated_at": doc.updated_at.isoformat() if doc.updated_at else None,
+                    "file_path": doc.file_path or f"/{doc.filename}",
+                    "folder_id": None  # 设为None，避免访问不存在的字段
+                })
+            
+            # 应用搜索过滤
+            if search:
+                document_list = [
+                    doc for doc in document_list 
+                    if search.lower() in (doc["title"] or "").lower() or search.lower() in (doc["filename"] or "").lower()
+                ]
+            
+            # 应用文件类型过滤
+            if file_type:
+                document_list = [
+                    doc for doc in document_list 
+                    if file_type.lower() in (doc["content_type"] or "").lower()
+                ]
+            
+            # 获取可用的文件类型和状态（用于筛选器）
+            file_types = list(set([doc["content_type"] for doc in document_list if doc["content_type"]]))
+            statuses = list(set([doc["status"] for doc in document_list if doc["status"]]))
+            
+            return {
+                "success": True,
+                "documents": document_list,
+                "total": len(document_list),
+                "file_types": file_types,
+                "statuses": statuses
+            }
+            
+        except Exception as e:
+            logger.error(f"Failed to list documents for KB {kb_id}: {e}")
+            return {
+                "success": False,
+                "error": str(e)
+            }
+    
     async def upload_documents(self, kb_id: str, files: List[Any], chunk_config: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """上传文档到知识库（使用新的处理流程）"""
         try:

@@ -100,33 +100,33 @@ async def lifespan(app: FastAPI):
         # 不抛出异常，允许服务继续启动
         logger.warning("[WARNING] 使用降级模式启动服务")
     
-    # 跳过文档处理Worker启动以提高性能
-    # try:
-    #     logger.info("[WORKER] 正在启动文档处理Worker...")
-    #     from app.worker_manager import start_worker
-    #     await start_worker()
-    #     logger.info("[SUCCESS] 文档处理Worker启动成功")
-    # except Exception as e:
-    #     logger.error(f"[ERROR] Worker启动失败: {e}")
-    #     # 不抛出异常，允许主服务继续运行
-    logger.info("[WORKER] 跳过Worker启动以提高API响应性能")
+    # 启动任务监听器
+    try:
+        logger.info("[TASK_LISTENER] 正在启动任务监听器...")
+        from app.services.task_listener import start_task_listener
+        asyncio.create_task(start_task_listener())
+        logger.info("[SUCCESS] 任务监听器启动成功")
+    except Exception as e:
+        logger.error(f"[ERROR] 任务监听器启动失败: {e}")
+        logger.info("[WORKER] 任务监听器启动失败，但服务将继续运行")
     
     logger.info(f"[READY] 知识库服务已就绪，监听端口: {settings.port}")
     logger.info("[READY] 服务文档地址: http://localhost:{}/docs".format(settings.port))
+
     
     yield
     
     # 关闭时执行
     logger.info("[SHUTDOWN] 正在关闭知识库服务...")
     
-    # 停止文档处理Worker
+    # 停止任务监听器
     try:
-        logger.info("[SHUTDOWN] 正在停止文档处理Worker...")
-        from app.worker_manager import stop_worker
-        await stop_worker()
-        logger.info("[SUCCESS] 文档处理Worker已停止")
+        logger.info("[SHUTDOWN] 正在停止任务监听器...")
+        from app.services.task_listener import stop_task_listener
+        await stop_task_listener()
+        logger.info("[SUCCESS] 任务监听器已停止")
     except Exception as e:
-        logger.error(f"[ERROR] Worker停止失败: {e}")
+        logger.error(f"[ERROR] 任务监听器停止失败: {e}")
     
     logger.info("[SHUTDOWN] 知识库服务已安全关闭")
 
@@ -134,6 +134,7 @@ async def lifespan(app: FastAPI):
 # 创建FastAPI应用
 app = FastAPI(
     title="NextAgent - 知识库服务",
+    lifespan=lifespan,
     description="""
     基于LlamaIndex和Agno框架的知识库管理和检索服务
     
@@ -165,8 +166,7 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
-    openapi_url="/openapi.json",
-    lifespan=lifespan
+    openapi_url="/openapi.json"
 )
 
 # CORS配置
@@ -330,13 +330,13 @@ async def root():
 
 
 # 注册路由
-# app.include_router(knowledge_router, prefix="/api/v1")  # 暂时禁用慢速路由
+app.include_router(knowledge_router, prefix="/api/v1")  # 启用完整知识库路由
 app.include_router(splitter_router, prefix="/api/v1")
 
 # 注册快速知识库路由（优化性能）- 替换原始路由
 from app.api.fast_knowledge_routes import router as fast_knowledge_router
 app.include_router(fast_knowledge_router, prefix="/api/v1/fast")
-app.include_router(fast_knowledge_router, prefix="/api/v1")  # 直接替换原始路由
+# app.include_router(fast_knowledge_router, prefix="/api/v1")  # 注释掉，避免与完整路由冲突
 
 # 注册前端专用路由（为前端BFF层优化）
 from app.api.frontend_routes import router as frontend_router
@@ -353,6 +353,14 @@ app.include_router(knowledge_search_router, prefix="/api/v1")
 # 注册文件夹管理路由
 from app.api.folder_management_routes import router as folder_management_router
 app.include_router(folder_management_router, prefix="/api/v1")
+
+# 注册切分策略管理路由
+from app.api.splitter_strategy_routes import router as splitter_strategy_router
+app.include_router(splitter_strategy_router, prefix="/api/v1")
+
+# 注册知识库配置管理路由
+from app.api.knowledge_base_config_routes import router as kb_config_router
+app.include_router(kb_config_router, prefix="/api/v1")
 
 
 # 开发环境调试信息

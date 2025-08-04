@@ -1,0 +1,1067 @@
+2025-07-30 15:19:17,340 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-30 15:19:17,340 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-30 15:19:17,341 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-30 15:19:17,341 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-30 15:19:17,341 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-30 15:19:17,360 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-30 15:19:17,365 - app.core.message_queue - INFO - 创建消费者组: sse_consumers
+2025-07-30 15:19:17,365 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-30 15:19:17,365 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-30 15:19:17,365 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-30 15:19:17,366 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-30 15:19:17,366 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-30 15:19:17,674 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-30 15:19:19,626 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-30 15:19:19,628 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-30 15:19:19,630 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-30 15:19:19,631 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-30 15:19:42,304 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-07-30 15:19:42,304 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-07-30 15:19:42,304 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-30 15:19:43,124 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-30 15:19:43,124 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-30 15:19:43,124 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-30 15:19:43,124 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-30 15:19:43,124 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-30 15:19:43,130 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-30 15:19:43,130 - app.core.message_queue - ERROR - Redis连接失败: module 'redis.asyncio' has no attribute 'exceptions'
+2025-07-30 15:19:43,130 - main - ERROR - [ERROR] 服务初始化失败: module 'redis.asyncio' has no attribute 'exceptions'
+2025-07-30 15:19:43,319 - watchfiles.main - INFO - 1 change detected
+2025-07-30 15:20:14,677 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-07-30 15:20:14,677 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-07-30 15:20:14,677 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-30 15:20:15,517 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-30 15:20:15,518 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-30 15:20:15,518 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-30 15:20:15,518 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-30 15:20:15,518 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-30 15:20:15,523 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-30 15:20:15,523 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-07-30 15:20:15,524 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-30 15:20:15,524 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-30 15:20:15,524 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-30 15:20:15,524 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-30 15:20:15,524 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-30 15:20:15,801 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-30 15:20:19,266 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-30 15:20:19,267 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-30 15:20:19,269 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-30 15:20:19,269 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-30 15:21:54,065 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-30 15:21:54,066 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-30 15:21:54,066 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-30 15:21:54,066 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-30 15:21:54,066 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-30 15:21:54,072 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-30 15:21:54,072 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-07-30 15:21:54,073 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-30 15:21:54,073 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-30 15:21:54,073 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-30 15:21:54,073 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-30 15:21:54,073 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-30 15:21:54,396 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-30 15:21:58,205 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-30 15:21:58,206 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-30 15:21:58,209 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-30 15:21:58,209 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-30 15:23:03,470 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-07-30 15:23:03,471 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-07-30 15:23:03,471 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-30 15:23:04,232 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-30 15:23:04,232 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-30 15:23:04,232 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-30 15:23:04,232 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-30 15:23:04,232 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-30 15:23:04,238 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-30 15:23:04,238 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-07-30 15:23:04,238 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-30 15:23:04,238 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-30 15:23:04,239 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-30 15:23:04,239 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-30 15:23:04,239 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-30 15:23:04,563 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-30 15:23:08,247 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-30 15:23:08,248 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-30 15:23:08,250 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-30 15:23:08,250 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-30 15:23:40,964 - main - INFO - [REQUEST] [req_1753860220964] GET /
+2025-07-30 15:23:40,965 - main - INFO - [RESPONSE] [req_1753860220964] 状态码: 200, 耗时: 0.001s
+2025-07-30 15:23:41,968 - main - INFO - [REQUEST] [req_1753860221968] GET /sse/health
+2025-07-30 15:23:41,970 - main - INFO - [RESPONSE] [req_1753860221968] 状态码: 200, 耗时: 0.002s
+2025-07-30 15:23:42,975 - main - INFO - [REQUEST] [req_1753860222974] GET /sse/stream
+2025-07-30 15:23:42,975 - app.core.connection_manager - INFO - 新SSE连接建立: 3f2e0c1b-1c52-4f9c-a2e3-3cdec6fbfdea, 用户: test-user-123, 频道: {'user:test-user-123'}
+2025-07-30 15:23:42,976 - main - INFO - [RESPONSE] [req_1753860222974] 状态码: 200, 耗时: 0.001s
+2025-07-30 15:23:45,978 - app.core.connection_manager - INFO - SSE流被取消: 3f2e0c1b-1c52-4f9c-a2e3-3cdec6fbfdea
+2025-07-30 15:23:45,978 - app.core.connection_manager - INFO - SSE连接断开: 3f2e0c1b-1c52-4f9c-a2e3-3cdec6fbfdea
+2025-07-30 15:23:46,980 - main - INFO - [REQUEST] [req_1753860226980] GET /sse/user/test-user-123
+2025-07-30 15:23:46,981 - app.core.connection_manager - INFO - 新SSE连接建立: 90fc65fe-de5c-45a0-a4d3-1fa04b860d37, 用户: test-user-123, 频道: {'user:test-user-123'}
+2025-07-30 15:23:46,981 - main - INFO - [RESPONSE] [req_1753860226980] 状态码: 200, 耗时: 0.001s
+2025-07-30 15:23:47,988 - main - INFO - [REQUEST] [req_1753860227988] POST /sse/api/v1/messages/send
+2025-07-30 15:23:48,007 - main - INFO - [RESPONSE] [req_1753860227988] 状态码: 200, 耗时: 0.019s
+2025-07-30 15:23:50,010 - app.core.connection_manager - INFO - SSE流被取消: 90fc65fe-de5c-45a0-a4d3-1fa04b860d37
+2025-07-30 15:23:50,010 - app.core.connection_manager - INFO - SSE连接断开: 90fc65fe-de5c-45a0-a4d3-1fa04b860d37
+2025-07-30 15:23:51,014 - main - INFO - [REQUEST] [req_1753860231014] GET /sse/task/test-task-1753860231
+2025-07-30 15:23:51,014 - app.core.connection_manager - INFO - 新SSE连接建立: 03229fce-85c7-47cc-b77a-4380200e5632, 用户: None, 频道: {'task:test-task-1753860231'}
+2025-07-30 15:23:51,015 - main - INFO - [RESPONSE] [req_1753860231014] 状态码: 200, 耗时: 0.001s
+2025-07-30 15:23:52,018 - main - INFO - [REQUEST] [req_1753860232018] POST /sse/api/v1/messages/send
+2025-07-30 15:23:52,021 - main - INFO - [RESPONSE] [req_1753860232018] 状态码: 200, 耗时: 0.003s
+2025-07-30 15:23:52,525 - main - INFO - [REQUEST] [req_1753860232525] POST /sse/api/v1/messages/send
+2025-07-30 15:23:52,527 - main - INFO - [RESPONSE] [req_1753860232525] 状态码: 200, 耗时: 0.002s
+2025-07-30 15:23:53,030 - main - INFO - [REQUEST] [req_1753860233030] POST /sse/api/v1/messages/send
+2025-07-30 15:23:53,032 - main - INFO - [RESPONSE] [req_1753860233030] 状态码: 200, 耗时: 0.002s
+2025-07-30 15:23:53,535 - main - INFO - [REQUEST] [req_1753860233535] POST /sse/api/v1/messages/send
+2025-07-30 15:23:53,537 - main - INFO - [RESPONSE] [req_1753860233535] 状态码: 200, 耗时: 0.002s
+2025-07-30 15:23:57,040 - app.core.connection_manager - INFO - SSE流被取消: 03229fce-85c7-47cc-b77a-4380200e5632
+2025-07-30 15:23:57,040 - app.core.connection_manager - INFO - SSE连接断开: 03229fce-85c7-47cc-b77a-4380200e5632
+2025-07-30 15:23:58,043 - main - INFO - [REQUEST] [req_1753860238043] GET /sse/stream
+2025-07-30 15:23:58,043 - app.core.connection_manager - INFO - 新SSE连接建立: a12bf85f-c60c-41d5-b449-42b34b3c1506, 用户: user-0, 频道: {'user:user-0'}
+2025-07-30 15:23:58,044 - main - INFO - [RESPONSE] [req_1753860238043] 状态码: 200, 耗时: 0.001s
+2025-07-30 15:23:58,046 - main - INFO - [REQUEST] [req_1753860238046] GET /sse/stream
+2025-07-30 15:23:58,046 - app.core.connection_manager - INFO - 新SSE连接建立: 86d6d150-9a61-42ba-a2e9-c92aa4e5574e, 用户: user-1, 频道: {'user:user-1'}
+2025-07-30 15:23:58,047 - main - INFO - [RESPONSE] [req_1753860238046] 状态码: 200, 耗时: 0.001s
+2025-07-30 15:23:58,049 - main - INFO - [REQUEST] [req_1753860238049] GET /sse/stream
+2025-07-30 15:23:58,050 - app.core.connection_manager - INFO - 新SSE连接建立: af2ea083-b3b0-4a53-87a9-90f5dcaf76af, 用户: user-2, 频道: {'user:user-2'}
+2025-07-30 15:23:58,076 - main - INFO - [RESPONSE] [req_1753860238049] 状态码: 200, 耗时: 0.027s
+2025-07-30 15:23:59,081 - main - INFO - [REQUEST] [req_1753860239081] POST /sse/api/v1/messages/broadcast
+2025-07-30 15:23:59,082 - app.core.connection_manager - INFO - 广播消息完成: msg_1753860239082_7a72d1ca, 发送到 3 个连接
+2025-07-30 15:23:59,084 - main - INFO - [RESPONSE] [req_1753860239081] 状态码: 200, 耗时: 0.003s
+2025-07-30 15:24:01,086 - app.core.connection_manager - INFO - SSE流被取消: a12bf85f-c60c-41d5-b449-42b34b3c1506
+2025-07-30 15:24:01,086 - app.core.connection_manager - INFO - SSE连接断开: a12bf85f-c60c-41d5-b449-42b34b3c1506
+2025-07-30 15:24:01,087 - app.core.connection_manager - INFO - SSE流被取消: 86d6d150-9a61-42ba-a2e9-c92aa4e5574e
+2025-07-30 15:24:01,087 - app.core.connection_manager - INFO - SSE连接断开: 86d6d150-9a61-42ba-a2e9-c92aa4e5574e
+2025-07-30 15:24:01,087 - app.core.connection_manager - INFO - SSE流被取消: af2ea083-b3b0-4a53-87a9-90f5dcaf76af
+2025-07-30 15:24:01,088 - app.core.connection_manager - INFO - SSE连接断开: af2ea083-b3b0-4a53-87a9-90f5dcaf76af
+2025-07-30 15:24:02,089 - main - INFO - [REQUEST] [req_1753860242089] GET /sse/user/test-user-123
+2025-07-30 15:24:02,089 - app.core.connection_manager - INFO - 新SSE连接建立: 62668fca-c81e-454f-8634-30cb5aad05a1, 用户: test-user-123, 频道: {'user:test-user-123'}
+2025-07-30 15:24:02,090 - main - INFO - [RESPONSE] [req_1753860242089] 状态码: 200, 耗时: 0.001s
+2025-07-30 15:24:03,094 - main - INFO - [REQUEST] [req_1753860243094] GET /sse/api/v1/connections
+2025-07-30 15:24:03,094 - main - INFO - [RESPONSE] [req_1753860243094] 状态码: 200, 耗时: 0.001s
+2025-07-30 15:24:03,098 - main - INFO - [REQUEST] [req_1753860243098] GET /sse/api/v1/connections/stats
+2025-07-30 15:24:03,098 - main - INFO - [RESPONSE] [req_1753860243098] 状态码: 200, 耗时: 0.001s
+2025-07-30 15:24:03,100 - app.core.connection_manager - INFO - SSE流被取消: 62668fca-c81e-454f-8634-30cb5aad05a1
+2025-07-30 15:24:03,100 - app.core.connection_manager - INFO - SSE连接断开: 62668fca-c81e-454f-8634-30cb5aad05a1
+2025-07-30 15:32:30,908 - main - INFO - [SHUTDOWN] 正在关闭message-push-service...
+2025-07-30 15:32:30,908 - app.core.connection_manager - INFO - 停止SSE连接管理器
+2025-07-30 15:32:30,908 - main - INFO - [SUCCESS] 连接管理器已停止
+2025-07-30 15:32:30,908 - app.core.message_queue - INFO - 消息消费任务被取消
+2025-07-30 15:32:30,909 - app.core.message_queue - INFO - 消息队列管理器已断开
+2025-07-30 15:32:30,909 - main - INFO - [SUCCESS] 消息队列已断开
+2025-07-30 15:32:30,909 - main - INFO - [SHUTDOWN] message-push-service已安全关闭
+2025-07-30 15:37:15,596 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-07-30 15:37:15,596 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-07-30 15:37:15,597 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-30 15:37:16,238 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-30 15:37:16,238 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-30 15:37:16,238 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-30 15:37:16,239 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-30 15:37:16,239 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-30 15:37:16,244 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-30 15:37:16,244 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-07-30 15:37:16,244 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-30 15:37:16,244 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-30 15:37:16,244 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-30 15:37:16,244 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-30 15:37:16,244 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-30 15:37:16,609 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-30 15:37:19,670 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-30 15:37:19,671 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-30 15:37:19,672 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-30 15:37:19,672 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-30 15:38:12,056 - main - INFO - [REQUEST] [req_1753861092056] GET /sse/user/test-user-sse-123
+2025-07-30 15:38:12,057 - app.core.connection_manager - INFO - 新SSE连接建立: 17106909-5fd1-4903-9516-02c517dcf6b4, 用户: test-user-sse-123, 频道: {'user:test-user-sse-123'}
+2025-07-30 15:38:12,057 - main - INFO - [RESPONSE] [req_1753861092056] 状态码: 200, 耗时: 0.001s
+2025-07-30 15:38:13,157 - app.core.connection_manager - INFO - SSE流被取消: 17106909-5fd1-4903-9516-02c517dcf6b4
+2025-07-30 15:38:13,157 - app.core.connection_manager - INFO - SSE连接断开: 17106909-5fd1-4903-9516-02c517dcf6b4
+2025-07-30 15:45:43,535 - main - INFO - [REQUEST] [req_1753861543535] GET /sse/user/test-user-sse-123
+2025-07-30 15:45:43,535 - app.core.connection_manager - INFO - 新SSE连接建立: f0ac6051-8577-4c59-924a-cdcb13757229, 用户: test-user-sse-123, 频道: {'user:test-user-sse-123'}
+2025-07-30 15:45:43,536 - main - INFO - [RESPONSE] [req_1753861543535] 状态码: 200, 耗时: 0.001s
+2025-07-30 15:45:44,560 - app.core.connection_manager - INFO - SSE流被取消: f0ac6051-8577-4c59-924a-cdcb13757229
+2025-07-30 15:45:44,560 - app.core.connection_manager - INFO - SSE连接断开: f0ac6051-8577-4c59-924a-cdcb13757229
+2025-07-30 15:46:49,822 - main - INFO - [REQUEST] [req_1753861609822] GET /sse/user/test-user-sse-123
+2025-07-30 15:46:49,823 - app.core.connection_manager - INFO - 新SSE连接建立: 1c9643cb-d230-43b0-87d2-acde5a994fb3, 用户: test-user-sse-123, 频道: {'user:test-user-sse-123'}
+2025-07-30 15:46:49,823 - main - INFO - [RESPONSE] [req_1753861609822] 状态码: 200, 耗时: 0.001s
+2025-07-30 15:46:50,888 - app.core.connection_manager - INFO - SSE流被取消: 1c9643cb-d230-43b0-87d2-acde5a994fb3
+2025-07-30 15:46:50,888 - app.core.connection_manager - INFO - SSE连接断开: 1c9643cb-d230-43b0-87d2-acde5a994fb3
+2025-07-30 15:47:31,772 - main - INFO - [REQUEST] [req_1753861651772] GET /sse/user/test-user-simple
+2025-07-30 15:47:31,772 - app.core.connection_manager - INFO - 新SSE连接建立: 147c7030-3365-433e-92f3-d9fe557ebb49, 用户: test-user-simple, 频道: {'user:test-user-simple'}
+2025-07-30 15:47:31,773 - main - INFO - [RESPONSE] [req_1753861651772] 状态码: 200, 耗时: 0.001s
+2025-07-30 15:47:32,775 - main - INFO - [REQUEST] [req_1753861652775] POST /sse/api/v1/messages/send
+2025-07-30 15:47:32,778 - main - INFO - [RESPONSE] [req_1753861652775] 状态码: 200, 耗时: 0.003s
+2025-07-30 15:47:33,279 - main - INFO - [REQUEST] [req_1753861653279] POST /sse/api/v1/messages/send
+2025-07-30 15:47:33,281 - main - INFO - [RESPONSE] [req_1753861653279] 状态码: 200, 耗时: 0.002s
+2025-07-30 15:47:33,785 - main - INFO - [REQUEST] [req_1753861653785] POST /sse/api/v1/messages/send
+2025-07-30 15:47:33,787 - main - INFO - [RESPONSE] [req_1753861653785] 状态码: 200, 耗时: 0.002s
+2025-07-30 15:47:34,299 - main - INFO - [REQUEST] [req_1753861654299] POST /sse/api/v1/messages/send
+2025-07-30 15:47:34,305 - main - INFO - [RESPONSE] [req_1753861654299] 状态码: 200, 耗时: 0.006s
+2025-07-30 15:47:37,808 - app.core.connection_manager - INFO - SSE流被取消: 147c7030-3365-433e-92f3-d9fe557ebb49
+2025-07-30 15:47:37,809 - app.core.connection_manager - INFO - SSE连接断开: 147c7030-3365-433e-92f3-d9fe557ebb49
+2025-07-30 16:23:53,844 - watchfiles.main - INFO - 3 changes detected
+2025-07-30 16:24:13,970 - watchfiles.main - INFO - 3 changes detected
+2025-07-30 16:24:36,322 - watchfiles.main - INFO - 3 changes detected
+2025-07-30 16:25:03,096 - watchfiles.main - INFO - 3 changes detected
+2025-07-30 16:25:30,124 - watchfiles.main - INFO - 3 changes detected
+2025-07-30 16:25:40,056 - watchfiles.main - INFO - 3 changes detected
+2025-07-30 16:25:58,055 - watchfiles.main - INFO - 3 changes detected
+2025-07-30 16:26:12,885 - watchfiles.main - INFO - 3 changes detected
+2025-07-30 16:26:18,164 - watchfiles.main - INFO - 1 change detected
+2025-07-30 16:26:54,307 - watchfiles.main - INFO - 3 changes detected
+2025-07-30 16:27:32,340 - watchfiles.main - INFO - 3 changes detected
+2025-07-30 16:28:28,372 - watchfiles.main - INFO - 3 changes detected
+2025-07-30 16:29:35,270 - watchfiles.main - INFO - 3 changes detected
+2025-07-30 16:29:43,647 - watchfiles.main - INFO - 4 changes detected
+2025-07-30 16:30:41,532 - watchfiles.main - INFO - 3 changes detected
+2025-07-30 16:30:57,860 - watchfiles.main - INFO - 3 changes detected
+2025-07-30 16:32:15,596 - watchfiles.main - INFO - 3 changes detected
+2025-07-30 17:13:59,569 - main - INFO - [REQUEST] [req_1753866839569] GET /sse/user/user-123
+2025-07-30 17:13:59,576 - app.core.connection_manager - INFO - 新SSE连接建立: 8d243aaf-bb36-4a51-9ee5-1f5dc81078d3, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 17:13:59,578 - main - INFO - [RESPONSE] [req_1753866839569] 状态码: 200, 耗时: 0.009s
+2025-07-30 17:31:52,311 - app.core.connection_manager - INFO - SSE流被取消: 8d243aaf-bb36-4a51-9ee5-1f5dc81078d3
+2025-07-30 17:31:52,312 - app.core.connection_manager - INFO - SSE连接断开: 8d243aaf-bb36-4a51-9ee5-1f5dc81078d3
+2025-07-30 17:33:18,270 - main - INFO - [SHUTDOWN] 正在关闭message-push-service...
+2025-07-30 17:33:18,271 - app.core.connection_manager - INFO - 停止SSE连接管理器
+2025-07-30 17:33:18,271 - main - INFO - [SUCCESS] 连接管理器已停止
+2025-07-30 17:33:18,272 - app.core.message_queue - INFO - 消息消费任务被取消
+2025-07-30 17:33:18,274 - app.core.message_queue - INFO - 消息队列管理器已断开
+2025-07-30 17:33:18,274 - main - INFO - [SUCCESS] 消息队列已断开
+2025-07-30 17:33:18,274 - main - INFO - [SHUTDOWN] message-push-service已安全关闭
+2025-07-30 17:33:21,472 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-07-30 17:33:21,472 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-07-30 17:33:21,472 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-30 17:33:22,018 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-30 17:33:22,018 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-30 17:33:22,018 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-30 17:33:22,018 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-30 17:33:22,018 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-30 17:33:22,023 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-30 17:33:22,024 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-07-30 17:33:22,024 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-30 17:33:22,024 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-30 17:33:22,024 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-30 17:33:22,024 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-30 17:33:22,024 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-30 17:33:22,368 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-30 17:33:25,391 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-30 17:33:25,392 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-30 17:33:25,395 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-30 17:33:25,395 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-30 17:33:53,684 - main - INFO - [REQUEST] [req_1753868033684] GET /sse/user/user-123
+2025-07-30 17:33:53,684 - app.core.connection_manager - INFO - 新SSE连接建立: 0cd16411-1ddb-4880-869e-875768f5735d, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 17:33:53,685 - main - INFO - [RESPONSE] [req_1753868033684] 状态码: 200, 耗时: 0.001s
+2025-07-30 17:34:34,868 - app.core.connection_manager - INFO - SSE流被取消: 0cd16411-1ddb-4880-869e-875768f5735d
+2025-07-30 17:34:34,868 - app.core.connection_manager - INFO - SSE连接断开: 0cd16411-1ddb-4880-869e-875768f5735d
+2025-07-30 17:34:47,117 - main - INFO - [REQUEST] [req_1753868087117] GET /sse/user/user-123
+2025-07-30 17:34:47,118 - app.core.connection_manager - INFO - 新SSE连接建立: d09e26a0-3225-4e59-8b19-86ae6c016710, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 17:34:47,118 - main - INFO - [RESPONSE] [req_1753868087117] 状态码: 200, 耗时: 0.001s
+2025-07-30 17:35:20,155 - app.core.connection_manager - INFO - SSE流被取消: d09e26a0-3225-4e59-8b19-86ae6c016710
+2025-07-30 17:35:20,156 - app.core.connection_manager - INFO - SSE连接断开: d09e26a0-3225-4e59-8b19-86ae6c016710
+2025-07-30 17:35:37,898 - main - INFO - [REQUEST] [req_1753868137898] GET /sse/user/user-123
+2025-07-30 17:35:37,899 - app.core.connection_manager - INFO - 新SSE连接建立: 59ee9d1c-4824-441d-b35c-8c4420125d08, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 17:35:37,900 - main - INFO - [RESPONSE] [req_1753868137898] 状态码: 200, 耗时: 0.001s
+2025-07-30 17:35:39,194 - app.core.connection_manager - INFO - SSE流被取消: 59ee9d1c-4824-441d-b35c-8c4420125d08
+2025-07-30 17:35:39,194 - app.core.connection_manager - INFO - SSE连接断开: 59ee9d1c-4824-441d-b35c-8c4420125d08
+2025-07-30 17:35:39,941 - main - INFO - [REQUEST] [req_1753868139941] GET /sse/user/user-123
+2025-07-30 17:35:39,941 - app.core.connection_manager - INFO - 新SSE连接建立: 1bd63df4-7c36-48e3-9412-e9fbc22f7e7c, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 17:35:39,942 - main - INFO - [RESPONSE] [req_1753868139941] 状态码: 200, 耗时: 0.001s
+2025-07-30 17:49:12,250 - app.core.connection_manager - INFO - SSE流被取消: 1bd63df4-7c36-48e3-9412-e9fbc22f7e7c
+2025-07-30 17:49:12,251 - app.core.connection_manager - INFO - SSE连接断开: 1bd63df4-7c36-48e3-9412-e9fbc22f7e7c
+2025-07-30 17:49:16,108 - main - INFO - [REQUEST] [req_1753868956108] GET /sse/user/user-123
+2025-07-30 17:49:16,109 - app.core.connection_manager - INFO - 新SSE连接建立: b1ddcd1e-2baa-4ce6-a4d9-6579d1acfd12, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 17:49:16,110 - main - INFO - [RESPONSE] [req_1753868956108] 状态码: 200, 耗时: 0.001s
+2025-07-30 17:49:51,247 - app.core.connection_manager - INFO - SSE流被取消: b1ddcd1e-2baa-4ce6-a4d9-6579d1acfd12
+2025-07-30 17:49:51,247 - app.core.connection_manager - INFO - SSE连接断开: b1ddcd1e-2baa-4ce6-a4d9-6579d1acfd12
+2025-07-30 17:49:55,473 - main - INFO - [REQUEST] [req_1753868995473] GET /sse/user/user-123
+2025-07-30 17:49:55,474 - app.core.connection_manager - INFO - 新SSE连接建立: 348ece1d-523d-46a3-8e6c-1a726549ce54, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 17:49:55,474 - main - INFO - [RESPONSE] [req_1753868995473] 状态码: 200, 耗时: 0.001s
+2025-07-30 17:51:42,532 - app.core.connection_manager - INFO - SSE流被取消: 348ece1d-523d-46a3-8e6c-1a726549ce54
+2025-07-30 17:51:42,532 - app.core.connection_manager - INFO - SSE连接断开: 348ece1d-523d-46a3-8e6c-1a726549ce54
+2025-07-30 17:51:42,533 - main - INFO - [REQUEST] [req_1753869102533] GET /sse/user/user-123
+2025-07-30 17:51:42,533 - app.core.connection_manager - INFO - 新SSE连接建立: bbbee9d4-4d73-4e0e-89b0-95a620c9e0ba, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 17:51:42,534 - main - INFO - [RESPONSE] [req_1753869102533] 状态码: 200, 耗时: 0.001s
+2025-07-30 17:55:26,284 - main - INFO - [REQUEST] [req_1753869326284] GET /sse/user/user-123
+2025-07-30 17:55:26,285 - app.core.connection_manager - INFO - 新SSE连接建立: b6076c41-7893-41c6-ae6c-e0cb895e4fd2, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 17:55:26,285 - main - INFO - [RESPONSE] [req_1753869326284] 状态码: 200, 耗时: 0.002s
+2025-07-30 17:56:16,751 - app.core.connection_manager - INFO - SSE流被取消: bbbee9d4-4d73-4e0e-89b0-95a620c9e0ba
+2025-07-30 17:56:16,752 - app.core.connection_manager - INFO - SSE连接断开: bbbee9d4-4d73-4e0e-89b0-95a620c9e0ba
+2025-07-30 17:56:16,752 - app.core.connection_manager - INFO - SSE流被取消: b6076c41-7893-41c6-ae6c-e0cb895e4fd2
+2025-07-30 17:56:16,752 - app.core.connection_manager - INFO - SSE连接断开: b6076c41-7893-41c6-ae6c-e0cb895e4fd2
+2025-07-30 17:56:30,250 - main - INFO - [REQUEST] [req_1753869390250] GET /sse/user/user-123
+2025-07-30 17:56:30,251 - app.core.connection_manager - INFO - 新SSE连接建立: 1ebc5bbd-9fee-4be6-8fc0-e91e3616aee3, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 17:56:30,251 - main - INFO - [RESPONSE] [req_1753869390250] 状态码: 200, 耗时: 0.002s
+2025-07-30 17:56:31,567 - main - INFO - [REQUEST] [req_1753869391567] GET /sse/user/user-123
+2025-07-30 17:56:31,568 - app.core.connection_manager - INFO - 新SSE连接建立: fcbac570-9aae-4d56-870e-485347536f4f, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 17:56:31,569 - main - INFO - [RESPONSE] [req_1753869391567] 状态码: 200, 耗时: 0.001s
+2025-07-30 18:00:35,187 - app.core.connection_manager - INFO - SSE流被取消: 1ebc5bbd-9fee-4be6-8fc0-e91e3616aee3
+2025-07-30 18:00:35,188 - app.core.connection_manager - INFO - SSE连接断开: 1ebc5bbd-9fee-4be6-8fc0-e91e3616aee3
+2025-07-30 18:00:35,188 - app.core.connection_manager - INFO - SSE流被取消: fcbac570-9aae-4d56-870e-485347536f4f
+2025-07-30 18:00:35,188 - app.core.connection_manager - INFO - SSE连接断开: fcbac570-9aae-4d56-870e-485347536f4f
+2025-07-30 18:01:51,083 - main - INFO - [REQUEST] [req_1753869711083] GET /sse/user/user-123
+2025-07-30 18:01:51,084 - app.core.connection_manager - INFO - 新SSE连接建立: e1dc9111-2e61-4282-a618-8ca3fad16bb4, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 18:01:51,085 - main - INFO - [RESPONSE] [req_1753869711083] 状态码: 200, 耗时: 0.002s
+2025-07-30 18:01:52,813 - main - INFO - [REQUEST] [req_1753869712813] GET /sse/user/user-123
+2025-07-30 18:01:52,813 - app.core.connection_manager - INFO - 新SSE连接建立: 2b9e0cb4-e6b9-4fa9-b7ed-7d764a7871f0, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 18:01:52,814 - main - INFO - [RESPONSE] [req_1753869712813] 状态码: 200, 耗时: 0.001s
+2025-07-30 18:01:55,816 - app.core.connection_manager - INFO - SSE流被取消: e1dc9111-2e61-4282-a618-8ca3fad16bb4
+2025-07-30 18:01:55,817 - app.core.connection_manager - INFO - SSE连接断开: e1dc9111-2e61-4282-a618-8ca3fad16bb4
+2025-07-30 18:01:55,817 - app.core.connection_manager - INFO - SSE流被取消: 2b9e0cb4-e6b9-4fa9-b7ed-7d764a7871f0
+2025-07-30 18:01:55,817 - app.core.connection_manager - INFO - SSE连接断开: 2b9e0cb4-e6b9-4fa9-b7ed-7d764a7871f0
+2025-07-30 18:02:05,176 - main - INFO - [REQUEST] [req_1753869725175] GET /sse/user/user-123
+2025-07-30 18:02:05,176 - app.core.connection_manager - INFO - 新SSE连接建立: 94f27ee9-dc58-4871-b680-ab06aa455f1f, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 18:02:05,187 - main - INFO - [RESPONSE] [req_1753869725175] 状态码: 200, 耗时: 0.012s
+2025-07-30 18:02:07,243 - app.core.connection_manager - INFO - SSE流被取消: 94f27ee9-dc58-4871-b680-ab06aa455f1f
+2025-07-30 18:02:07,243 - app.core.connection_manager - INFO - SSE连接断开: 94f27ee9-dc58-4871-b680-ab06aa455f1f
+2025-07-30 18:10:08,141 - main - INFO - [REQUEST] [req_1753870208141] GET /sse/user/user-123
+2025-07-30 18:10:08,143 - app.core.connection_manager - INFO - 新SSE连接建立: 41856eab-a774-4ba2-b7d6-8b32e4eb9db6, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 18:10:08,143 - main - INFO - [RESPONSE] [req_1753870208141] 状态码: 200, 耗时: 0.002s
+2025-07-30 18:10:10,760 - main - INFO - [REQUEST] [req_1753870210760] GET /sse/user/user-123
+2025-07-30 18:10:10,760 - app.core.connection_manager - INFO - 新SSE连接建立: 555de5d8-0b2e-4d22-899b-a0543820d0b0, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 18:10:10,761 - main - INFO - [RESPONSE] [req_1753870210760] 状态码: 200, 耗时: 0.001s
+2025-07-30 18:11:14,735 - app.core.connection_manager - INFO - SSE流被取消: 555de5d8-0b2e-4d22-899b-a0543820d0b0
+2025-07-30 18:11:14,735 - app.core.connection_manager - INFO - SSE连接断开: 555de5d8-0b2e-4d22-899b-a0543820d0b0
+2025-07-30 18:11:16,629 - app.core.connection_manager - INFO - SSE流被取消: 41856eab-a774-4ba2-b7d6-8b32e4eb9db6
+2025-07-30 18:11:16,629 - app.core.connection_manager - INFO - SSE连接断开: 41856eab-a774-4ba2-b7d6-8b32e4eb9db6
+2025-07-30 18:11:18,493 - main - INFO - [REQUEST] [req_1753870278493] GET /sse/user/user-123
+2025-07-30 18:11:18,494 - app.core.connection_manager - INFO - 新SSE连接建立: 4e47482a-d25f-4d73-9b6d-fab6350fc519, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 18:11:18,494 - main - INFO - [RESPONSE] [req_1753870278493] 状态码: 200, 耗时: 0.001s
+2025-07-30 18:11:18,972 - app.core.connection_manager - INFO - SSE流被取消: 4e47482a-d25f-4d73-9b6d-fab6350fc519
+2025-07-30 18:11:18,972 - app.core.connection_manager - INFO - SSE连接断开: 4e47482a-d25f-4d73-9b6d-fab6350fc519
+2025-07-30 18:14:48,755 - main - INFO - [REQUEST] [req_1753870488755] GET /sse/user/user-123
+2025-07-30 18:14:48,755 - app.core.connection_manager - INFO - 新SSE连接建立: 2f67a1f0-a2b5-4573-b1c1-412c0933f2ce, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 18:14:48,756 - main - INFO - [RESPONSE] [req_1753870488755] 状态码: 200, 耗时: 0.001s
+2025-07-30 18:14:50,047 - main - INFO - [REQUEST] [req_1753870490047] GET /sse/user/user-123
+2025-07-30 18:14:50,048 - app.core.connection_manager - INFO - 新SSE连接建立: 4d6c96a1-76af-44c7-b4ea-1e4ce5624f7d, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 18:14:50,048 - main - INFO - [RESPONSE] [req_1753870490047] 状态码: 200, 耗时: 0.001s
+2025-07-30 18:20:07,301 - app.core.connection_manager - INFO - SSE流被取消: 4d6c96a1-76af-44c7-b4ea-1e4ce5624f7d
+2025-07-30 18:20:07,301 - app.core.connection_manager - INFO - SSE连接断开: 4d6c96a1-76af-44c7-b4ea-1e4ce5624f7d
+2025-07-30 18:20:12,608 - app.core.connection_manager - INFO - SSE流被取消: 2f67a1f0-a2b5-4573-b1c1-412c0933f2ce
+2025-07-30 18:20:12,608 - app.core.connection_manager - INFO - SSE连接断开: 2f67a1f0-a2b5-4573-b1c1-412c0933f2ce
+2025-07-30 18:20:13,325 - main - INFO - [REQUEST] [req_1753870813325] GET /sse/user/user-123
+2025-07-30 18:20:13,325 - app.core.connection_manager - INFO - 新SSE连接建立: b96d0df8-6ca6-4928-bd37-61312b66a3a9, 用户: user-123, 频道: {'user:user-123'}
+2025-07-30 18:20:13,326 - main - INFO - [RESPONSE] [req_1753870813325] 状态码: 200, 耗时: 0.001s
+2025-07-30 18:20:13,860 - app.core.connection_manager - INFO - SSE流被取消: b96d0df8-6ca6-4928-bd37-61312b66a3a9
+2025-07-30 18:20:13,860 - app.core.connection_manager - INFO - SSE连接断开: b96d0df8-6ca6-4928-bd37-61312b66a3a9
+2025-07-31 00:47:13,381 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-07-31 00:47:13,382 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-07-31 00:47:13,382 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-31 00:47:13,953 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-31 00:47:13,953 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-31 00:47:13,954 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-31 00:47:13,954 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-31 00:47:13,954 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-31 00:47:13,958 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-31 00:47:13,958 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-07-31 00:47:13,958 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-31 00:47:13,958 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-31 00:47:13,959 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-31 00:47:13,959 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-31 00:47:13,959 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-31 00:47:14,276 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-31 00:47:16,951 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-31 00:47:16,952 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-31 00:47:16,954 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-31 00:47:16,954 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-31 00:48:20,287 - main - INFO - [REQUEST] [req_1753894100287] GET /sse/user/user-123
+2025-07-31 00:48:20,288 - app.core.connection_manager - INFO - 新SSE连接建立: db4e1b4e-57b5-4939-ae0d-374224571187, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 00:48:20,289 - main - INFO - [RESPONSE] [req_1753894100287] 状态码: 200, 耗时: 0.002s
+2025-07-31 00:48:27,242 - main - INFO - [REQUEST] [req_1753894107242] GET /sse/user/user-123
+2025-07-31 00:48:27,243 - app.core.connection_manager - INFO - 新SSE连接建立: 428bb01c-217e-4cbb-ab31-2a678e3c8003, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 00:48:27,243 - main - INFO - [RESPONSE] [req_1753894107242] 状态码: 200, 耗时: 0.001s
+2025-07-31 01:06:09,615 - app.core.connection_manager - INFO - SSE流被取消: 428bb01c-217e-4cbb-ab31-2a678e3c8003
+2025-07-31 01:06:09,615 - app.core.connection_manager - INFO - SSE连接断开: 428bb01c-217e-4cbb-ab31-2a678e3c8003
+2025-07-31 01:06:12,346 - app.core.connection_manager - INFO - SSE流被取消: db4e1b4e-57b5-4939-ae0d-374224571187
+2025-07-31 01:06:12,346 - app.core.connection_manager - INFO - SSE连接断开: db4e1b4e-57b5-4939-ae0d-374224571187
+2025-07-31 01:06:16,225 - main - INFO - [REQUEST] [req_1753895176225] GET /sse/user/user-123
+2025-07-31 01:06:16,226 - app.core.connection_manager - INFO - 新SSE连接建立: 709af45c-c0b3-48ad-a15d-75ab05268770, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 01:06:16,227 - main - INFO - [RESPONSE] [req_1753895176225] 状态码: 200, 耗时: 0.002s
+2025-07-31 01:06:17,875 - main - INFO - [REQUEST] [req_1753895177875] GET /sse/user/user-123
+2025-07-31 01:06:17,875 - app.core.connection_manager - INFO - 新SSE连接建立: 4e835758-8553-47a8-a237-e44b1538ba91, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 01:06:17,876 - main - INFO - [RESPONSE] [req_1753895177875] 状态码: 200, 耗时: 0.001s
+2025-07-31 01:10:38,315 - app.core.connection_manager - INFO - SSE流被取消: 4e835758-8553-47a8-a237-e44b1538ba91
+2025-07-31 01:10:38,315 - app.core.connection_manager - INFO - SSE连接断开: 4e835758-8553-47a8-a237-e44b1538ba91
+2025-07-31 01:10:38,316 - main - INFO - [REQUEST] [req_1753895438316] GET /sse/user/user-123
+2025-07-31 01:10:38,316 - app.core.connection_manager - INFO - 新SSE连接建立: d7d40636-c192-44e1-9be2-0e75c04a1249, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 01:10:38,317 - main - INFO - [RESPONSE] [req_1753895438316] 状态码: 200, 耗时: 0.001s
+2025-07-31 01:10:49,225 - app.core.connection_manager - INFO - SSE流被取消: d7d40636-c192-44e1-9be2-0e75c04a1249
+2025-07-31 01:10:49,226 - app.core.connection_manager - INFO - SSE连接断开: d7d40636-c192-44e1-9be2-0e75c04a1249
+2025-07-31 01:10:53,891 - app.core.connection_manager - INFO - SSE流被取消: 709af45c-c0b3-48ad-a15d-75ab05268770
+2025-07-31 01:10:53,891 - app.core.connection_manager - INFO - SSE连接断开: 709af45c-c0b3-48ad-a15d-75ab05268770
+2025-07-31 01:11:09,154 - main - INFO - [REQUEST] [req_1753895469154] GET /sse/user/user-123
+2025-07-31 01:11:09,155 - app.core.connection_manager - INFO - 新SSE连接建立: f1409e67-f405-47d9-b7ee-7fe7c11a4618, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 01:11:09,155 - main - INFO - [RESPONSE] [req_1753895469154] 状态码: 200, 耗时: 0.001s
+2025-07-31 01:11:09,857 - app.core.connection_manager - INFO - SSE流被取消: f1409e67-f405-47d9-b7ee-7fe7c11a4618
+2025-07-31 01:11:09,857 - app.core.connection_manager - INFO - SSE连接断开: f1409e67-f405-47d9-b7ee-7fe7c11a4618
+2025-07-31 01:11:11,627 - main - INFO - [REQUEST] [req_1753895471627] GET /sse/user/user-123
+2025-07-31 01:11:11,629 - app.core.connection_manager - INFO - 新SSE连接建立: 26a11af8-5463-4b95-9a03-5d528a5174f7, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 01:11:11,630 - main - INFO - [RESPONSE] [req_1753895471627] 状态码: 200, 耗时: 0.004s
+2025-07-31 01:11:12,174 - app.core.connection_manager - INFO - SSE流被取消: 26a11af8-5463-4b95-9a03-5d528a5174f7
+2025-07-31 01:11:12,174 - app.core.connection_manager - INFO - SSE连接断开: 26a11af8-5463-4b95-9a03-5d528a5174f7
+2025-07-31 01:11:12,714 - main - INFO - [REQUEST] [req_1753895472714] GET /sse/user/user-123
+2025-07-31 01:11:12,715 - app.core.connection_manager - INFO - 新SSE连接建立: e89fce51-4a08-421a-b533-3c7562acfd3e, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 01:11:12,716 - main - INFO - [RESPONSE] [req_1753895472714] 状态码: 200, 耗时: 0.001s
+2025-07-31 01:11:13,221 - app.core.connection_manager - INFO - SSE流被取消: e89fce51-4a08-421a-b533-3c7562acfd3e
+2025-07-31 01:11:13,221 - app.core.connection_manager - INFO - SSE连接断开: e89fce51-4a08-421a-b533-3c7562acfd3e
+2025-07-31 01:11:14,827 - main - INFO - [REQUEST] [req_1753895474827] GET /sse/user/user-123
+2025-07-31 01:11:14,827 - app.core.connection_manager - INFO - 新SSE连接建立: bb7f96d2-68cd-4b09-902d-adef0d82c432, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 01:11:14,828 - main - INFO - [RESPONSE] [req_1753895474827] 状态码: 200, 耗时: 0.001s
+2025-07-31 01:11:15,334 - app.core.connection_manager - INFO - SSE流被取消: bb7f96d2-68cd-4b09-902d-adef0d82c432
+2025-07-31 01:11:15,335 - app.core.connection_manager - INFO - SSE连接断开: bb7f96d2-68cd-4b09-902d-adef0d82c432
+2025-07-31 01:11:15,841 - main - INFO - [REQUEST] [req_1753895475841] GET /sse/user/user-123
+2025-07-31 01:11:15,842 - app.core.connection_manager - INFO - 新SSE连接建立: eaf77f74-ca8e-46f8-a3e3-e01836e4edcd, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 01:11:15,842 - main - INFO - [RESPONSE] [req_1753895475841] 状态码: 200, 耗时: 0.001s
+2025-07-31 01:11:16,387 - app.core.connection_manager - INFO - SSE流被取消: eaf77f74-ca8e-46f8-a3e3-e01836e4edcd
+2025-07-31 01:11:16,387 - app.core.connection_manager - INFO - SSE连接断开: eaf77f74-ca8e-46f8-a3e3-e01836e4edcd
+2025-07-31 01:11:18,029 - main - INFO - [REQUEST] [req_1753895478029] GET /sse/user/user-123
+2025-07-31 01:11:18,030 - app.core.connection_manager - INFO - 新SSE连接建立: c30a6c76-efcc-43af-8c81-0a1ee97c4fcd, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 01:11:18,032 - main - INFO - [RESPONSE] [req_1753895478029] 状态码: 200, 耗时: 0.003s
+2025-07-31 01:11:18,532 - app.core.connection_manager - INFO - SSE流被取消: c30a6c76-efcc-43af-8c81-0a1ee97c4fcd
+2025-07-31 01:11:18,533 - app.core.connection_manager - INFO - SSE连接断开: c30a6c76-efcc-43af-8c81-0a1ee97c4fcd
+2025-07-31 01:11:19,663 - main - INFO - [REQUEST] [req_1753895479663] GET /sse/user/user-123
+2025-07-31 01:11:19,671 - app.core.connection_manager - INFO - 新SSE连接建立: 8904e024-0472-4e17-afac-61fc27fafe31, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 01:11:19,673 - main - INFO - [RESPONSE] [req_1753895479663] 状态码: 200, 耗时: 0.010s
+2025-07-31 01:11:20,254 - app.core.connection_manager - INFO - SSE流被取消: 8904e024-0472-4e17-afac-61fc27fafe31
+2025-07-31 01:11:20,254 - app.core.connection_manager - INFO - SSE连接断开: 8904e024-0472-4e17-afac-61fc27fafe31
+2025-07-31 01:11:21,840 - main - INFO - [REQUEST] [req_1753895481840] GET /sse/user/user-123
+2025-07-31 01:11:21,841 - app.core.connection_manager - INFO - 新SSE连接建立: b9ca3574-93ef-42b6-a584-b7c8059683fa, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 01:11:21,842 - main - INFO - [RESPONSE] [req_1753895481840] 状态码: 200, 耗时: 0.002s
+2025-07-31 01:11:22,385 - app.core.connection_manager - INFO - SSE流被取消: b9ca3574-93ef-42b6-a584-b7c8059683fa
+2025-07-31 01:11:22,385 - app.core.connection_manager - INFO - SSE连接断开: b9ca3574-93ef-42b6-a584-b7c8059683fa
+2025-07-31 01:11:23,719 - main - INFO - [REQUEST] [req_1753895483719] GET /sse/user/user-123
+2025-07-31 01:11:23,720 - app.core.connection_manager - INFO - 新SSE连接建立: 5d03247a-4eb2-45b1-8f20-2c3382742d0c, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 01:11:23,721 - main - INFO - [RESPONSE] [req_1753895483719] 状态码: 200, 耗时: 0.001s
+2025-07-31 01:11:24,254 - app.core.connection_manager - INFO - SSE流被取消: 5d03247a-4eb2-45b1-8f20-2c3382742d0c
+2025-07-31 01:11:24,255 - app.core.connection_manager - INFO - SSE连接断开: 5d03247a-4eb2-45b1-8f20-2c3382742d0c
+2025-07-31 09:54:01,573 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-07-31 09:54:01,573 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-07-31 09:54:01,573 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-31 09:54:02,097 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-31 09:54:02,097 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-31 09:54:02,097 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-31 09:54:02,097 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-31 09:54:02,098 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-31 09:54:02,101 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-31 09:54:02,102 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-07-31 09:54:02,102 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-31 09:54:02,103 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-31 09:54:02,103 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-31 09:54:02,103 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-31 09:54:02,103 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-31 09:54:02,312 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-31 09:54:06,378 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-31 09:54:06,379 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-31 09:54:06,381 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-31 09:54:06,381 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-31 10:11:38,787 - main - INFO - [REQUEST] [req_1753927898787] GET /sse/user/user-123
+2025-07-31 10:11:38,788 - app.core.connection_manager - INFO - 新SSE连接建立: 2c4a5d46-26e6-4229-88ff-7a5c3048876e, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 10:11:38,789 - main - INFO - [RESPONSE] [req_1753927898787] 状态码: 200, 耗时: 0.002s
+2025-07-31 10:11:40,554 - main - INFO - [REQUEST] [req_1753927900554] GET /sse/user/user-123
+2025-07-31 10:11:40,554 - app.core.connection_manager - INFO - 新SSE连接建立: c19250f2-19f4-4b2f-af4a-9f4b5a1f492b, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 10:11:40,555 - main - INFO - [RESPONSE] [req_1753927900554] 状态码: 200, 耗时: 0.001s
+2025-07-31 10:14:53,426 - app.core.connection_manager - INFO - SSE流被取消: c19250f2-19f4-4b2f-af4a-9f4b5a1f492b
+2025-07-31 10:14:53,426 - app.core.connection_manager - INFO - SSE连接断开: c19250f2-19f4-4b2f-af4a-9f4b5a1f492b
+2025-07-31 10:26:07,246 - main - INFO - [REQUEST] [req_1753928767245] GET /sse/user/user-123
+2025-07-31 10:26:07,249 - app.core.connection_manager - INFO - 新SSE连接建立: d33a0139-4f20-4b2c-94d9-bf315eb84472, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 10:26:07,259 - main - INFO - [RESPONSE] [req_1753928767245] 状态码: 200, 耗时: 0.014s
+2025-07-31 10:26:40,869 - app.core.connection_manager - INFO - SSE流被取消: d33a0139-4f20-4b2c-94d9-bf315eb84472
+2025-07-31 10:26:40,870 - app.core.connection_manager - INFO - SSE连接断开: d33a0139-4f20-4b2c-94d9-bf315eb84472
+2025-07-31 10:26:40,870 - app.core.connection_manager - INFO - SSE流被取消: 2c4a5d46-26e6-4229-88ff-7a5c3048876e
+2025-07-31 10:26:40,870 - app.core.connection_manager - INFO - SSE连接断开: 2c4a5d46-26e6-4229-88ff-7a5c3048876e
+2025-07-31 10:26:49,522 - main - INFO - [REQUEST] [req_1753928809522] GET /sse/user/user-123
+2025-07-31 10:26:49,523 - app.core.connection_manager - INFO - 新SSE连接建立: e1d27aa1-a328-4ec6-8150-ce202c33fd18, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 10:26:49,523 - main - INFO - [RESPONSE] [req_1753928809522] 状态码: 200, 耗时: 0.001s
+2025-07-31 10:26:51,123 - main - INFO - [REQUEST] [req_1753928811123] GET /sse/user/user-123
+2025-07-31 10:26:51,123 - app.core.connection_manager - INFO - 新SSE连接建立: 8e7af6da-8b11-42b6-bece-21df77d4aeea, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 10:26:51,124 - main - INFO - [RESPONSE] [req_1753928811123] 状态码: 200, 耗时: 0.001s
+2025-07-31 10:29:49,770 - main - INFO - [REQUEST] [req_1753928989770] GET /health
+2025-07-31 10:29:49,771 - main - WARNING - [RESPONSE] [req_1753928989770] 状态码: 404, 耗时: 0.001s
+2025-07-31 10:29:53,120 - main - INFO - [REQUEST] [req_1753928993120] GET /
+2025-07-31 10:29:53,120 - main - INFO - [RESPONSE] [req_1753928993120] 状态码: 200, 耗时: 0.001s
+2025-07-31 12:01:59,136 - app.core.message_queue - INFO - 消息消费任务被取消
+2025-07-31 12:01:59,138 - app.core.connection_manager - INFO - SSE流被取消: 8e7af6da-8b11-42b6-bece-21df77d4aeea
+2025-07-31 12:01:59,138 - app.core.connection_manager - INFO - SSE连接断开: 8e7af6da-8b11-42b6-bece-21df77d4aeea
+2025-07-31 12:01:59,145 - app.core.connection_manager - INFO - SSE流被取消: e1d27aa1-a328-4ec6-8150-ce202c33fd18
+2025-07-31 12:01:59,145 - app.core.connection_manager - INFO - SSE连接断开: e1d27aa1-a328-4ec6-8150-ce202c33fd18
+2025-07-31 12:02:02,946 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-07-31 12:02:02,946 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-07-31 12:02:02,946 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-31 12:02:03,610 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-31 12:02:03,611 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-31 12:02:03,611 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-31 12:02:03,611 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-31 12:02:03,611 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-31 12:02:03,618 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-31 12:02:03,618 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-07-31 12:02:03,618 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-31 12:02:03,619 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-31 12:02:03,619 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-31 12:02:03,619 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-31 12:02:03,619 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-31 12:02:03,886 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-31 12:02:07,205 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-31 12:02:07,206 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-31 12:02:07,208 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-31 12:02:07,208 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-31 12:02:07,992 - main - INFO - [REQUEST] [req_1753934527992] GET /sse/user/user-123
+2025-07-31 12:02:07,993 - main - INFO - [REQUEST] [req_1753934527993] GET /sse/user/user-123
+2025-07-31 12:02:07,993 - app.core.connection_manager - INFO - 新SSE连接建立: f469d1af-7d5b-4581-999a-39aadcb71ddc, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 12:02:07,994 - app.core.connection_manager - INFO - 新SSE连接建立: 5b9109f5-1e6f-4858-ac7d-e49fbd091c79, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 12:02:07,995 - main - INFO - [RESPONSE] [req_1753934527992] 状态码: 200, 耗时: 0.003s
+2025-07-31 12:02:07,995 - main - INFO - [RESPONSE] [req_1753934527993] 状态码: 200, 耗时: 0.003s
+2025-07-31 12:02:14,873 - app.core.connection_manager - INFO - SSE流被取消: f469d1af-7d5b-4581-999a-39aadcb71ddc
+2025-07-31 12:02:14,873 - app.core.connection_manager - INFO - SSE连接断开: f469d1af-7d5b-4581-999a-39aadcb71ddc
+2025-07-31 12:02:16,763 - app.core.connection_manager - INFO - SSE流被取消: 5b9109f5-1e6f-4858-ac7d-e49fbd091c79
+2025-07-31 12:02:16,763 - app.core.connection_manager - INFO - SSE连接断开: 5b9109f5-1e6f-4858-ac7d-e49fbd091c79
+2025-07-31 12:02:20,506 - main - INFO - [REQUEST] [req_1753934540506] GET /sse/user/user-123
+2025-07-31 12:02:20,507 - app.core.connection_manager - INFO - 新SSE连接建立: 0c56f36d-dcac-4ffa-80c7-7e0bad101939, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 12:02:20,507 - main - INFO - [RESPONSE] [req_1753934540506] 状态码: 200, 耗时: 0.001s
+2025-07-31 12:02:21,648 - main - INFO - [REQUEST] [req_1753934541647] GET /sse/user/user-123
+2025-07-31 12:02:21,648 - app.core.connection_manager - INFO - 新SSE连接建立: 648b64c3-34af-4e99-ae55-9b90f6d59d6b, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 12:02:21,648 - main - INFO - [RESPONSE] [req_1753934541647] 状态码: 200, 耗时: 0.001s
+2025-07-31 12:05:12,882 - app.core.connection_manager - INFO - SSE流被取消: 648b64c3-34af-4e99-ae55-9b90f6d59d6b
+2025-07-31 12:05:12,882 - app.core.connection_manager - INFO - SSE连接断开: 648b64c3-34af-4e99-ae55-9b90f6d59d6b
+2025-07-31 12:05:12,883 - main - INFO - [REQUEST] [req_1753934712883] GET /sse/user/user-123
+2025-07-31 12:05:12,883 - app.core.connection_manager - INFO - 新SSE连接建立: 899d3d1b-0912-4bd7-8e20-2843109e3fb8, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 12:05:12,884 - main - INFO - [RESPONSE] [req_1753934712883] 状态码: 200, 耗时: 0.001s
+2025-07-31 12:16:49,026 - app.core.connection_manager - INFO - SSE流被取消: 899d3d1b-0912-4bd7-8e20-2843109e3fb8
+2025-07-31 12:16:49,028 - app.core.connection_manager - INFO - SSE连接断开: 899d3d1b-0912-4bd7-8e20-2843109e3fb8
+2025-07-31 12:16:49,028 - app.core.connection_manager - INFO - SSE流被取消: 0c56f36d-dcac-4ffa-80c7-7e0bad101939
+2025-07-31 12:16:49,028 - app.core.connection_manager - INFO - SSE连接断开: 0c56f36d-dcac-4ffa-80c7-7e0bad101939
+2025-07-31 13:56:57,216 - main - INFO - [SHUTDOWN] 正在关闭message-push-service...
+2025-07-31 13:56:57,216 - app.core.connection_manager - INFO - 停止SSE连接管理器
+2025-07-31 13:56:57,216 - main - INFO - [SUCCESS] 连接管理器已停止
+2025-07-31 13:56:57,217 - app.core.message_queue - INFO - 消息消费任务被取消
+2025-07-31 13:56:57,217 - app.core.message_queue - INFO - 消息队列管理器已断开
+2025-07-31 13:56:57,217 - main - INFO - [SUCCESS] 消息队列已断开
+2025-07-31 13:56:57,217 - main - INFO - [SHUTDOWN] message-push-service已安全关闭
+2025-07-31 13:56:59,537 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-07-31 13:56:59,538 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-07-31 13:56:59,538 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-31 13:57:00,170 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-31 13:57:00,171 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-31 13:57:00,171 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-31 13:57:00,171 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-31 13:57:00,171 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-31 13:57:00,188 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-31 13:57:00,189 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-07-31 13:57:00,189 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-31 13:57:00,189 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-31 13:57:00,189 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-31 13:57:00,189 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-31 13:57:00,189 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-31 13:57:00,442 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-31 13:57:03,806 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-31 13:57:03,807 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-31 13:57:03,808 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-31 13:57:03,808 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-31 14:00:01,161 - main - INFO - [SHUTDOWN] 正在关闭message-push-service...
+2025-07-31 14:00:01,161 - app.core.connection_manager - INFO - 停止SSE连接管理器
+2025-07-31 14:00:01,161 - main - INFO - [SUCCESS] 连接管理器已停止
+2025-07-31 14:00:01,162 - app.core.message_queue - INFO - 消息消费任务被取消
+2025-07-31 14:00:01,162 - app.core.message_queue - INFO - 消息队列管理器已断开
+2025-07-31 14:00:01,162 - main - INFO - [SUCCESS] 消息队列已断开
+2025-07-31 14:00:01,162 - main - INFO - [SHUTDOWN] message-push-service已安全关闭
+2025-07-31 14:00:03,763 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-07-31 14:00:03,763 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-07-31 14:00:03,763 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-31 14:00:04,406 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-31 14:00:04,407 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-31 14:00:04,407 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-31 14:00:04,407 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-31 14:00:04,407 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-31 14:00:04,411 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-31 14:00:04,411 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-07-31 14:00:04,412 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-31 14:00:04,412 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-31 14:00:04,412 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-31 14:00:04,412 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-31 14:00:04,412 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-31 14:00:04,656 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-31 14:00:07,398 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-31 14:00:07,399 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-31 14:00:07,401 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-31 14:00:07,401 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-31 14:20:06,679 - main - INFO - [REQUEST] [req_1753942806679] GET /sse/user/user-123
+2025-07-31 14:20:06,680 - app.core.connection_manager - INFO - 新SSE连接建立: c1b73f6d-1cc2-4b19-b589-7d62ef415f7d, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 14:20:06,681 - main - INFO - [RESPONSE] [req_1753942806679] 状态码: 200, 耗时: 0.001s
+2025-07-31 14:21:24,520 - app.core.connection_manager - INFO - SSE流被取消: c1b73f6d-1cc2-4b19-b589-7d62ef415f7d
+2025-07-31 14:21:24,520 - app.core.connection_manager - INFO - SSE连接断开: c1b73f6d-1cc2-4b19-b589-7d62ef415f7d
+2025-07-31 14:22:57,008 - main - INFO - [SHUTDOWN] 正在关闭message-push-service...
+2025-07-31 14:22:57,008 - app.core.connection_manager - INFO - 停止SSE连接管理器
+2025-07-31 14:22:57,008 - main - INFO - [SUCCESS] 连接管理器已停止
+2025-07-31 14:22:57,008 - app.core.message_queue - INFO - 消息消费任务被取消
+2025-07-31 14:22:57,009 - app.core.message_queue - INFO - 消息队列管理器已断开
+2025-07-31 14:22:57,009 - main - INFO - [SUCCESS] 消息队列已断开
+2025-07-31 14:22:57,009 - main - INFO - [SHUTDOWN] message-push-service已安全关闭
+2025-07-31 14:22:58,718 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-07-31 14:22:58,718 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-07-31 14:22:58,718 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-31 14:22:59,426 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-31 14:22:59,426 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-31 14:22:59,426 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-31 14:22:59,426 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-31 14:22:59,426 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-31 14:22:59,438 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-31 14:22:59,438 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-07-31 14:22:59,439 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-31 14:22:59,439 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-31 14:22:59,439 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-31 14:22:59,439 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-31 14:22:59,439 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-31 14:22:59,786 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-31 14:23:03,692 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-31 14:23:03,692 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-31 14:23:03,694 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-31 14:23:03,694 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-31 14:39:19,845 - main - INFO - [SHUTDOWN] 正在关闭message-push-service...
+2025-07-31 14:39:19,845 - app.core.connection_manager - INFO - 停止SSE连接管理器
+2025-07-31 14:39:19,845 - main - INFO - [SUCCESS] 连接管理器已停止
+2025-07-31 14:39:19,846 - app.core.message_queue - INFO - 消息消费任务被取消
+2025-07-31 14:39:19,846 - app.core.message_queue - INFO - 消息队列管理器已断开
+2025-07-31 14:39:19,846 - main - INFO - [SUCCESS] 消息队列已断开
+2025-07-31 14:39:19,846 - main - INFO - [SHUTDOWN] message-push-service已安全关闭
+2025-07-31 14:39:24,082 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-07-31 14:39:24,082 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-07-31 14:39:24,083 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-31 14:39:24,706 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-31 14:39:24,706 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-31 14:39:24,706 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-31 14:39:24,707 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-31 14:39:24,707 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-31 14:39:24,711 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-31 14:39:24,711 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-07-31 14:39:24,711 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-31 14:39:24,711 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-31 14:39:24,712 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-31 14:39:24,712 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-31 14:39:24,712 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-31 14:39:24,965 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-31 14:39:27,284 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-31 14:39:27,285 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-31 14:39:27,287 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-31 14:39:27,287 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-31 14:48:37,603 - main - INFO - [REQUEST] [req_1753944517603] GET /sse/user/user-123
+2025-07-31 14:48:37,604 - app.core.connection_manager - INFO - 新SSE连接建立: e42ed519-13a5-4a16-a613-d88cab7754ea, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 14:48:37,604 - main - INFO - [RESPONSE] [req_1753944517603] 状态码: 200, 耗时: 0.001s
+2025-07-31 14:48:40,234 - main - INFO - [REQUEST] [req_1753944520234] GET /sse/user/user-123
+2025-07-31 14:48:40,235 - app.core.connection_manager - INFO - 新SSE连接建立: 656e70a7-abd8-4b83-8337-d607c9177bac, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 14:48:40,235 - main - INFO - [RESPONSE] [req_1753944520234] 状态码: 200, 耗时: 0.001s
+2025-07-31 14:54:43,100 - app.core.connection_manager - INFO - SSE流被取消: 656e70a7-abd8-4b83-8337-d607c9177bac
+2025-07-31 14:54:43,100 - app.core.connection_manager - INFO - SSE连接断开: 656e70a7-abd8-4b83-8337-d607c9177bac
+2025-07-31 14:54:43,101 - main - INFO - [REQUEST] [req_1753944883101] GET /sse/user/user-123
+2025-07-31 14:54:43,101 - app.core.connection_manager - INFO - 新SSE连接建立: 8398d624-2a32-47c6-885d-004ed62eee50, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 14:54:43,102 - main - INFO - [RESPONSE] [req_1753944883101] 状态码: 200, 耗时: 0.001s
+2025-07-31 14:54:59,396 - app.core.connection_manager - INFO - SSE流被取消: 8398d624-2a32-47c6-885d-004ed62eee50
+2025-07-31 14:54:59,397 - app.core.connection_manager - INFO - SSE连接断开: 8398d624-2a32-47c6-885d-004ed62eee50
+2025-07-31 14:55:01,997 - main - INFO - [REQUEST] [req_1753944901997] GET /sse/user/user-123
+2025-07-31 14:55:01,997 - app.core.connection_manager - INFO - 新SSE连接建立: 81197e20-ba7d-4537-b468-122b610fe973, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 14:55:01,998 - main - INFO - [RESPONSE] [req_1753944901997] 状态码: 200, 耗时: 0.002s
+2025-07-31 14:55:03,878 - app.core.connection_manager - INFO - SSE流被取消: 81197e20-ba7d-4537-b468-122b610fe973
+2025-07-31 14:55:03,878 - app.core.connection_manager - INFO - SSE连接断开: 81197e20-ba7d-4537-b468-122b610fe973
+2025-07-31 14:55:05,568 - main - INFO - [REQUEST] [req_1753944905568] GET /sse/user/user-123
+2025-07-31 14:55:05,568 - app.core.connection_manager - INFO - 新SSE连接建立: 39330345-fdd9-499c-b12c-3b21c6616bc6, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 14:55:05,569 - main - INFO - [RESPONSE] [req_1753944905568] 状态码: 200, 耗时: 0.001s
+2025-07-31 14:55:16,529 - app.core.connection_manager - INFO - SSE流被取消: 39330345-fdd9-499c-b12c-3b21c6616bc6
+2025-07-31 14:55:16,529 - app.core.connection_manager - INFO - SSE连接断开: 39330345-fdd9-499c-b12c-3b21c6616bc6
+2025-07-31 14:55:21,776 - app.core.connection_manager - INFO - SSE流被取消: e42ed519-13a5-4a16-a613-d88cab7754ea
+2025-07-31 14:55:21,776 - app.core.connection_manager - INFO - SSE连接断开: e42ed519-13a5-4a16-a613-d88cab7754ea
+2025-07-31 14:55:23,087 - main - INFO - [REQUEST] [req_1753944923087] GET /sse/user/user-123
+2025-07-31 14:55:23,088 - app.core.connection_manager - INFO - 新SSE连接建立: eeb89916-6c73-4279-ad1e-e86d612ed1b4, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 14:55:23,089 - main - INFO - [RESPONSE] [req_1753944923087] 状态码: 200, 耗时: 0.002s
+2025-07-31 15:02:05,107 - app.core.connection_manager - INFO - SSE流被取消: eeb89916-6c73-4279-ad1e-e86d612ed1b4
+2025-07-31 15:02:05,113 - app.core.connection_manager - INFO - SSE连接断开: eeb89916-6c73-4279-ad1e-e86d612ed1b4
+2025-07-31 15:02:05,113 - main - INFO - [REQUEST] [req_1753945325113] GET /sse/user/user-123
+2025-07-31 15:02:05,114 - app.core.connection_manager - INFO - 新SSE连接建立: a69397fe-a285-4bcf-a551-a21ca760a2c8, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:02:05,115 - main - INFO - [RESPONSE] [req_1753945325113] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:05:50,647 - main - INFO - [REQUEST] [req_1753945550647] GET /sse/user/user-123
+2025-07-31 15:05:50,647 - app.core.connection_manager - INFO - 新SSE连接建立: 76d3b7f6-5ffd-4aa0-a2ee-0ea7eb196bc5, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:05:50,648 - main - INFO - [RESPONSE] [req_1753945550647] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:06:01,757 - app.core.connection_manager - INFO - SSE流被取消: 76d3b7f6-5ffd-4aa0-a2ee-0ea7eb196bc5
+2025-07-31 15:06:01,758 - app.core.connection_manager - INFO - SSE连接断开: 76d3b7f6-5ffd-4aa0-a2ee-0ea7eb196bc5
+2025-07-31 15:06:20,246 - app.core.message_queue - INFO - 消息消费任务被取消
+2025-07-31 15:06:20,246 - app.core.connection_manager - INFO - SSE流被取消: a69397fe-a285-4bcf-a551-a21ca760a2c8
+2025-07-31 15:06:20,246 - app.core.connection_manager - INFO - SSE连接断开: a69397fe-a285-4bcf-a551-a21ca760a2c8
+2025-07-31 15:06:21,445 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-07-31 15:06:21,446 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-07-31 15:06:21,446 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-31 15:06:22,012 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-31 15:06:22,012 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-31 15:06:22,012 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-31 15:06:22,012 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-31 15:06:22,012 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-31 15:06:22,019 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-31 15:06:22,019 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-07-31 15:06:22,019 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-31 15:06:22,019 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-31 15:06:22,019 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-31 15:06:22,019 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-31 15:06:22,019 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-31 15:06:22,245 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-31 15:06:25,734 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-31 15:06:25,735 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-31 15:06:25,737 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-31 15:06:25,737 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-31 15:06:25,761 - main - INFO - [REQUEST] [req_1753945585761] GET /sse/user/user-123
+2025-07-31 15:06:25,762 - app.core.connection_manager - INFO - 新SSE连接建立: 8659e188-fc59-49be-9662-5ce544ff2ebc, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:06:25,762 - main - INFO - [RESPONSE] [req_1753945585761] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:06:57,187 - app.core.connection_manager - INFO - SSE流被取消: 8659e188-fc59-49be-9662-5ce544ff2ebc
+2025-07-31 15:06:57,187 - app.core.connection_manager - INFO - SSE连接断开: 8659e188-fc59-49be-9662-5ce544ff2ebc
+2025-07-31 15:07:04,624 - main - INFO - [REQUEST] [req_1753945624624] GET /sse/user/user-123
+2025-07-31 15:07:04,624 - app.core.connection_manager - INFO - 新SSE连接建立: d2da2232-94a3-4a63-8ef1-86059283eef9, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:07:04,625 - main - INFO - [RESPONSE] [req_1753945624624] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:07:05,956 - main - INFO - [REQUEST] [req_1753945625956] GET /sse/user/user-123
+2025-07-31 15:07:05,956 - app.core.connection_manager - INFO - 新SSE连接建立: bec0aeb4-7205-4c1a-abe9-94fa8020e91d, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:07:05,957 - main - INFO - [RESPONSE] [req_1753945625956] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:07:22,229 - app.core.connection_manager - INFO - SSE流被取消: bec0aeb4-7205-4c1a-abe9-94fa8020e91d
+2025-07-31 15:07:22,230 - app.core.connection_manager - INFO - SSE连接断开: bec0aeb4-7205-4c1a-abe9-94fa8020e91d
+2025-07-31 15:09:01,429 - main - INFO - [REQUEST] [req_1753945741429] GET /sse/user/user-123
+2025-07-31 15:09:01,430 - app.core.connection_manager - INFO - 新SSE连接建立: dfe1af04-8967-48b6-a1f7-03c2d2921493, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:09:01,430 - main - INFO - [RESPONSE] [req_1753945741429] 状态码: 200, 耗时: 0.002s
+2025-07-31 15:11:48,962 - app.core.connection_manager - INFO - SSE流被取消: dfe1af04-8967-48b6-a1f7-03c2d2921493
+2025-07-31 15:11:48,962 - app.core.connection_manager - INFO - SSE连接断开: dfe1af04-8967-48b6-a1f7-03c2d2921493
+2025-07-31 15:11:48,963 - app.core.connection_manager - INFO - SSE流被取消: d2da2232-94a3-4a63-8ef1-86059283eef9
+2025-07-31 15:11:48,963 - app.core.connection_manager - INFO - SSE连接断开: d2da2232-94a3-4a63-8ef1-86059283eef9
+2025-07-31 15:11:53,646 - main - INFO - [REQUEST] [req_1753945913646] GET /sse/user/user-123
+2025-07-31 15:11:53,647 - app.core.connection_manager - INFO - 新SSE连接建立: a190ea8e-d810-4b62-a5e5-7016fa9b8dd0, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:11:53,647 - main - INFO - [RESPONSE] [req_1753945913646] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:11:54,807 - main - INFO - [REQUEST] [req_1753945914807] GET /sse/user/user-123
+2025-07-31 15:11:54,808 - app.core.connection_manager - INFO - 新SSE连接建立: 5209af73-b7e7-47e2-9d94-86564fddb7c4, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:11:54,809 - main - INFO - [RESPONSE] [req_1753945914807] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:13:46,103 - app.core.connection_manager - INFO - SSE流被取消: 5209af73-b7e7-47e2-9d94-86564fddb7c4
+2025-07-31 15:13:46,103 - app.core.connection_manager - INFO - SSE连接断开: 5209af73-b7e7-47e2-9d94-86564fddb7c4
+2025-07-31 15:13:46,104 - main - INFO - [REQUEST] [req_1753946026104] GET /sse/user/user-123
+2025-07-31 15:13:46,105 - app.core.connection_manager - INFO - 新SSE连接建立: a03ba597-65f5-47d4-ada2-739a991263dc, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:13:46,105 - main - INFO - [RESPONSE] [req_1753946026104] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:14:33,944 - app.core.connection_manager - INFO - SSE流被取消: a190ea8e-d810-4b62-a5e5-7016fa9b8dd0
+2025-07-31 15:14:33,945 - app.core.connection_manager - INFO - SSE连接断开: a190ea8e-d810-4b62-a5e5-7016fa9b8dd0
+2025-07-31 15:14:33,949 - app.core.connection_manager - INFO - SSE流被取消: a03ba597-65f5-47d4-ada2-739a991263dc
+2025-07-31 15:14:33,949 - app.core.connection_manager - INFO - SSE连接断开: a03ba597-65f5-47d4-ada2-739a991263dc
+2025-07-31 15:14:41,330 - main - INFO - [REQUEST] [req_1753946081330] GET /sse/user/user-123
+2025-07-31 15:14:41,330 - app.core.connection_manager - INFO - 新SSE连接建立: b3faae75-517c-4e1d-b092-2aec71791f9f, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:14:41,331 - main - INFO - [RESPONSE] [req_1753946081330] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:14:42,611 - main - INFO - [REQUEST] [req_1753946082611] GET /sse/user/user-123
+2025-07-31 15:14:42,611 - app.core.connection_manager - INFO - 新SSE连接建立: 0722d262-4524-4232-9064-68aa87759ffe, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:14:42,612 - main - INFO - [RESPONSE] [req_1753946082611] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:14:50,792 - app.core.connection_manager - INFO - SSE流被取消: 0722d262-4524-4232-9064-68aa87759ffe
+2025-07-31 15:14:50,792 - app.core.connection_manager - INFO - SSE连接断开: 0722d262-4524-4232-9064-68aa87759ffe
+2025-07-31 15:16:01,105 - app.core.connection_manager - INFO - SSE流被取消: b3faae75-517c-4e1d-b092-2aec71791f9f
+2025-07-31 15:16:01,106 - app.core.connection_manager - INFO - SSE连接断开: b3faae75-517c-4e1d-b092-2aec71791f9f
+2025-07-31 15:16:01,106 - main - INFO - [REQUEST] [req_1753946161106] GET /sse/user/user-123
+2025-07-31 15:16:01,107 - app.core.connection_manager - INFO - 新SSE连接建立: 3f359b02-d6ae-47e7-aa26-f2e068ab52e0, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:16:01,107 - main - INFO - [RESPONSE] [req_1753946161106] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:16:35,105 - app.core.connection_manager - INFO - SSE流被取消: 3f359b02-d6ae-47e7-aa26-f2e068ab52e0
+2025-07-31 15:16:35,105 - app.core.connection_manager - INFO - SSE连接断开: 3f359b02-d6ae-47e7-aa26-f2e068ab52e0
+2025-07-31 15:16:35,106 - main - INFO - [REQUEST] [req_1753946195105] GET /sse/user/user-123
+2025-07-31 15:16:35,106 - app.core.connection_manager - INFO - 新SSE连接建立: e7fe1031-1553-40d9-b488-f0bb5f53a44f, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:16:35,106 - main - INFO - [RESPONSE] [req_1753946195105] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:24:58,097 - app.core.connection_manager - INFO - SSE流被取消: e7fe1031-1553-40d9-b488-f0bb5f53a44f
+2025-07-31 15:24:58,097 - app.core.connection_manager - INFO - SSE连接断开: e7fe1031-1553-40d9-b488-f0bb5f53a44f
+2025-07-31 15:24:58,097 - main - INFO - [REQUEST] [req_1753946698097] GET /sse/user/user-123
+2025-07-31 15:24:58,098 - app.core.connection_manager - INFO - 新SSE连接建立: e611cd21-b491-4506-b380-16e273b84002, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:24:58,098 - main - INFO - [RESPONSE] [req_1753946698097] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:26:34,449 - app.core.connection_manager - INFO - SSE流被取消: e611cd21-b491-4506-b380-16e273b84002
+2025-07-31 15:26:34,449 - app.core.connection_manager - INFO - SSE连接断开: e611cd21-b491-4506-b380-16e273b84002
+2025-07-31 15:26:40,888 - main - INFO - [REQUEST] [req_1753946800888] GET /sse/user/user-123
+2025-07-31 15:26:40,892 - app.core.connection_manager - INFO - 新SSE连接建立: 0a4d423e-9988-4d51-a2fb-643b76af0828, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:26:40,892 - main - INFO - [RESPONSE] [req_1753946800888] 状态码: 200, 耗时: 0.004s
+2025-07-31 15:28:20,381 - app.core.connection_manager - INFO - SSE流被取消: 0a4d423e-9988-4d51-a2fb-643b76af0828
+2025-07-31 15:28:20,381 - app.core.connection_manager - INFO - SSE连接断开: 0a4d423e-9988-4d51-a2fb-643b76af0828
+2025-07-31 15:28:20,381 - main - INFO - [REQUEST] [req_1753946900381] GET /sse/user/user-123
+2025-07-31 15:28:20,382 - app.core.connection_manager - INFO - 新SSE连接建立: ef099552-4a2b-402b-95c8-b52c45105e09, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:28:20,382 - main - INFO - [RESPONSE] [req_1753946900381] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:28:34,293 - app.core.connection_manager - INFO - SSE流被取消: ef099552-4a2b-402b-95c8-b52c45105e09
+2025-07-31 15:28:34,293 - app.core.connection_manager - INFO - SSE连接断开: ef099552-4a2b-402b-95c8-b52c45105e09
+2025-07-31 15:28:34,295 - main - INFO - [REQUEST] [req_1753946914295] GET /sse/user/user-123
+2025-07-31 15:28:34,296 - app.core.connection_manager - INFO - 新SSE连接建立: 810b9505-217e-4fcd-86db-865d3f144786, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:28:34,296 - main - INFO - [RESPONSE] [req_1753946914295] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:33:06,781 - main - INFO - [REQUEST] [req_1753947186781] GET /sse/user/user-123
+2025-07-31 15:33:06,781 - app.core.connection_manager - INFO - 新SSE连接建立: 68677582-2622-48c3-a74a-2b994b731be1, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:33:06,782 - main - INFO - [RESPONSE] [req_1753947186781] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:36:10,704 - app.core.connection_manager - INFO - SSE流被取消: 810b9505-217e-4fcd-86db-865d3f144786
+2025-07-31 15:36:10,704 - app.core.connection_manager - INFO - SSE连接断开: 810b9505-217e-4fcd-86db-865d3f144786
+2025-07-31 15:36:10,704 - app.core.message_queue - INFO - 消息消费任务被取消
+2025-07-31 15:36:10,704 - app.core.connection_manager - INFO - SSE流被取消: 68677582-2622-48c3-a74a-2b994b731be1
+2025-07-31 15:36:10,704 - app.core.connection_manager - INFO - SSE连接断开: 68677582-2622-48c3-a74a-2b994b731be1
+2025-07-31 15:36:12,452 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-07-31 15:36:12,452 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-07-31 15:36:12,452 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-31 15:36:13,020 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-31 15:36:13,020 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-31 15:36:13,020 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-31 15:36:13,020 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-31 15:36:13,020 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-31 15:36:13,025 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-31 15:36:13,026 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-07-31 15:36:13,026 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-31 15:36:13,026 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-31 15:36:13,026 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-31 15:36:13,026 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-31 15:36:13,026 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-31 15:36:13,248 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-31 15:36:15,878 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-31 15:36:15,879 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-31 15:36:15,881 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-31 15:36:15,881 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-31 15:36:16,005 - main - INFO - [REQUEST] [req_1753947376005] GET /sse/user/user-123
+2025-07-31 15:36:16,006 - app.core.connection_manager - INFO - 新SSE连接建立: 17030454-37ab-4ee8-8420-fd3a1a2bdee2, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:36:16,006 - main - INFO - [REQUEST] [req_1753947376006] GET /sse/user/user-123
+2025-07-31 15:36:16,007 - app.core.connection_manager - INFO - 新SSE连接建立: 3570fd67-2bfd-4a9c-8db7-63adcb9fd0c7, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:36:16,007 - main - INFO - [RESPONSE] [req_1753947376005] 状态码: 200, 耗时: 0.002s
+2025-07-31 15:36:16,008 - main - INFO - [RESPONSE] [req_1753947376006] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:36:23,808 - app.core.connection_manager - INFO - SSE流被取消: 17030454-37ab-4ee8-8420-fd3a1a2bdee2
+2025-07-31 15:36:23,808 - app.core.connection_manager - INFO - SSE连接断开: 17030454-37ab-4ee8-8420-fd3a1a2bdee2
+2025-07-31 15:36:23,809 - app.core.connection_manager - INFO - SSE流被取消: 3570fd67-2bfd-4a9c-8db7-63adcb9fd0c7
+2025-07-31 15:36:23,809 - app.core.connection_manager - INFO - SSE连接断开: 3570fd67-2bfd-4a9c-8db7-63adcb9fd0c7
+2025-07-31 15:36:31,500 - main - INFO - [REQUEST] [req_1753947391500] GET /sse/user/user-123
+2025-07-31 15:36:31,501 - app.core.connection_manager - INFO - 新SSE连接建立: 883ee2d5-9b5c-4330-a4d6-467f910dbc12, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:36:31,501 - main - INFO - [RESPONSE] [req_1753947391500] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:36:33,716 - main - INFO - [REQUEST] [req_1753947393716] GET /sse/user/user-123
+2025-07-31 15:36:33,717 - app.core.connection_manager - INFO - 新SSE连接建立: f8a5a610-3d9c-49a4-aaa8-6d9821f87308, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:36:33,717 - main - INFO - [RESPONSE] [req_1753947393716] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:36:40,985 - app.core.connection_manager - INFO - SSE流被取消: f8a5a610-3d9c-49a4-aaa8-6d9821f87308
+2025-07-31 15:36:40,985 - app.core.connection_manager - INFO - SSE连接断开: f8a5a610-3d9c-49a4-aaa8-6d9821f87308
+2025-07-31 15:37:21,418 - app.core.connection_manager - INFO - SSE流被取消: 883ee2d5-9b5c-4330-a4d6-467f910dbc12
+2025-07-31 15:37:21,419 - app.core.connection_manager - INFO - SSE连接断开: 883ee2d5-9b5c-4330-a4d6-467f910dbc12
+2025-07-31 15:37:30,485 - main - INFO - [REQUEST] [req_1753947450485] GET /sse/user/user-123
+2025-07-31 15:37:30,485 - app.core.connection_manager - INFO - 新SSE连接建立: 7c52a1f3-ead2-4b3b-bcb0-7df22bf34bdd, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:37:30,486 - main - INFO - [RESPONSE] [req_1753947450485] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:37:33,156 - app.core.connection_manager - INFO - SSE流被取消: 7c52a1f3-ead2-4b3b-bcb0-7df22bf34bdd
+2025-07-31 15:37:33,156 - app.core.connection_manager - INFO - SSE连接断开: 7c52a1f3-ead2-4b3b-bcb0-7df22bf34bdd
+2025-07-31 15:37:33,709 - main - INFO - [REQUEST] [req_1753947453709] GET /sse/user/user-123
+2025-07-31 15:37:33,709 - app.core.connection_manager - INFO - 新SSE连接建立: fba17b0c-0665-4c56-8845-1d30bbb999dc, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:37:33,710 - main - INFO - [RESPONSE] [req_1753947453709] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:45:52,107 - app.core.connection_manager - INFO - SSE流被取消: fba17b0c-0665-4c56-8845-1d30bbb999dc
+2025-07-31 15:45:52,107 - app.core.connection_manager - INFO - SSE连接断开: fba17b0c-0665-4c56-8845-1d30bbb999dc
+2025-07-31 15:45:52,107 - main - INFO - [REQUEST] [req_1753947952107] GET /sse/user/user-123
+2025-07-31 15:45:52,108 - app.core.connection_manager - INFO - 新SSE连接建立: ef3c6ceb-5923-4364-909b-7481c140240f, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:45:52,108 - main - INFO - [RESPONSE] [req_1753947952107] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:46:06,131 - app.core.connection_manager - INFO - SSE流被取消: ef3c6ceb-5923-4364-909b-7481c140240f
+2025-07-31 15:46:06,131 - app.core.connection_manager - INFO - SSE连接断开: ef3c6ceb-5923-4364-909b-7481c140240f
+2025-07-31 15:46:06,132 - main - INFO - [REQUEST] [req_1753947966132] GET /sse/user/user-123
+2025-07-31 15:46:06,132 - app.core.connection_manager - INFO - 新SSE连接建立: 4af09b9a-3c8f-4838-8865-ace88754dec9, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:46:06,133 - main - INFO - [RESPONSE] [req_1753947966132] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:46:19,135 - app.core.connection_manager - INFO - SSE流被取消: 4af09b9a-3c8f-4838-8865-ace88754dec9
+2025-07-31 15:46:19,135 - app.core.connection_manager - INFO - SSE连接断开: 4af09b9a-3c8f-4838-8865-ace88754dec9
+2025-07-31 15:46:19,135 - main - INFO - [REQUEST] [req_1753947979135] GET /sse/user/user-123
+2025-07-31 15:46:19,136 - app.core.connection_manager - INFO - 新SSE连接建立: 2bf565a6-c4d1-46c3-97a6-9bc41641c59d, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:46:19,136 - main - INFO - [RESPONSE] [req_1753947979135] 状态码: 200, 耗时: 0.001s
+2025-07-31 15:58:51,130 - app.core.connection_manager - INFO - SSE流被取消: 2bf565a6-c4d1-46c3-97a6-9bc41641c59d
+2025-07-31 15:58:51,131 - app.core.connection_manager - INFO - SSE连接断开: 2bf565a6-c4d1-46c3-97a6-9bc41641c59d
+2025-07-31 15:58:51,131 - main - INFO - [REQUEST] [req_1753948731131] GET /sse/user/user-123
+2025-07-31 15:58:51,131 - app.core.connection_manager - INFO - 新SSE连接建立: aa4959e5-3a81-4999-a07d-f89c1f33c5d0, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 15:58:51,132 - main - INFO - [RESPONSE] [req_1753948731131] 状态码: 200, 耗时: 0.001s
+2025-07-31 16:01:20,110 - app.core.connection_manager - INFO - SSE流被取消: aa4959e5-3a81-4999-a07d-f89c1f33c5d0
+2025-07-31 16:01:20,110 - app.core.connection_manager - INFO - SSE连接断开: aa4959e5-3a81-4999-a07d-f89c1f33c5d0
+2025-07-31 16:01:20,111 - main - INFO - [REQUEST] [req_1753948880111] GET /sse/user/user-123
+2025-07-31 16:01:20,111 - app.core.connection_manager - INFO - 新SSE连接建立: 11fca8ec-e663-46b3-b244-f43ba4890e0b, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 16:01:20,112 - main - INFO - [RESPONSE] [req_1753948880111] 状态码: 200, 耗时: 0.001s
+2025-07-31 16:01:31,111 - app.core.connection_manager - INFO - SSE流被取消: 11fca8ec-e663-46b3-b244-f43ba4890e0b
+2025-07-31 16:01:31,112 - app.core.connection_manager - INFO - SSE连接断开: 11fca8ec-e663-46b3-b244-f43ba4890e0b
+2025-07-31 16:01:31,112 - main - INFO - [REQUEST] [req_1753948891112] GET /sse/user/user-123
+2025-07-31 16:01:31,115 - app.core.connection_manager - INFO - 新SSE连接建立: 78f31cfe-9f95-47ea-a696-220324f478b5, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 16:01:31,115 - main - INFO - [RESPONSE] [req_1753948891112] 状态码: 200, 耗时: 0.003s
+2025-07-31 16:02:03,112 - app.core.connection_manager - INFO - SSE流被取消: 78f31cfe-9f95-47ea-a696-220324f478b5
+2025-07-31 16:02:03,112 - app.core.connection_manager - INFO - SSE连接断开: 78f31cfe-9f95-47ea-a696-220324f478b5
+2025-07-31 16:02:03,112 - main - INFO - [REQUEST] [req_1753948923112] GET /sse/user/user-123
+2025-07-31 16:02:03,113 - app.core.connection_manager - INFO - 新SSE连接建立: 0739f367-0441-44a7-8723-d4472c5a707a, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 16:02:03,113 - main - INFO - [RESPONSE] [req_1753948923112] 状态码: 200, 耗时: 0.001s
+2025-07-31 16:08:59,640 - app.core.connection_manager - INFO - SSE流被取消: 0739f367-0441-44a7-8723-d4472c5a707a
+2025-07-31 16:08:59,640 - app.core.connection_manager - INFO - SSE连接断开: 0739f367-0441-44a7-8723-d4472c5a707a
+2025-07-31 16:24:38,491 - main - INFO - [REQUEST] [req_1753950278489] GET /sse/user/user-123
+2025-07-31 16:24:38,504 - app.core.connection_manager - INFO - 新SSE连接建立: 1531c269-c865-4e8e-aee3-5cf6848bc87e, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 16:24:38,506 - main - INFO - [RESPONSE] [req_1753950278489] 状态码: 200, 耗时: 0.017s
+2025-07-31 16:31:18,668 - app.core.message_queue - INFO - 消息消费任务被取消
+2025-07-31 16:31:18,668 - app.core.connection_manager - INFO - SSE流被取消: 1531c269-c865-4e8e-aee3-5cf6848bc87e
+2025-07-31 16:31:18,668 - app.core.connection_manager - INFO - SSE连接断开: 1531c269-c865-4e8e-aee3-5cf6848bc87e
+2025-07-31 16:31:21,395 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-07-31 16:31:21,395 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-07-31 16:31:21,395 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-07-31 16:31:22,032 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-07-31 16:31:22,033 - main - INFO - [INIT] 正在启动连接管理器...
+2025-07-31 16:31:22,033 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-07-31 16:31:22,033 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-07-31 16:31:22,033 - main - INFO - [INIT] 正在连接消息队列...
+2025-07-31 16:31:22,037 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-07-31 16:31:22,037 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-07-31 16:31:22,038 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-07-31 16:31:22,038 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-07-31 16:31:22,038 - main - INFO - [INIT] 正在启动消息消费者...
+2025-07-31 16:31:22,038 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-07-31 16:31:22,038 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-07-31 16:31:22,287 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-07-31 16:31:24,717 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-07-31 16:31:24,718 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-07-31 16:31:24,720 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-07-31 16:31:24,720 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-07-31 16:31:25,626 - main - INFO - [REQUEST] [req_1753950685626] GET /sse/user/user-123
+2025-07-31 16:31:25,627 - app.core.connection_manager - INFO - 新SSE连接建立: c4197b34-735b-4f08-a770-7503bb5132cf, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 16:31:25,627 - main - INFO - [RESPONSE] [req_1753950685626] 状态码: 200, 耗时: 0.001s
+2025-07-31 16:31:44,619 - app.core.connection_manager - INFO - SSE流被取消: c4197b34-735b-4f08-a770-7503bb5132cf
+2025-07-31 16:31:44,619 - app.core.connection_manager - INFO - SSE连接断开: c4197b34-735b-4f08-a770-7503bb5132cf
+2025-07-31 16:32:23,948 - main - INFO - [REQUEST] [req_1753950743948] GET /sse/user/user-123
+2025-07-31 16:32:23,949 - app.core.connection_manager - INFO - 新SSE连接建立: bdc654a6-231f-4cf4-afff-468b951a7d51, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 16:32:23,949 - main - INFO - [RESPONSE] [req_1753950743948] 状态码: 200, 耗时: 0.001s
+2025-07-31 16:50:29,493 - app.core.connection_manager - INFO - SSE流被取消: bdc654a6-231f-4cf4-afff-468b951a7d51
+2025-07-31 16:50:29,493 - app.core.connection_manager - INFO - SSE连接断开: bdc654a6-231f-4cf4-afff-468b951a7d51
+2025-07-31 16:50:31,572 - main - INFO - [REQUEST] [req_1753951831572] GET /sse/user/user-123
+2025-07-31 16:50:31,572 - app.core.connection_manager - INFO - 新SSE连接建立: 2e81dd00-618c-4017-b380-660015d41417, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 16:50:31,573 - main - INFO - [RESPONSE] [req_1753951831572] 状态码: 200, 耗时: 0.001s
+2025-07-31 16:52:05,056 - app.core.connection_manager - INFO - SSE流被取消: 2e81dd00-618c-4017-b380-660015d41417
+2025-07-31 16:52:05,056 - app.core.connection_manager - INFO - SSE连接断开: 2e81dd00-618c-4017-b380-660015d41417
+2025-07-31 16:52:05,056 - main - INFO - [REQUEST] [req_1753951925056] GET /sse/user/user-123
+2025-07-31 16:52:05,057 - app.core.connection_manager - INFO - 新SSE连接建立: f96821c7-732e-405e-a912-00eae2f31129, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 16:52:05,057 - main - INFO - [RESPONSE] [req_1753951925056] 状态码: 200, 耗时: 0.001s
+2025-07-31 16:52:21,055 - app.core.connection_manager - INFO - SSE流被取消: f96821c7-732e-405e-a912-00eae2f31129
+2025-07-31 16:52:21,055 - app.core.connection_manager - INFO - SSE连接断开: f96821c7-732e-405e-a912-00eae2f31129
+2025-07-31 16:52:21,055 - main - INFO - [REQUEST] [req_1753951941055] GET /sse/user/user-123
+2025-07-31 16:52:21,056 - app.core.connection_manager - INFO - 新SSE连接建立: e924f8bb-fbc0-44b1-bb6a-9e0b6a4800d8, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 16:52:21,056 - main - INFO - [RESPONSE] [req_1753951941055] 状态码: 200, 耗时: 0.001s
+2025-07-31 16:54:25,369 - app.core.connection_manager - INFO - SSE流被取消: e924f8bb-fbc0-44b1-bb6a-9e0b6a4800d8
+2025-07-31 16:54:25,369 - app.core.connection_manager - INFO - SSE连接断开: e924f8bb-fbc0-44b1-bb6a-9e0b6a4800d8
+2025-07-31 16:54:26,979 - main - INFO - [REQUEST] [req_1753952066979] GET /sse/user/user-123
+2025-07-31 16:54:26,980 - app.core.connection_manager - INFO - 新SSE连接建立: 6d200751-a815-48b4-8dee-b361e4cbaaa1, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 16:54:26,980 - main - INFO - [RESPONSE] [req_1753952066979] 状态码: 200, 耗时: 0.001s
+2025-07-31 16:58:42,057 - app.core.connection_manager - INFO - SSE流被取消: 6d200751-a815-48b4-8dee-b361e4cbaaa1
+2025-07-31 16:58:42,057 - app.core.connection_manager - INFO - SSE连接断开: 6d200751-a815-48b4-8dee-b361e4cbaaa1
+2025-07-31 16:58:42,057 - main - INFO - [REQUEST] [req_1753952322057] GET /sse/user/user-123
+2025-07-31 16:58:42,058 - app.core.connection_manager - INFO - 新SSE连接建立: 7e6aef1d-7c1e-4266-9d00-4e8ae26fe2a6, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 16:58:42,058 - main - INFO - [RESPONSE] [req_1753952322057] 状态码: 200, 耗时: 0.001s
+2025-07-31 16:59:17,055 - app.core.connection_manager - INFO - SSE流被取消: 7e6aef1d-7c1e-4266-9d00-4e8ae26fe2a6
+2025-07-31 16:59:17,055 - app.core.connection_manager - INFO - SSE连接断开: 7e6aef1d-7c1e-4266-9d00-4e8ae26fe2a6
+2025-07-31 16:59:17,056 - main - INFO - [REQUEST] [req_1753952357056] GET /sse/user/user-123
+2025-07-31 16:59:17,057 - app.core.connection_manager - INFO - 新SSE连接建立: 17d5a90c-486b-41c2-8dee-8a17e08c7705, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 16:59:17,057 - main - INFO - [RESPONSE] [req_1753952357056] 状态码: 200, 耗时: 0.001s
+2025-07-31 16:59:41,050 - app.core.connection_manager - INFO - SSE流被取消: 17d5a90c-486b-41c2-8dee-8a17e08c7705
+2025-07-31 16:59:41,050 - app.core.connection_manager - INFO - SSE连接断开: 17d5a90c-486b-41c2-8dee-8a17e08c7705
+2025-07-31 16:59:41,050 - main - INFO - [REQUEST] [req_1753952381050] GET /sse/user/user-123
+2025-07-31 16:59:41,051 - app.core.connection_manager - INFO - 新SSE连接建立: 1810b722-97d0-49e4-a2c6-0a6b8c6c47d9, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 16:59:41,051 - main - INFO - [RESPONSE] [req_1753952381050] 状态码: 200, 耗时: 0.001s
+2025-07-31 16:59:56,050 - app.core.connection_manager - INFO - SSE流被取消: 1810b722-97d0-49e4-a2c6-0a6b8c6c47d9
+2025-07-31 16:59:56,050 - app.core.connection_manager - INFO - SSE连接断开: 1810b722-97d0-49e4-a2c6-0a6b8c6c47d9
+2025-07-31 16:59:56,051 - main - INFO - [REQUEST] [req_1753952396051] GET /sse/user/user-123
+2025-07-31 16:59:56,051 - app.core.connection_manager - INFO - 新SSE连接建立: 5f2e48a3-e24b-484d-a234-79fb552d31fe, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 16:59:56,052 - main - INFO - [RESPONSE] [req_1753952396051] 状态码: 200, 耗时: 0.001s
+2025-07-31 17:00:13,055 - main - INFO - [REQUEST] [req_1753952413055] GET /sse/user/user-123
+2025-07-31 17:00:13,055 - app.core.connection_manager - INFO - 新SSE连接建立: cfcb6d59-1fa4-4003-9377-cc6793ecb21a, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 17:00:13,055 - app.core.connection_manager - INFO - SSE流被取消: 5f2e48a3-e24b-484d-a234-79fb552d31fe
+2025-07-31 17:00:13,056 - app.core.connection_manager - INFO - SSE连接断开: 5f2e48a3-e24b-484d-a234-79fb552d31fe
+2025-07-31 17:00:13,056 - main - INFO - [RESPONSE] [req_1753952413055] 状态码: 200, 耗时: 0.001s
+2025-07-31 17:00:24,051 - app.core.connection_manager - INFO - SSE流被取消: cfcb6d59-1fa4-4003-9377-cc6793ecb21a
+2025-07-31 17:00:24,051 - app.core.connection_manager - INFO - SSE连接断开: cfcb6d59-1fa4-4003-9377-cc6793ecb21a
+2025-07-31 17:00:24,051 - main - INFO - [REQUEST] [req_1753952424051] GET /sse/user/user-123
+2025-07-31 17:00:24,052 - app.core.connection_manager - INFO - 新SSE连接建立: 8128df74-bd4f-47ff-915a-44abef026afb, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 17:00:24,052 - main - INFO - [RESPONSE] [req_1753952424051] 状态码: 200, 耗时: 0.001s
+2025-07-31 17:00:38,052 - app.core.connection_manager - INFO - SSE流被取消: 8128df74-bd4f-47ff-915a-44abef026afb
+2025-07-31 17:00:38,052 - app.core.connection_manager - INFO - SSE连接断开: 8128df74-bd4f-47ff-915a-44abef026afb
+2025-07-31 17:00:38,052 - main - INFO - [REQUEST] [req_1753952438052] GET /sse/user/user-123
+2025-07-31 17:00:38,053 - app.core.connection_manager - INFO - 新SSE连接建立: e28b6df5-d8f0-42ff-b973-0e191b122410, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 17:00:38,053 - main - INFO - [RESPONSE] [req_1753952438052] 状态码: 200, 耗时: 0.001s
+2025-07-31 17:00:48,051 - app.core.connection_manager - INFO - SSE流被取消: e28b6df5-d8f0-42ff-b973-0e191b122410
+2025-07-31 17:00:48,051 - app.core.connection_manager - INFO - SSE连接断开: e28b6df5-d8f0-42ff-b973-0e191b122410
+2025-07-31 17:00:48,052 - main - INFO - [REQUEST] [req_1753952448052] GET /sse/user/user-123
+2025-07-31 17:00:48,052 - app.core.connection_manager - INFO - 新SSE连接建立: 84ce8f20-0d7a-4aab-be22-c50e4183b19a, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 17:00:48,053 - main - INFO - [RESPONSE] [req_1753952448052] 状态码: 200, 耗时: 0.002s
+2025-07-31 17:52:12,654 - app.core.connection_manager - INFO - SSE流被取消: 84ce8f20-0d7a-4aab-be22-c50e4183b19a
+2025-07-31 17:52:12,655 - app.core.connection_manager - INFO - SSE连接断开: 84ce8f20-0d7a-4aab-be22-c50e4183b19a
+2025-07-31 17:52:14,399 - main - INFO - [REQUEST] [req_1753955534399] GET /sse/user/user-123
+2025-07-31 17:52:14,400 - app.core.connection_manager - INFO - 新SSE连接建立: 78bc74de-47b1-46d6-9edc-9da1382ec5a2, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 17:52:14,400 - main - INFO - [RESPONSE] [req_1753955534399] 状态码: 200, 耗时: 0.001s
+2025-07-31 17:52:23,097 - app.core.connection_manager - INFO - SSE流被取消: 78bc74de-47b1-46d6-9edc-9da1382ec5a2
+2025-07-31 17:52:23,097 - app.core.connection_manager - INFO - SSE连接断开: 78bc74de-47b1-46d6-9edc-9da1382ec5a2
+2025-07-31 17:52:24,756 - main - INFO - [REQUEST] [req_1753955544756] GET /sse/user/user-123
+2025-07-31 17:52:24,757 - app.core.connection_manager - INFO - 新SSE连接建立: 00201d6d-b34f-47ad-8317-691054a16838, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 17:52:24,757 - main - INFO - [RESPONSE] [req_1753955544756] 状态码: 200, 耗时: 0.001s
+2025-07-31 17:53:01,029 - app.core.connection_manager - INFO - SSE流被取消: 00201d6d-b34f-47ad-8317-691054a16838
+2025-07-31 17:53:01,029 - app.core.connection_manager - INFO - SSE连接断开: 00201d6d-b34f-47ad-8317-691054a16838
+2025-07-31 17:53:07,196 - main - INFO - [REQUEST] [req_1753955587196] GET /sse/user/user-123
+2025-07-31 17:53:07,197 - app.core.connection_manager - INFO - 新SSE连接建立: 97f9a376-29b8-46bb-9472-c1079e755767, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 17:53:07,198 - main - INFO - [RESPONSE] [req_1753955587196] 状态码: 200, 耗时: 0.002s
+2025-07-31 17:57:47,174 - main - INFO - [REQUEST] [req_1753955867174] GET /sse/user/user-123
+2025-07-31 17:57:47,174 - app.core.connection_manager - INFO - SSE流被取消: 97f9a376-29b8-46bb-9472-c1079e755767
+2025-07-31 17:57:47,175 - app.core.connection_manager - INFO - SSE连接断开: 97f9a376-29b8-46bb-9472-c1079e755767
+2025-07-31 17:57:47,175 - app.core.connection_manager - INFO - 新SSE连接建立: b416f1b1-88b5-467e-be4f-7e43fc0d03b4, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 17:57:47,175 - main - INFO - [RESPONSE] [req_1753955867174] 状态码: 200, 耗时: 0.001s
+2025-07-31 17:58:14,177 - app.core.connection_manager - INFO - SSE流被取消: b416f1b1-88b5-467e-be4f-7e43fc0d03b4
+2025-07-31 17:58:14,177 - app.core.connection_manager - INFO - SSE连接断开: b416f1b1-88b5-467e-be4f-7e43fc0d03b4
+2025-07-31 17:58:14,178 - main - INFO - [REQUEST] [req_1753955894178] GET /sse/user/user-123
+2025-07-31 17:58:14,179 - app.core.connection_manager - INFO - 新SSE连接建立: df3fb3c7-6512-4e8b-9e90-e72e305a0552, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 17:58:14,179 - main - INFO - [RESPONSE] [req_1753955894178] 状态码: 200, 耗时: 0.001s
+2025-07-31 17:58:39,172 - app.core.connection_manager - INFO - SSE流被取消: df3fb3c7-6512-4e8b-9e90-e72e305a0552
+2025-07-31 17:58:39,172 - app.core.connection_manager - INFO - SSE连接断开: df3fb3c7-6512-4e8b-9e90-e72e305a0552
+2025-07-31 17:58:39,172 - main - INFO - [REQUEST] [req_1753955919172] GET /sse/user/user-123
+2025-07-31 17:58:39,173 - app.core.connection_manager - INFO - 新SSE连接建立: 484ae171-56c1-44f0-9da7-4d882b2feef0, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 17:58:39,174 - main - INFO - [RESPONSE] [req_1753955919172] 状态码: 200, 耗时: 0.002s
+2025-07-31 17:59:36,168 - app.core.connection_manager - INFO - SSE流被取消: 484ae171-56c1-44f0-9da7-4d882b2feef0
+2025-07-31 17:59:36,168 - app.core.connection_manager - INFO - SSE连接断开: 484ae171-56c1-44f0-9da7-4d882b2feef0
+2025-07-31 17:59:36,169 - main - INFO - [REQUEST] [req_1753955976169] GET /sse/user/user-123
+2025-07-31 17:59:36,169 - app.core.connection_manager - INFO - 新SSE连接建立: 6f4e7176-704c-46ea-b1fe-3bb3d64b09fd, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 17:59:36,170 - main - INFO - [RESPONSE] [req_1753955976169] 状态码: 200, 耗时: 0.002s
+2025-07-31 17:59:45,167 - app.core.connection_manager - INFO - SSE流被取消: 6f4e7176-704c-46ea-b1fe-3bb3d64b09fd
+2025-07-31 17:59:45,167 - app.core.connection_manager - INFO - SSE连接断开: 6f4e7176-704c-46ea-b1fe-3bb3d64b09fd
+2025-07-31 17:59:45,168 - main - INFO - [REQUEST] [req_1753955985168] GET /sse/user/user-123
+2025-07-31 17:59:45,168 - app.core.connection_manager - INFO - 新SSE连接建立: 3d3ed7d9-afd9-4895-826d-64c1a30fd68f, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 17:59:45,169 - main - INFO - [RESPONSE] [req_1753955985168] 状态码: 200, 耗时: 0.001s
+2025-07-31 18:02:38,174 - app.core.connection_manager - INFO - SSE流被取消: 3d3ed7d9-afd9-4895-826d-64c1a30fd68f
+2025-07-31 18:02:38,175 - app.core.connection_manager - INFO - SSE连接断开: 3d3ed7d9-afd9-4895-826d-64c1a30fd68f
+2025-07-31 18:02:38,175 - main - INFO - [REQUEST] [req_1753956158175] GET /sse/user/user-123
+2025-07-31 18:02:38,175 - app.core.connection_manager - INFO - 新SSE连接建立: b1caa20a-afd6-4160-8a4b-816a9f6cc032, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 18:02:38,176 - main - INFO - [RESPONSE] [req_1753956158175] 状态码: 200, 耗时: 0.001s
+2025-07-31 18:12:53,182 - app.core.connection_manager - INFO - SSE流被取消: b1caa20a-afd6-4160-8a4b-816a9f6cc032
+2025-07-31 18:12:53,183 - app.core.connection_manager - INFO - SSE连接断开: b1caa20a-afd6-4160-8a4b-816a9f6cc032
+2025-07-31 18:12:53,183 - main - INFO - [REQUEST] [req_1753956773183] GET /sse/user/user-123
+2025-07-31 18:12:53,183 - app.core.connection_manager - INFO - 新SSE连接建立: 496f2e63-92e2-40f3-b208-7d88aaaf0f49, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 18:12:53,184 - main - INFO - [RESPONSE] [req_1753956773183] 状态码: 200, 耗时: 0.001s
+2025-07-31 18:13:06,182 - app.core.connection_manager - INFO - SSE流被取消: 496f2e63-92e2-40f3-b208-7d88aaaf0f49
+2025-07-31 18:13:06,182 - app.core.connection_manager - INFO - SSE连接断开: 496f2e63-92e2-40f3-b208-7d88aaaf0f49
+2025-07-31 18:13:06,182 - main - INFO - [REQUEST] [req_1753956786182] GET /sse/user/user-123
+2025-07-31 18:13:06,183 - app.core.connection_manager - INFO - 新SSE连接建立: e1c49add-9c76-44cf-9e59-ca9ae881804d, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 18:13:06,183 - main - INFO - [RESPONSE] [req_1753956786182] 状态码: 200, 耗时: 0.001s
+2025-07-31 18:13:15,182 - app.core.connection_manager - INFO - SSE流被取消: e1c49add-9c76-44cf-9e59-ca9ae881804d
+2025-07-31 18:13:15,182 - app.core.connection_manager - INFO - SSE连接断开: e1c49add-9c76-44cf-9e59-ca9ae881804d
+2025-07-31 18:13:15,182 - main - INFO - [REQUEST] [req_1753956795182] GET /sse/user/user-123
+2025-07-31 18:13:15,183 - app.core.connection_manager - INFO - 新SSE连接建立: 68272f00-5f5d-49ee-a49c-f5c778ae777c, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 18:13:15,183 - main - INFO - [RESPONSE] [req_1753956795182] 状态码: 200, 耗时: 0.001s
+2025-07-31 18:13:38,183 - app.core.connection_manager - INFO - SSE流被取消: 68272f00-5f5d-49ee-a49c-f5c778ae777c
+2025-07-31 18:13:38,183 - app.core.connection_manager - INFO - SSE连接断开: 68272f00-5f5d-49ee-a49c-f5c778ae777c
+2025-07-31 18:13:38,184 - main - INFO - [REQUEST] [req_1753956818184] GET /sse/user/user-123
+2025-07-31 18:13:38,184 - app.core.connection_manager - INFO - 新SSE连接建立: c46ce171-9c62-46c6-8e87-478c0c9d56c2, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 18:13:38,185 - main - INFO - [RESPONSE] [req_1753956818184] 状态码: 200, 耗时: 0.001s
+2025-07-31 18:13:48,191 - app.core.connection_manager - INFO - SSE流被取消: c46ce171-9c62-46c6-8e87-478c0c9d56c2
+2025-07-31 18:13:48,192 - app.core.connection_manager - INFO - SSE连接断开: c46ce171-9c62-46c6-8e87-478c0c9d56c2
+2025-07-31 18:13:48,192 - main - INFO - [REQUEST] [req_1753956828192] GET /sse/user/user-123
+2025-07-31 18:13:48,192 - app.core.connection_manager - INFO - 新SSE连接建立: f1c2ce19-3619-4c81-a473-7201a8d67911, 用户: user-123, 频道: {'user:user-123'}
+2025-07-31 18:13:48,193 - main - INFO - [RESPONSE] [req_1753956828192] 状态码: 200, 耗时: 0.001s
+2025-08-04 01:27:44,614 - __main__ - INFO - [STARTUP] 正在启动message-push-service...
+2025-08-04 01:27:44,614 - __main__ - INFO - [CONFIG] 服务端口: 8089
+2025-08-04 01:27:44,615 - __main__ - INFO - [STARTUP] 服务启动中...
+2025-08-04 01:27:45,210 - main - INFO - [STARTUP] 正在初始化message-push-service...
+2025-08-04 01:27:45,210 - main - INFO - [INIT] 正在启动连接管理器...
+2025-08-04 01:27:45,210 - app.core.connection_manager - INFO - 启动SSE连接管理器
+2025-08-04 01:27:45,210 - main - INFO - [SUCCESS] 连接管理器启动成功
+2025-08-04 01:27:45,210 - main - INFO - [INIT] 正在连接消息队列...
+2025-08-04 01:27:45,215 - app.core.message_queue - INFO - Redis连接成功: redis://localhost:6379/2
+2025-08-04 01:27:45,233 - app.core.message_queue - INFO - 消费者组已存在: sse_consumers
+2025-08-04 01:27:45,234 - app.core.message_queue - INFO - 消息队列管理器初始化完成
+2025-08-04 01:27:45,234 - main - INFO - [SUCCESS] 消息队列连接成功
+2025-08-04 01:27:45,234 - main - INFO - [INIT] 正在启动消息消费者...
+2025-08-04 01:27:45,234 - app.core.message_queue - INFO - 消息消费者已启动: message-push-consumer
+2025-08-04 01:27:45,234 - main - INFO - [SUCCESS] 消息消费者启动成功
+2025-08-04 01:27:45,552 - app.core.message_queue - INFO - 开始消费消息: message-push-consumer
+2025-08-04 01:27:47,845 - httpx - INFO - HTTP Request: POST http://localhost:8080/api/gateway/services/register "HTTP/1.1 502 Bad Gateway"
+2025-08-04 01:27:47,846 - main - WARNING - [GATEWAY] 服务注册失败: 502
+2025-08-04 01:27:47,847 - main - INFO - [READY] message-push-service已就绪，监听端口: 8089
+2025-08-04 01:27:47,847 - main - INFO - [READY] 文档地址: http://localhost:8089/docs
+2025-08-04 01:28:33,574 - main - INFO - [REQUEST] [req_1754242113573] GET /sse/user/user-123
+2025-08-04 01:28:33,577 - app.core.connection_manager - INFO - 新SSE连接建立: 7d4e52d3-169d-4b44-827d-30548b89d195, 用户: user-123, 频道: {'user:user-123'}
+2025-08-04 01:28:33,578 - main - INFO - [RESPONSE] [req_1754242113573] 状态码: 200, 耗时: 0.005s
+2025-08-04 01:28:40,023 - main - INFO - [REQUEST] [req_1754242120022] GET /sse/user/user-123
+2025-08-04 01:28:40,023 - app.core.connection_manager - INFO - 新SSE连接建立: 4d273bbd-7643-4d54-81ed-1ce68439743d, 用户: user-123, 频道: {'user:user-123'}
+2025-08-04 01:28:40,024 - main - INFO - [RESPONSE] [req_1754242120022] 状态码: 200, 耗时: 0.001s
+2025-08-04 01:28:57,619 - app.core.connection_manager - INFO - SSE流被取消: 4d273bbd-7643-4d54-81ed-1ce68439743d
+2025-08-04 01:28:57,620 - app.core.connection_manager - INFO - SSE连接断开: 4d273bbd-7643-4d54-81ed-1ce68439743d
+2025-08-04 03:03:20,805 - app.core.connection_manager - INFO - SSE流被取消: 7d4e52d3-169d-4b44-827d-30548b89d195
+2025-08-04 03:03:20,807 - app.core.connection_manager - INFO - SSE连接断开: 7d4e52d3-169d-4b44-827d-30548b89d195
+2025-08-04 03:03:20,848 - main - INFO - [SHUTDOWN] 正在关闭message-push-service...
+2025-08-04 03:03:20,848 - app.core.connection_manager - INFO - 停止SSE连接管理器
+2025-08-04 03:03:20,848 - main - INFO - [SUCCESS] 连接管理器已停止
+2025-08-04 03:03:20,849 - app.core.message_queue - INFO - 消息消费任务被取消
+2025-08-04 03:03:20,851 - app.core.message_queue - INFO - 消息队列管理器已断开
+2025-08-04 03:03:20,851 - main - INFO - [SUCCESS] 消息队列已断开
+2025-08-04 03:03:20,851 - main - INFO - [SHUTDOWN] message-push-service已安全关闭

@@ -253,7 +253,9 @@ func (w *Worker) executeTask(ctx context.Context, taskID string) error {
 
 	switch task.TaskType {
 	case model.TaskTypeDocumentProcessing:
-		result, taskErr = w.processDocument(taskCtx, task)
+		// document_processing任务由knowledge-service轮询处理，这里跳过
+		w.log.Infof("Skipping document_processing task %s - handled by knowledge-service", task.ID)
+		return nil
 	case model.TaskTypeBatchProcessing:
 		result, taskErr = w.processBatch(taskCtx, task)
 	case model.TaskTypeKnowledgeIndexing:
@@ -542,14 +544,12 @@ func (ws *WorkerService) cleanupWorkerRedis(workerID string) {
 func (w *Worker) processDocument(ctx context.Context, task *model.Task) (model.JSONMap, error) {
 	w.log.Infof("Processing document for task: %s", task.ID)
 	
-	// 模拟文档处理
-	time.Sleep(time.Second * 2)
-	
+	// 文档处理任务不在这里执行，由knowledge-service轮询处理
+	// 这里只标记任务已被分配给knowledge-service处理
 	result := model.JSONMap{
-		"status":       "completed",
-		"processed_at": time.Now(),
-		"chunks":       42,
-		"message":      "Document processed successfully",
+		"status":       "assigned_to_knowledge_service",
+		"assigned_at":  time.Now(),
+		"message":      "Task assigned to knowledge-service for processing",
 	}
 	
 	return result, nil

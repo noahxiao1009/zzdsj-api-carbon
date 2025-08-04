@@ -12,6 +12,12 @@ from sqlalchemy.sql import func
 
 from .database import Base
 
+# 导入文件夹模型（需要在定义关系之前导入）
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .simple_folder_models import KnowledgeFolder
+    from .splitter_strategy import SplitterStrategy
+
 
 class KnowledgeBase(Base):
     """
@@ -40,6 +46,10 @@ class KnowledgeBase(Base):
     chunk_overlap = Column(Integer, default=200)
     chunk_strategy = Column(String(50), default="token_based")
     
+    # 切分策略配置
+    default_splitter_strategy_id = Column(UUID(as_uuid=True), nullable=True, comment="默认切分策略ID")
+    default_splitter_config = Column(JSON, nullable=True, comment="默认切分配置（覆盖策略配置）")
+    
     # 检索配置
     similarity_threshold = Column(Float, default=0.7)
     enable_hybrid_search = Column(Boolean, default=True)
@@ -63,13 +73,56 @@ class KnowledgeBase(Base):
     documents = relationship("Document", back_populates="knowledge_base", cascade="all, delete-orphan")
     vector_stores = relationship("VectorStore", back_populates="knowledge_base", cascade="all, delete-orphan")
     processing_jobs = relationship("ProcessingJob", back_populates="knowledge_base")
+    # default_splitter_strategy = relationship("SplitterStrategy", foreign_keys=[default_splitter_strategy_id], lazy="dynamic")
     
     # 索引
     __table_args__ = (
         Index('idx_kb_name_status', 'name', 'status'),
         Index('idx_kb_created_at', 'created_at'),
         Index('idx_kb_embedding_model', 'embedding_model'),
+        Index('idx_kb_default_splitter', 'default_splitter_strategy_id'),
     )
+    
+    def get_effective_splitter_config(self):
+        """获取有效的切分配置"""
+        # 优先使用知识库自定义配置
+        if self.default_splitter_config:
+            return self.default_splitter_config
+        
+        # 最后使用基础默认配置
+        from app.models.splitter_strategy import SplitterStrategy
+        return SplitterStrategy.get_default_config("basic")
+    
+    def to_dict(self):
+        """转换为字典格式"""
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "user_id": self.user_id,
+            "embedding_provider": self.embedding_provider,
+            "embedding_model": self.embedding_model,
+            "embedding_dimension": self.embedding_dimension,
+            "vector_store_type": self.vector_store_type,
+            "vector_store_config": self.vector_store_config,
+            "chunk_size": self.chunk_size,
+            "chunk_overlap": self.chunk_overlap,
+            "chunk_strategy": self.chunk_strategy,
+            "default_splitter_strategy_id": str(self.default_splitter_strategy_id) if self.default_splitter_strategy_id else None,
+            "default_splitter_config": self.default_splitter_config,
+            "similarity_threshold": self.similarity_threshold,
+            "enable_hybrid_search": self.enable_hybrid_search,
+            "enable_agno_integration": self.enable_agno_integration,
+            "agno_search_type": self.agno_search_type,
+            "status": self.status,
+            "document_count": self.document_count,
+            "total_chunks": self.total_chunks,
+            "storage_used": self.storage_used,
+            "last_updated": self.last_updated.isoformat() if self.last_updated else None,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+            "settings": self.settings or {}
+        }
 
 
 class Document(Base):
@@ -82,7 +135,7 @@ class Document(Base):
     # 主键和关联
     id = Column(String(255), primary_key=True, default=lambda: str(uuid.uuid4()), index=True)
     kb_id = Column(String(255), ForeignKey("knowledge_bases.id"), nullable=False, index=True)
-    folder_id = Column(String(255), ForeignKey("knowledge_folders.id"), nullable=True, index=True)
+    # folder_id = Column(String(255), nullable=True, index=True)  # 暂时注释掉外键约束
     
     # 文件信息
     filename = Column(String(255), nullable=False)
@@ -93,9 +146,10 @@ class Document(Base):
     file_hash = Column(String(64))  # MD5哈希，用于去重
     
     # 内容信息
-    title = Column(String(500))
+    title = Column(String(500), nullable=False)
     content = Column(Text)
     content_preview = Column(Text)  # 内容预览（前500字符）
+    source_type = Column(String(50), nullable=False, default="file")  # file, url, text
     
     # 处理状态
     status = Column(String(20), default="pending")  # pending, processing, completed, failed
@@ -119,14 +173,14 @@ class Document(Base):
     
     # 关系
     knowledge_base = relationship("KnowledgeBase", back_populates="documents")
-    folder = relationship("KnowledgeFolder", back_populates="documents")
+    # folder = relationship("KnowledgeFolder", back_populates="documents")  # 暂时注释掉避免循环导入
     chunks = relationship("DocumentChunk", back_populates="document", cascade="all, delete-orphan")
     
     # 索引
     __table_args__ = (
         Index('idx_doc_kb_status', 'kb_id', 'status'),
-        Index('idx_doc_folder', 'folder_id'),
-        Index('idx_doc_kb_folder', 'kb_id', 'folder_id'),
+        # Index('idx_doc_folder', 'folder_id'),
+        # Index('idx_doc_kb_folder', 'kb_id', 'folder_id'),
         Index('idx_doc_filename', 'filename'),
         Index('idx_doc_file_hash', 'file_hash'),
         Index('idx_doc_created_at', 'created_at'),
